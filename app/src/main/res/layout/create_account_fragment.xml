@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:gravity="center"
+    android:layout_gravity="center"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".login.fragments.create.CreateAccountFragment">
+
+    <EditText
+        android:id="@+id/emailCreationField"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="15dp"
+        android:drawableStart="@android:drawable/sym_action_email"
+        android:drawablePadding="10dp"
+        android:hint="Email Address"/>
+
+    <EditText
+        android:id="@+id/passwordCreationField"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="15dp"
+        android:drawableStart="@android:drawable/ic_lock_idle_lock"
+        android:drawablePadding="10dp"
+        android:hint="Password"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Click to select date of birth"
+        android:gravity="center"
+        android:padding="5dp"
+        android:id="@+id/showDatePickerTv"
+        android:textStyle="bold"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"/>
+
+    <DatePicker
+        android:id="@+id/creationDatePicker"
+        android:layout_margin="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"/>
+
+    <Button
+        android:id="@+id/createButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Create"
+        android:background="@color/colorAccent"
+        android:layout_margin="15dp"/>
+
+
+</LinearLayout>

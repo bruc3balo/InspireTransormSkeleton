@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "421230537596",
+    "firebase_url": "https://whitneytest-4012f.firebaseio.com",
+    "project_id": "whitneytest-4012f",
+    "storage_bucket": "whitneytest-4012f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:421230537596:android:cb207e59fdeda017d312f9",
+        "android_client_info": {
+          "package_name": "com.example.whitneybb"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "421230537596-rro54ggb17iq9he4kdao70om3fk6d6jo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.whitneybb",
+            "certificate_hash": "0dbc5884e063a43c11a58728feee8e49987c175f"
+          }
+        },
+        {
+          "client_id": "421230537596-2s7dphom58j8orv6ss4jd61nu3l0msfu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBP_0G6sum-3alPkif0dM2jO_QWMDAfGyU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "421230537596-2s7dphom58j8orv6ss4jd61nu3l0msfu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
