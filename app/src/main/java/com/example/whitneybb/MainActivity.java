@@ -3,28 +3,35 @@ package com.example.whitneybb;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.view.View;
 import android.view.Menu;
-
-import com.example.whitneybb.login.LoginActivity;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.navigation.NavigationView;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.customview.widget.Openable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+
+import com.example.whitneybb.ui.profile.ProfileActiviy;
+import com.example.whitneybb.utils.settings.SettingsActivity;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
+
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
+    private TextView emailTv, uidTv;
+    private ImageView headerImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,9 +51,23 @@ public class MainActivity extends AppCompatActivity {
         NavigationView navigationView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
-        mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.nav_objectives,R.id.nav_goals, R.id.nav_diary, R.id.nav_alerts, R.id.nav_summary,R.id.nav_notes,R.id.nav_calendar,R.id.nav_aboutUs).setDrawerLayout(drawer).build();
+        mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.nav_objectives, R.id.nav_goals, R.id.nav_diary, R.id.nav_alerts, R.id.nav_summary, R.id.nav_notes, R.id.nav_calendar, R.id.nav_aboutUs).setDrawerLayout(drawer).build();
+
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
 
+        View header = navigationView.getHeaderView(0);
+
+        emailTv = header.findViewById(R.id.emailTv);
+
+        uidTv = header.findViewById(R.id.uidTv);
+
+        headerImage = header.findViewById(R.id.headerImage);
+        headerImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, ProfileActiviy.class));
+            }
+        });
 
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
 
@@ -54,8 +75,7 @@ public class MainActivity extends AppCompatActivity {
 
         getWindow().setStatusBarColor(Color.BLACK);
 
-        startActivity(new Intent(MainActivity.this, LoginActivity.class));
-        finish();
+        updateUi();
     }
 
     @Override
@@ -66,8 +86,37 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+                break;
+            default:break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration) || super.onSupportNavigateUp();
+    }
+
+    private void updateUi() {
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        String uid = "";
+        String email = "";
+        String empty = "-";
+
+        if (firebaseAuth.getCurrentUser() != null) {
+            email = firebaseAuth.getCurrentUser().getEmail();
+            uid = Objects.requireNonNull(firebaseAuth.getCurrentUser()).getUid();
+            emailTv.setText(email);
+            uidTv.setText(uid);
+        } else {
+            emailTv.setText(empty);
+            uidTv.setText(empty);
+        }
+
     }
 }

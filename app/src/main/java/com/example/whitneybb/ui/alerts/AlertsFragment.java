@@ -34,7 +34,7 @@ public class AlertsFragment extends Fragment {
         final View v = inflater.inflate(R.layout.alerts_fragment, container, false);
         RecyclerView recyclerView = v.findViewById(R.id.alertsRecyclerView);
 
-        for (int i = 0; i< 4;i++) {
+        for (int i = 0; i< 1;i++) {
             list.add(new Object());
         }
 

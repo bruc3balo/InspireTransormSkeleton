@@ -41,7 +41,7 @@ public class GoalsFragment extends Fragment {
         SliderAdapter.currentClass = 3;
 
 
-        for (int i = 0;i<4;i++) {
+        for (int i = 0;i<1;i++) {
             list.add(new GoalsFragment());
         }
 

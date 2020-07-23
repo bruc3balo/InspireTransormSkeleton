@@ -1,4 +1,88 @@
-<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory app:title="@string/objectives">
+        <SwitchPreferenceCompat
+            android:title="@string/objectives"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/diary">
+        <SwitchPreferenceCompat
+            android:title="@string/diary"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/summary">
+        <SwitchPreferenceCompat
+            android:title="@string/summary"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/goals">
+        <SwitchPreferenceCompat
+            android:title="@string/goals"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/alerts">
+        <SwitchPreferenceCompat
+            android:title="@string/alerts"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/notes">
+        <SwitchPreferenceCompat
+            android:title="@string/notes"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/calendar">
+        <SwitchPreferenceCompat
+            android:title="@string/calendar"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/about_us">
+        <SwitchPreferenceCompat
+            android:title="@string/about_us"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="General">
+        <SwitchPreferenceCompat
+            android:title="General"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="Data Management">
+        <SwitchPreferenceCompat
+            android:title="Data Management"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="Theme">
+        <ListPreference
+            app:defaultValue="light"
+            app:entries="@array/theme_entries"
+            app:entryValues="@array/theme_values"
+            app:key="theme"
+            app:title="Pick a theme"
+            app:useSimpleSummaryProvider="true" />
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="Power Saver">
+        <SwitchPreferenceCompat
+            android:title="Power Saver"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="Account">
+        <SwitchPreferenceCompat
+            android:title="Account"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="Notification">
+        <SwitchPreferenceCompat
+            android:title="Notification"/>
+
+        <CheckBoxPreference
+            app:title="About us notifications"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="Invite a friend">
+        <SwitchPreferenceCompat
+            android:title="Invite a friend"/>
+    </PreferenceCategory>
 
     <PreferenceCategory app:title="@string/messages_header">
 
@@ -7,17 +91,13 @@
             app:title="@string/signature_title"
             app:useSimpleSummaryProvider="true" />
 
-        <ListPreference
-            app:defaultValue="reply"
-            app:entries="@array/reply_entries"
-            app:entryValues="@array/reply_values"
-            app:key="reply"
-            app:title="@string/reply_title"
-            app:useSimpleSummaryProvider="true" />
 
     </PreferenceCategory>
 
     <PreferenceCategory app:title="@string/sync_header">
+
+        <SwitchPreferenceCompat
+            android:title="Sync"/>
 
         <SwitchPreferenceCompat
             app:key="sync"

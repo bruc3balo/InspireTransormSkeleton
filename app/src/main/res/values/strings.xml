@@ -34,4 +34,32 @@
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <string name="about_us">About Us</string>
+    <string name="main_page">MainPage</string>
+
+    <!-- Settings Strings -->
+
+    <string name="sync_pref">Sync</string>
+    <string name="sync_pref_summary">
+        Manage All sections of the app in one place, this is your cockpit and you are the pilot
+    </string>
+
+    <string name="pref_syncConnectionType">Synch Connection Type</string>
+    <string name="pref_syncConnectionType_dialog_title">Perform Sync Using</string>
+    <string name="pref_synchConnectionType_defaulf_value">Wifi</string>
+
+    <string-array name="pref_syncConnectionType_entries">
+        <item>WiFi</item>
+        <item>Mobile Data</item>
+        <item>WiFi/Mobile Data</item>
+    </string-array>
+
+    <string-array name="pref_syncConnectionType_values">
+        <item>WiFi</item>
+        <item>Mobile</item>
+        <item>WiFi_Mobile</item>
+    </string-array>
+
+    <!-- End of settings screen -->
+
+
 </resources>

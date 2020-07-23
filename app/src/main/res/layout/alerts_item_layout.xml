@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginBottom="30dp"
+    android:background="@android:color/darker_gray"
+    android:layout_gravity="center"
+    android:orientation="horizontal"
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="110dp">
+
+    <View
+        android:layout_width="5dp"
+        android:layout_gravity="start"
+        android:layout_height="match_parent"
+        android:background="@android:color/holo_orange_dark"/>
+
+    <ImageView
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:src="@android:drawable/ic_lock_idle_alarm"
+        android:tint="@android:color/white"/>
+
+    <LinearLayout
+        android:layout_weight="1"
+        android:layout_margin="5dp"
+        android:layout_width="0dp"
+        android:layout_gravity="center"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_weight="2"
+            android:layout_margin="3dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textStyle="normal"
+            android:gravity="center_vertical"
+            android:autoSizeTextType="uniform"
+            android:text="Alarm Title"
+            android:textColor="@android:color/black"
+            tools:ignore="NestedWeights"
+            tools:targetApi="o" />
+
+        <TextView
+            android:layout_margin="3dp"
+            android:layout_weight="1"
+            android:textColor="@android:color/black"
+            android:layout_width="match_parent"
+            android:textStyle="italic"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center_vertical"
+            android:autoSizeTextType="uniform"
+            android:text="This is the description of the alarm "
+            tools:targetApi="o" />
+
+
+    </LinearLayout>
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:layout_width="wrap_content"
+        android:layout_margin="5dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:gravity="end"/>
+
+</LinearLayout>

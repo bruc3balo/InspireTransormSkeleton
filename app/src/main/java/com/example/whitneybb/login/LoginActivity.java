@@ -4,12 +4,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
 
+import com.example.whitneybb.MainActivity;
 import com.example.whitneybb.R;
 import com.example.whitneybb.login.adapter.LoginTabAdapter;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Objects;
 
@@ -18,8 +23,10 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
 
+        updateUser();
+
+        setContentView(R.layout.activity_login);
         Toolbar toolbar = findViewById(R.id.loginToolbar);
         setSupportActionBar(toolbar);
         ViewPager loginPager = findViewById(R.id.loginViewPager);
@@ -58,13 +65,27 @@ public class LoginActivity extends AppCompatActivity {
 
         Objects.requireNonNull(loginTabs.getTabAt(1)).setText(loginTabAdapter.getPageTitle(1));
 
-
-
-        FirebaseApp.initializeApp(this);
     }
 
     @Override
     protected void onStart() {
+        updateUser();
         super.onStart();
+    }
+
+    private void updateUser() {
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        FirebaseUser firebaseUser = auth.getCurrentUser();
+
+        if (firebaseUser != null) {
+            goToMain();
+        } else {
+            Toast.makeText(this, "Sign in", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void goToMain() {
+        startActivity(new Intent(this, MainActivity.class));
+        finish();
     }
 }
