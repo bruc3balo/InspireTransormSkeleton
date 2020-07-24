@@ -3,10 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.whitneybb">
 
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
-    <uses-permission android:name="android.permission.BIND_JOB_SERVICE"
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission
+        android:name="android.permission.BIND_JOB_SERVICE"
         tools:ignore="ProtectedPermissions" />
 
     <application
@@ -16,6 +17,7 @@
         android:roundIcon="@drawable/ic_treasure_chest_"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
+        <activity android:name=".ui.alerts.NewAlertActivity"></activity>
         <activity android:name=".utils.splashscreen.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,18 +25,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".login.LoginActivity" android:label="LoginActivity"/>
-        <activity android:name=".ui.wishlist.Wishlist" android:label="Wishes"/>
-        <activity android:name=".ui.profile.ProfileActiviy" android:label="Profile"/>
+        <activity
+            android:name=".login.LoginActivity"
+            android:label="LoginActivity" />
+        <activity
+            android:name=".ui.wishlist.Wishlist"
+            android:label="Wishes" />
+        <activity
+            android:name=".ui.profile.ProfileActiviy"
+            android:label="Profile" />
         <activity
             android:name=".utils.settings.SettingsActivity"
             android:label="@string/title_activity_settings" />
         <activity
             android:name=".MainActivity"
             android:label="@string/main_page"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity android:name=".ui.diary.NewDiaryEntry" />
         <activity android:name=".ui.goals.NewGoalEntry" />
         <activity android:name=".ui.editors.ObjectiveEditorActivity" />

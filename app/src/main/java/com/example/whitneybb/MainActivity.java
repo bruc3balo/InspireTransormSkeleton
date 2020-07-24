@@ -28,6 +28,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.whitneybb.model.DiaryModel;
+import com.example.whitneybb.ui.alerts.NewAlertActivity;
 import com.example.whitneybb.ui.diary.DiaryViewModel;
 import com.example.whitneybb.ui.diary.NewDiaryEntry;
 import com.example.whitneybb.ui.goals.NewGoalEntry;
@@ -46,7 +47,7 @@ import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener{
+public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private TextView emailTv, uidTv;
@@ -56,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
     public static final int ADD_NOTES_REQUEST = 2;
     public static final int ADD_OBJECTIVE_REQUEST = 3;
     public static final int ADD_GOALS_REQUEST = 4;
+    public static final int ADD_ALERT_REQUEST = 5;
     public static FloatingActionButton fab;
 
     @Override
@@ -69,32 +71,34 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                switch (currentPage) {
+           switch (currentPage) {
                     case 0:
                         Intent intentN = new Intent(MainActivity.this, NewNotesEntry.class);
                         startActivityForResult(intentN, ADD_NOTES_REQUEST);
-                        Snackbar.make(view, "Notes", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                        //Snackbar.make(view, "Notes", Snackbar.LENGTH_LONG).setAction("Action", null).show();
                         break;
                     case 1:
-                        Snackbar.make(view, "Goals", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-                           Intent intentG = new Intent(MainActivity.this, NewGoalEntry.class);
-                           startActivityForResult(intentG, ADD_DIARY_REQUEST);
+                        //Snackbar.make(view, "Goals", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                        Intent intentG = new Intent(MainActivity.this, NewGoalEntry.class);
+                        startActivityForResult(intentG, ADD_DIARY_REQUEST);
                         break;
                     case 2:
-                        Snackbar.make(view, "Objectives", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-                           Intent intentO = new Intent(MainActivity.this, NewObjectiveEntry.class);
-                           startActivityForResult(intentO, ADD_OBJECTIVE_REQUEST);
+                        //Snackbar.make(view, "Objectives", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                        Intent intentO = new Intent(MainActivity.this, NewObjectiveEntry.class);
+                        startActivityForResult(intentO, ADD_OBJECTIVE_REQUEST);
                         break;
                     case 3:
-                        Snackbar.make(view, "Diary", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                        //Snackbar.make(view, "Diary", Snackbar.LENGTH_LONG).setAction("Action", null).show();
                         Intent intentD = new Intent(MainActivity.this, NewDiaryEntry.class);
                         startActivityForResult(intentD, ADD_GOALS_REQUEST);
                         break;
                     case 4:
-                        Snackbar.make(view, "Alerts", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-                        openTimePicker();
+                        //Snackbar.make(view, "Alerts", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                        Intent intentA = new Intent(MainActivity.this, NewAlertActivity.class);
+                        startActivityForResult(intentA, ADD_ALERT_REQUEST);
                         break;
-                    default:break;
+                    default:
+                        break;
                 }
             }
         });
@@ -136,10 +140,7 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
         return true;
     }
 
-    public void openTimePicker() {
-        DialogFragment timePicker = new TimePickerFragment();
-        timePicker.show(getSupportFragmentManager(),"time picker");
-    }
+
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -147,7 +148,8 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
             case R.id.action_settings:
                 startActivity(new Intent(MainActivity.this, SettingsActivity.class));
                 break;
-            default:break;
+            default:
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -158,15 +160,22 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
         return NavigationUI.navigateUp(navController, mAppBarConfiguration) || super.onSupportNavigateUp();
     }
 
-    public static void smartFab (int i) {
+    public static void smartFab(int i) {
         switch (i) {
-            case 0: case 1: case 2: case 3: case 4:
+            case 0:
+            case 1:
+            case 2:
+            case 3:
+            case 4:
                 fab.setVisibility(View.VISIBLE);
                 break;
-            case 5: case 6: case 7:
+            case 5:
+            case 6:
+            case 7:
                 fab.setVisibility(View.GONE);
                 break;
-            default:break;
+            default:
+                break;
         }
     }
 
@@ -208,47 +217,5 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
 
     }
 
-    @Override
-    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        Toast.makeText(this, "Hour : "+hourOfDay+ " Minute : "+ minute , Toast.LENGTH_SHORT).show();
-        Calendar c = Calendar.getInstance();
-        c.set(Calendar.HOUR_OF_DAY,hourOfDay);
-        c.set(Calendar.MINUTE,minute);
-        c.set(Calendar.SECOND,0);
-        updateTimeText(c);
-        startAlarm(c);
-    }
-
-    private void updateTimeText(Calendar c) {
-        String timeText = "Alarm set for : ";
-        timeText+= DateFormat.getTimeInstance(DateFormat.SHORT).format(c.getTime());
-        Toast.makeText(this, timeText, Toast.LENGTH_SHORT).show();
-    }
-
-    private void startAlarm (Calendar c) {
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(this, AlertReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this,1,intent,0); //todo request code
-
-        if (c.before(Calendar.getInstance())) {
-            c.add(Calendar.DATE,1);
-        }
-
-        if (alarmManager != null) {
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP,c.getTimeInMillis(),pendingIntent);
-        }
-
-    }
-
-    public void cancelAlarm(View view) {
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(this,AlertReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this,1,intent,0); //todo request code
-
-        if (alarmManager != null) {
-            alarmManager.cancel(pendingIntent);
-            Toast.makeText(this, "Alarm canceled", Toast.LENGTH_SHORT).show();
-        }
-    }
 
 }

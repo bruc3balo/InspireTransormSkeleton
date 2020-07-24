@@ -61,5 +61,11 @@
 
     <!-- End of settings screen -->
 
+    <string-array name="alert_options">
+        <item>Remind me all day</item>
+        <item>Set a one time alarm</item>
+        <item>Set a repeated alarm</item>
+        <item>Remind me after every ... from ...</item>
+    </string-array>
 
 </resources>

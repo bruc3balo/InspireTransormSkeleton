@@ -42,8 +42,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="30dp"
                     android:gravity="center"
-                    android:textColorHint="@android:color/black"
-                    android:hint="ID Field"
+                    android:hint="Diary Title"
                     android:inputType="number" />
 
 
@@ -66,27 +65,54 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="30dp"
                     android:gravity="center"
-                    android:hint="Field" />
+                    android:hint="About diary ( 250 words max)" />
 
                 <ImageView
+                    android:id="@+id/diaryCoverImage"
+                    android:src="@drawable/ic_book"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     android:layout_gravity="center"
                     android:layout_margin="10dp" />
 
-                <androidx.appcompat.widget.SwitchCompat
+                <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:hint="Daily reminder?" />
+                    android:layout_margin="10dp"
+                    android:text="Get Cover Photo"/>
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:layout_width="wrap_content"
+                    android:padding="20dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:hint="Do you want a daily entry time reminder " />
+
+
+                <TextView
+                    android:drawableStart="@android:drawable/ic_lock_idle_alarm"
+                    android:text="Pick Time"
+                    android:drawablePadding="30dp"
+                    android:padding="5dp"
+                    android:textStyle="bold"
+                    android:textSize="20dp"
+                    android:gravity="center_vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="15dp"/>
 
                 <androidx.appcompat.widget.SwitchCompat
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_marginTop="15dp"
+                    android:padding="20dp"
                     android:gravity="center"
-                    android:hint="Password ?" />
+                    android:hint="Do you require a password for your diary ?" />
 
                 <EditText
                     android:layout_width="match_parent"

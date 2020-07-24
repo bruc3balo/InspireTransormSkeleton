@@ -6,11 +6,6 @@
     <group android:checkableBehavior="single">
 
         <item
-            android:id="@+id/nav_summary"
-            android:icon="@drawable/ic_dashboard"
-            android:title="@string/summary" />
-
-        <item
             android:id="@+id/nav_objectives"
             android:icon="@drawable/ic_objective"
             android:title="@string/objectives" />
@@ -39,6 +34,11 @@
             android:id="@+id/nav_calendar"
             android:icon="@drawable/ic_calendar_"
             android:title="@string/calendar"/>
+
+        <item
+            android:id="@+id/nav_summary"
+            android:icon="@drawable/ic_dashboard"
+            android:title="@string/summary" />
 
         <item
             android:id="@+id/nav_aboutUs"
