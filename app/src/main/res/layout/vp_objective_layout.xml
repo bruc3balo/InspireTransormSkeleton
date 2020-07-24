@@ -6,7 +6,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:cardBackgroundColor="@android:color/black"
+    app:cardBackgroundColor="@android:color/darker_gray"
     android:layout_gravity="center"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -33,11 +33,9 @@
                 android:layout_height="wrap_content"
                 android:text="Title"
                 android:layout_gravity="center"
-                android:drawableStart="@android:drawable/star_big_on"
                 android:drawablePadding="20dp"
                 android:padding="8dp"
-                android:drawableEnd="@android:drawable/star_big_on"
-                android:textColor="#13DF36"
+                android:textColor="@android:color/holo_orange_dark"
                 android:textStyle="bold"
                 android:gravity="center"
                 android:textSize="25sp" />
@@ -97,7 +95,7 @@
                 android:background="#77D8D4D4"
                 android:gravity="center" />
 
-            <TextView
+            <TextClock
                 android:layout_gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

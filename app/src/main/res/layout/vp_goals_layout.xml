@@ -9,7 +9,7 @@
 
     <androidx.cardview.widget.CardView
         app:cardCornerRadius="80dp"
-        app:cardBackgroundColor="@android:color/black"
+        app:cardBackgroundColor="@android:color/darker_gray"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center">
@@ -33,19 +33,16 @@
                 android:layout_gravity="center"
                 android:textSize="30sp" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="360dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="10dp"
-                android:text="stepsToGoal"
-                android:textColor="@android:color/white"
-                android:gravity="center"
-                android:layout_gravity="center"
-                android:textSize="30sp" />
+           <androidx.recyclerview.widget.RecyclerView
+               android:layout_margin="5dp"
+               android:padding="4dp"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_gravity="center"
+               android:id="@+id/goalStepsRecyclerView"/>
 
             <LinearLayout
-                android:padding="6dp"
+                android:padding="5dp"
                 android:layout_gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
@@ -56,7 +53,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:background="@android:color/transparent"
-                    android:src="@android:drawable/ic_delete"
+                    android:src="@drawable/ic_scissors"
                     android:layout_height="match_parent"/>
 
                 <ImageButton
@@ -64,7 +61,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:background="@android:color/transparent"
-                    android:src="@android:drawable/checkbox_on_background"
+                    android:src="@drawable/ic_hurdle_"
                     android:layout_height="match_parent"/>
 
                 <ImageButton
@@ -72,15 +69,16 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:background="@android:color/transparent"
-                    android:src="@android:drawable/ic_menu_delete"
+                    android:src="@drawable/ic_trash"
                     android:layout_height="match_parent"/>
 
             </LinearLayout>
 
             <LinearLayout
+                android:padding="5dp"
                 android:layout_gravity="center"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="60dp"
                 android:orientation="horizontal">
 
                 <ImageButton
@@ -93,6 +91,7 @@
                     android:background="@android:color/transparent"/>
 
                 <ImageButton
+
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="match_parent"
@@ -102,16 +101,16 @@
             </LinearLayout>
 
 
-            <TextView
-                android:layout_gravity="center"
+            <TextClock
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Expire in"
+                android:layout_gravity="center"
                 android:layout_marginBottom="10dp"
-                android:textStyle="bold|italic"
-                android:textColor="#13DF36"
                 android:gravity="center"
-                android:textSize="30sp" />
+                android:text="Expire in"
+                android:textColor="#13DF36"
+                android:textSize="30sp"
+                android:textStyle="bold|italic" />
 
         </LinearLayout>
 
