@@ -7,13 +7,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 
 import com.example.whitneybb.R;
-import com.example.whitneybb.adapter.RecylerAdapter;
+import com.example.whitneybb.adapter.AlertAdapter;
+import com.example.whitneybb.model.AlertsModel;
+
 
 import java.util.LinkedList;
 
 public class Wishlist extends AppCompatActivity {
 
-    private LinkedList<Object> list = new LinkedList<>();
+    private LinkedList<AlertsModel> list = new LinkedList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,11 +26,12 @@ public class Wishlist extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.wishlistRecyclerView);
 
         for (int i = 0; i< 4;i++) {
-            list.add(new Object());
+            list.add(new AlertsModel());
         }
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this,RecyclerView.VERTICAL,false));
-        RecylerAdapter recylerAdapter = new RecylerAdapter(this,list);
+        AlertAdapter recylerAdapter = new AlertAdapter();
         recyclerView.setAdapter(recylerAdapter);
+        recylerAdapter.submitList(list);
     }
 }

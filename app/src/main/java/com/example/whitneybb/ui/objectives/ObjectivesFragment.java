@@ -11,44 +11,49 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.CompositePageTransformer;
 import androidx.viewpager2.widget.MarginPageTransformer;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.whitneybb.MainActivity;
 import com.example.whitneybb.R;
+import com.example.whitneybb.adapter.AllMightyPullAdapter;
 import com.example.whitneybb.adapter.SliderAdapter;
+import com.example.whitneybb.model.GoalsModel;
 import com.example.whitneybb.model.ObjectiveModel;
+import com.example.whitneybb.ui.goals.GoalsViewModel;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
+
+import static com.example.whitneybb.MainActivity.smartFab;
 
 public class ObjectivesFragment extends Fragment {
 
     private ObjectivesViewModel homeViewModel;
     private ViewPager2 viewPager2;
-    private LinkedList<ObjectiveModel> list = new LinkedList<>();
-
+    private List<Object> objectiveList = new ArrayList<>();
+    private AllMightyPullAdapter allMightyPullAdapter;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        SliderAdapter.currentClass = 0;
-
-        homeViewModel = ViewModelProviders.of(this).get(ObjectivesViewModel.class);
+        MainActivity.currentPage = 2;
+        smartFab(MainActivity.currentPage);
+        homeViewModel = new ViewModelProvider(this).get(ObjectivesViewModel.class);
         View root = inflater.inflate(R.layout.fragment_objectives, container, false);
-        homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-            }
-        });
+
 
         for (int i = 0;i<1;i++) {
-            list.add(new ObjectiveModel());
+
         }
 
         viewPager2 = root.findViewById(R.id.objectiveViewPager);
         viewPager2.setOrientation(ViewPager2.ORIENTATION_VERTICAL);
-        SliderAdapter sliderAdapter = new SliderAdapter(requireContext(),list);
-        viewPager2.setAdapter(sliderAdapter);
+        allMightyPullAdapter = new AllMightyPullAdapter();
+        viewPager2.setAdapter(allMightyPullAdapter);
         viewPager2.setPadding(40,80,40,120);
         viewPager2.setClipToPadding(false);
         viewPager2.setClipChildren(false);
@@ -85,7 +90,32 @@ public class ObjectivesFragment extends Fragment {
             }
         } );
 
+        allMightyPullAdapter.setOnItemClickListener(new AllMightyPullAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Object object) {
+
+            }
+        });
+
         return root;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        homeViewModel = new ViewModelProvider(this).get(ObjectivesViewModel.class);
+        homeViewModel.getAllObjectives().observe(getViewLifecycleOwner(), new Observer<List<ObjectiveModel>>() {
+            @Override
+            public void onChanged(List<ObjectiveModel> objectiveModels) {
+                objectiveList.clear();
+                objectiveList.addAll(objectiveModels); //todo check for duplicates in list
+                allMightyPullAdapter.submitList(objectiveList);
+                allMightyPullAdapter.notifyDataSetChanged();
+                Toast.makeText(requireContext(), "size is " + objectiveList.size(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireContext(), "onChanged", Toast.LENGTH_SHORT).show();
+            }
+        });
+        // TODO: Use the ViewModel
     }
 
     @Override

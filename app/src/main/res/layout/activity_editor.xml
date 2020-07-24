@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.Diary_NotesEditorActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/darker_gray">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/editorToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="false"
+            android:background="@android:color/black"
+            app:logo="@drawable/font_a"
+            app:navigationIcon="@drawable/back_arrow"
+            app:title="Editor"
+            app:titleMarginStart="70dp"
+            app:titleTextColor="@android:color/holo_orange_light" />
+
+        <com.example.whitneybb.utils.randomDuties.LinedEditText
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_above="@+id/textEditorOptions"
+            android:layout_below="@+id/editorToolbar"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="1dp"
+            android:autofillHints="@android:string/autofill"
+            android:background="@color/editorBg"
+            android:ems="6"
+            android:gravity="start"
+            android:hint="Start typing..."
+            android:inputType="textCapSentences|textNoSuggestions|textMultiLine"
+            android:lineHeight="30dp"
+            android:overScrollMode="ifContentScrolls"
+            android:padding="4dp"
+            android:scrollIndicators="end"
+            android:scrollbarStyle="insideOverlay"
+            android:scrollbars="vertical"
+            android:textColor="@android:color/black"
+            android:textColorHint="@android:color/darker_gray"
+            tools:targetApi="o_mr1" />
+
+        <HorizontalScrollView
+            android:id="@+id/textEditorOptions"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="false"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:background="@android:color/darker_gray"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_margin="1dp"
+                    android:src="@drawable/spell_check" />
+
+                <ImageButton
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+
+                    android:layout_gravity="center"
+                    android:layout_margin="1dp"
+                    android:src="@drawable/font" />
+
+                <ImageButton
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+
+                    android:layout_gravity="center"
+                    android:layout_margin="1dp"
+                    android:src="@drawable/back_up" />
+
+                <ImageButton
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_margin="1dp"
+                    android:padding="5dp"
+                    android:src="@drawable/save_ic" />
+
+
+                <ImageButton
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_margin="1dp"
+                    android:padding="5dp"
+                    android:src="@drawable/color_changer" />
+
+                <ImageButton
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_margin="1dp"
+                    android:padding="5dp"
+                    android:src="@drawable/button_color" />
+
+                <ImageButton
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_margin="1dp"
+                    android:src="@drawable/zoom_out" />
+
+
+                <ImageButton
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_margin="1dp"
+                    android:src="@drawable/zoom_in" />
+
+                <ImageButton
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_margin="1dp"
+                    android:src="@drawable/text_size_down" />
+
+                <ImageButton
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_margin="1dp"
+                    android:src="@drawable/text_size_up" />
+
+            </LinearLayout>
+        </HorizontalScrollView>
+
+    </RelativeLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

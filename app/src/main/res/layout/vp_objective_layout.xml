@@ -2,43 +2,43 @@
 
 <!-- todo app:cardCornerRadius="40dp" -->
 <androidx.cardview.widget.CardView
-    app:contentPadding="10dp"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:cardBackgroundColor="@android:color/darker_gray"
     android:layout_gravity="center"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    app:cardBackgroundColor="@android:color/darker_gray"
+    app:cardCornerRadius="20dp"
+    app:contentPadding="10dp">
 
     <LinearLayout
-        android:layout_margin="2dp"
-        android:layout_gravity="center"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_margin="2dp"
         android:orientation="vertical">
 
         <!-- todo below add android:background="@drawable/text_input_bg"-->
 
         <LinearLayout
-
-            android:layout_margin="3dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
+            android:layout_margin="3dp"
             android:orientation="vertical">
 
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Title"
                 android:layout_gravity="center"
                 android:drawablePadding="20dp"
-                android:padding="8dp"
-                android:textColor="@android:color/holo_orange_dark"
-                android:textStyle="bold"
                 android:gravity="center"
-                android:textSize="25sp" />
+                android:padding="8dp"
+                android:text="Title"
+                android:textColor="@android:color/black"
+                android:textSize="25sp"
+                android:textStyle="bold" />
 
             <!-- todo add on drag listener -->
 
@@ -48,63 +48,63 @@
                 android:layout_gravity="center"
                 android:layout_marginStart="48dp"
                 android:layout_marginEnd="48dp"
-                android:background="@android:color/darker_gray"/>
-
+                android:background="@android:color/darker_gray"/>-->
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="2dp"
+                android:layout_height="1dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
                 android:layout_gravity="center"
-                android:layout_marginStart="46dp"
-                android:layout_marginEnd="46dp"
                 android:layout_marginTop="1dp"
-                android:background="@android:color/darker_gray"/>-->
+                android:background="@android:color/white"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="10dp"
-                android:text="Objectives"
-                android:textColor="@android:color/white"
                 android:gravity="center"
-                android:layout_gravity="center"
-                android:textSize="30sp" />
+                android:text="I want to complete this thesis on genetic research by the end of this month."
+                android:textColor="@android:color/black"
+                android:autoSizeTextType="uniform"/>
 
-            <TextView
+            <ProgressBar
+                android:id="@+id/objectiveStatus"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="10dp"
-                android:layout_width="match_parent"
-                android:textColor="@android:color/white"
-                android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="Objective Status"
-                android:gravity="center"
-                android:textSize="30sp" />
+                android:max="100"
+                android:progressTint="@android:color/holo_red_light"
+                android:progress="45" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:layout_weight="1"
-                android:layout_gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:padding="6dp"
+                android:layout_gravity="center"
                 android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
                 android:layout_marginBottom="100dp"
-                android:layout_marginTop="10dp"
+                android:layout_weight="1"
                 android:background="#77D8D4D4"
-                android:gravity="center" />
+                android:gravity="center"
+                android:padding="6dp" />
 
-            <TextClock
-                android:layout_gravity="center"
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Expire in"
+                android:layout_gravity="center"
                 android:layout_marginBottom="10dp"
-                android:textStyle="bold|italic"
-                android:textColor="#13DF36"
                 android:gravity="center"
-                android:textSize="30sp" />
+                android:text="Expire in"
+                android:textColor="#13DF36"
+                android:textSize="30sp"
+                android:textStyle="bold|italic" />
 
 
         </LinearLayout>

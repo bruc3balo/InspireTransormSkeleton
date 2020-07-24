@@ -1,5 +1,7 @@
 package com.example.whitneybb.ui.goals;
 
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
@@ -17,17 +19,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.whitneybb.MainActivity;
 import com.example.whitneybb.R;
+import com.example.whitneybb.adapter.AllMightyPullAdapter;
 import com.example.whitneybb.adapter.SliderAdapter;
+import com.example.whitneybb.model.GoalsModel;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
+
+import static com.example.whitneybb.MainActivity.smartFab;
 
 public class GoalsFragment extends Fragment {
 
     private GoalsViewModel mViewModel;
     private ViewPager2 viewPager2;
-    private LinkedList<GoalsFragment> list = new LinkedList<>();
-
+    private List<Object> goalObjectList = new ArrayList<>();
+    private AllMightyPullAdapter allMightyPullAdapter;
     public static GoalsFragment newInstance() {
         return new GoalsFragment();
     }
@@ -38,17 +47,17 @@ public class GoalsFragment extends Fragment {
 
         final View v = inflater.inflate(R.layout.goals_fragment, container, false);
 
-        SliderAdapter.currentClass = 3;
-
+        MainActivity.currentPage = 1;
+        smartFab(MainActivity.currentPage);
 
         for (int i = 0;i<1;i++) {
-            list.add(new GoalsFragment());
+
         }
 
         viewPager2 = v.findViewById(R.id.goalsViewPager);
         viewPager2.setOrientation(ViewPager2.ORIENTATION_VERTICAL);
-        SliderAdapter sliderAdapter = new SliderAdapter(requireContext(),list);
-        viewPager2.setAdapter(sliderAdapter);
+        allMightyPullAdapter = new AllMightyPullAdapter();
+        viewPager2.setAdapter(allMightyPullAdapter);
         viewPager2.setPadding(40,80,40,80);
         viewPager2.setClipToPadding(false);
         viewPager2.setClipChildren(false);
@@ -84,13 +93,32 @@ public class GoalsFragment extends Fragment {
             }
         } );
 
+
+        allMightyPullAdapter.setOnItemClickListener(new AllMightyPullAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Object object) {
+
+            }
+        });
+
         return v;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(GoalsViewModel.class);
+        mViewModel = new ViewModelProvider(this).get(GoalsViewModel.class);
+        mViewModel.getAllGoals().observe(getViewLifecycleOwner(), new Observer<List<GoalsModel>>() {
+            @Override
+            public void onChanged(List<GoalsModel> goalsModels) {
+                goalObjectList.clear();
+                goalObjectList.addAll(goalsModels); //todo check for duplicates in list
+                allMightyPullAdapter.submitList(goalObjectList);
+                allMightyPullAdapter.notifyDataSetChanged();
+                Toast.makeText(requireContext(), "size is " + goalObjectList.size(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireContext(), "onChanged", Toast.LENGTH_SHORT).show();
+            }
+        });
         // TODO: Use the ViewModel
     }
 

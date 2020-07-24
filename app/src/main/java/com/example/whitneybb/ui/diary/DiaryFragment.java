@@ -1,5 +1,6 @@
 package com.example.whitneybb.ui.diary;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,46 +12,51 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.CompositePageTransformer;
 import androidx.viewpager2.widget.MarginPageTransformer;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.whitneybb.MainActivity;
 import com.example.whitneybb.R;
+import com.example.whitneybb.adapter.AllMightyPullAdapter;
 import com.example.whitneybb.adapter.SliderAdapter;
+import com.example.whitneybb.model.DiaryModel;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
+
+import static com.example.whitneybb.MainActivity.smartFab;
 
 public class DiaryFragment extends Fragment {
 
-    private DiaryViewModel galleryViewModel;
+    private DiaryViewModel diaryViewModel;
     private ViewPager2 viewPager2;
-    private LinkedList<DiaryFragment> list = new LinkedList<>();
-
+    private List<Object> diaryObjectList = new ArrayList<>();
+    private AllMightyPullAdapter allMightyPullAdapter;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        SliderAdapter.currentClass = 1;
 
-        galleryViewModel =
-                ViewModelProviders.of(this).get(DiaryViewModel.class);
+        MainActivity.currentPage = 3;
+        smartFab(MainActivity.currentPage);
+
+        diaryViewModel = new ViewModelProvider(this).get(DiaryViewModel.class);
         View root = inflater.inflate(R.layout.fragment_diary, container, false);
-        galleryViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
 
-            }
-        });
 
         for (int i = 0;i<1;i++) {
-            list.add(new DiaryFragment());
+         //   list.add(new DiaryFragment());
         }
 
         viewPager2 = root.findViewById(R.id.diaryViewPager);
         viewPager2.setOrientation(ViewPager2.ORIENTATION_VERTICAL);
-        SliderAdapter sliderAdapter = new SliderAdapter(requireContext(),list);
-        viewPager2.setAdapter(sliderAdapter);
+        allMightyPullAdapter = new AllMightyPullAdapter();
+        viewPager2.setAdapter(allMightyPullAdapter);
         viewPager2.setPadding(40,80,40,120);
         viewPager2.setClipToPadding(true);
         viewPager2.setClipChildren(true);
@@ -86,7 +92,53 @@ public class DiaryFragment extends Fragment {
                 super.onPageScrollStateChanged(state);
             }
         } );
+
+       /* new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                diaryViewModel.delete(allMightyPullAdapter.getDiaryAt(viewHolder.getAdapterPosition()));
+                Toast.makeText(requireContext(), "Diary Deleted", Toast.LENGTH_SHORT).show();
+            }
+        }).attachToRecyclerView();*/
+
+        allMightyPullAdapter.setOnItemClickListener(new AllMightyPullAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Object object) {
+                DiaryModel diary = (DiaryModel) object;
+                Toast.makeText(requireContext(), "Diary " + diary.getEntryHeading(), Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(requireContext(), DiaryPagesActivity.class));
+            }
+        });
         return root;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        diaryViewModel = new ViewModelProvider(this).get(DiaryViewModel.class);
+
+
+        diaryViewModel.getAllDiaries().observe(getViewLifecycleOwner(), new Observer<List<DiaryModel>>() {
+            @Override
+            public void onChanged(List<DiaryModel> diaryModels) {
+                diaryObjectList.clear();
+                diaryObjectList.addAll(diaryModels); //todo check for duplicates in list
+                allMightyPullAdapter.submitList(diaryObjectList);
+                allMightyPullAdapter.notifyDataSetChanged();
+                Toast.makeText(requireContext(), "size is " + diaryObjectList.size(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireContext(), "onChanged", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+    private void backUpDiaries() {
+
     }
 
     @Override

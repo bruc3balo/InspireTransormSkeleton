@@ -16,11 +16,14 @@ import androidx.viewpager2.widget.CompositePageTransformer;
 import androidx.viewpager2.widget.MarginPageTransformer;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.whitneybb.MainActivity;
 import com.example.whitneybb.R;
 import com.example.whitneybb.adapter.SliderAdapter;
 import com.example.whitneybb.model.SummaryModel;
 
 import java.util.LinkedList;
+
+import static com.example.whitneybb.MainActivity.smartFab;
 
 public class SummaryFragment extends Fragment {
 
@@ -31,8 +34,8 @@ public class SummaryFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        SliderAdapter.currentClass = 2;
-
+        MainActivity.currentPage = 5;
+        smartFab(MainActivity.currentPage);
         slideshowViewModel = ViewModelProviders.of(this).get(SummaryViewModel.class);
         View root = inflater.inflate(R.layout.fragment_summary, container, false);
         slideshowViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {

@@ -1,31 +1,41 @@
 package com.example.whitneybb.model;
 
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 
+@Entity(tableName = "objective_table")
 public class ObjectiveModel {
-
-    String objectiveId;
-    String objectiveContent;
-    String objectiveTitle;
-    String objectiveExpiry;
-    String timestamp;
-    int objectiveScore; // calculated by criteria
-    String objectiveLimits;
-    ArrayList<String> objectiveSteps;
-    ArrayList<String> sacrificeObjectiveCost; //a.k.a. objectiveCost
-    String objectiveReward;
-    String objectiveRemarks;
-    boolean objectiveAchieved;
-    boolean extensionOfObjective; //if is new or progressing objective
-    String objectiveExtensionId;
-    String objectiveExtensionContent;
-    boolean quantifiable; //if it can be calculated
-    int setObjectiveScore;
+    @PrimaryKey(autoGenerate = false)
+    @NotNull
+    public int objectiveId;
+    public String objectiveContent;
+    public String objectiveTitle;
+    public String objectiveExpiry;
+    public String timestamp;
+    public int objectiveScore; // calculated by criteria
+    public String objectiveLimits;
+    @Ignore
+    public ArrayList<String> objectiveSteps;
+    @Ignore
+    public ArrayList<String> sacrificeObjectiveCost; //a.k.a. objectiveCost
+    public String objectiveReward;
+    public String objectiveRemarks;
+    public boolean objectiveAchieved;
+    public boolean extensionOfObjective; //if is new or progressing objective
+    public String objectiveExtensionId;
+    public String objectiveExtensionContent;
+    public boolean quantifiable; //if it can be calculated
+    public int setObjectiveScore;
 
     public ObjectiveModel() {
     }
 
-    public int calculateObjectiveScore (int result) {
+    public int calculateObjectiveScore(int result) {
 
         //Per­for­mance man­age­ment soft­ware can be used with great effect to ensure both par­ties are hap­py and agree to the objec­tives. This same soft­ware can also be used to set and track objectives.
 
@@ -39,6 +49,71 @@ public class ObjectiveModel {
         return setObjectiveScore;
     }
 
+    public int getObjectiveId() {
+        return objectiveId;
+    }
 
+    public String getObjectiveContent() {
+        return objectiveContent;
+    }
 
+    public String getObjectiveTitle() {
+        return objectiveTitle;
+    }
+
+    public String getObjectiveExpiry() {
+        return objectiveExpiry;
+    }
+
+    public String getTimestamp() {
+        return timestamp;
+    }
+
+    public int getObjectiveScore() {
+        return objectiveScore;
+    }
+
+    public String getObjectiveLimits() {
+        return objectiveLimits;
+    }
+
+    public ArrayList<String> getObjectiveSteps() {
+        return objectiveSteps;
+    }
+
+    public ArrayList<String> getSacrificeObjectiveCost() {
+        return sacrificeObjectiveCost;
+    }
+
+    public String getObjectiveReward() {
+        return objectiveReward;
+    }
+
+    public String getObjectiveRemarks() {
+        return objectiveRemarks;
+    }
+
+    public boolean isObjectiveAchieved() {
+        return objectiveAchieved;
+    }
+
+    public boolean isExtensionOfObjective() {
+        return extensionOfObjective;
+    }
+
+    public String getObjectiveExtensionId() {
+        return objectiveExtensionId;
+    }
+
+    public String getObjectiveExtensionContent() {
+        return objectiveExtensionContent;
+    }
+
+    public boolean isQuantifiable() {
+        return quantifiable;
+    }
+
+    public int getSetObjectiveScore() {
+        return setObjectiveScore;
+    }
 }

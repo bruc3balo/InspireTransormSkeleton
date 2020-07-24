@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.whitneybb">
+
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.BIND_JOB_SERVICE"
+        tools:ignore="ProtectedPermissions" />
 
     <application
         android:allowBackup="true"
@@ -28,6 +35,15 @@
             android:theme="@style/AppTheme.NoActionBar">
 
         </activity>
+        <activity android:name=".ui.diary.NewDiaryEntry" />
+        <activity android:name=".ui.goals.NewGoalEntry" />
+        <activity android:name=".ui.editors.ObjectiveEditorActivity" />
+        <activity android:name=".ui.editors.GoalEditorActivity" />
+        <activity android:name=".ui.editors.Diary_NotesEditorActivity" />
+        <activity android:name=".ui.notes.NewNotesEntry" />
+        <activity android:name=".ui.objectives.NewObjectiveEntry" />
+
+        <receiver android:name=".utils.broadcasts.AlertReceiver" />
     </application>
 
 </manifest>

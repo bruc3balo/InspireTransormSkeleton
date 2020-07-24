@@ -31,10 +31,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        android:backgroundTint="@android:color/tertiary_text_dark"
-        android:rotation="180"
-        android:rotationX="180"
-        android:tint="@android:color/black"
-        app:srcCompat="@android:drawable/ic_menu_sort_by_size" />
+        android:backgroundTint="@android:color/black"
+        android:tint="@android:color/white"
+        app:borderWidth="5dp"
+        app:srcCompat="@android:drawable/ic_input_add"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

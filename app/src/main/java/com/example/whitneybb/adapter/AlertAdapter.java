@@ -4,29 +4,45 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.whitneybb.R;
+import com.example.whitneybb.model.AlertsModel;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.LinkedList;
 
 
-public class RecylerAdapter extends RecyclerView.Adapter<RecylerAdapter.ViewHolder> {
+public class AlertAdapter extends ListAdapter<AlertsModel,AlertAdapter.ViewHolder> {
 
     private LinkedList<Object> list;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
+    private OnItemClickListener onItemClickListener;
     private Context mContext;
 
-    public RecylerAdapter(Context context, LinkedList<Object> list) {
-        this.mInflater = LayoutInflater.from(context);
-        this.list = list;
-        this.mContext = context;
+    public static final DiffUtil.ItemCallback<AlertsModel> ALERT_DIFF_CALLBACK = new DiffUtil.ItemCallback<AlertsModel>() {
+        @Override
+        public boolean areItemsTheSame(@NonNull AlertsModel oldItem, @NonNull AlertsModel newItem) {
+            return false;
+        }
 
+        //todo
+
+        @Override
+        public boolean areContentsTheSame(@NonNull AlertsModel oldItem, @NonNull AlertsModel newItem) {
+            return false;
+        }
+    };
+
+    public AlertAdapter() {
+        super(ALERT_DIFF_CALLBACK);
     }
 
     @NotNull
@@ -42,10 +58,11 @@ public class RecylerAdapter extends RecyclerView.Adapter<RecylerAdapter.ViewHold
 
     }
 
-    @Override
-    public int getItemCount() {
-        return list.size();
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.onItemClickListener = listener;
     }
+
 
     public void setClickListener(ItemClickListener itemClickListener) {
         this.mClickListener = itemClickListener;
@@ -53,6 +70,10 @@ public class RecylerAdapter extends RecyclerView.Adapter<RecylerAdapter.ViewHold
 
     public interface ItemClickListener {
         void onItemClick(View view, int position);
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(Object object);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -67,6 +88,9 @@ public class RecylerAdapter extends RecyclerView.Adapter<RecylerAdapter.ViewHold
         @Override
         public void onClick(View view) {
             if (mClickListener != null) mClickListener.onItemClick(view, getAdapterPosition());
+            if (onItemClickListener != null && getAdapterPosition() != RecyclerView.NO_POSITION) {
+                onItemClickListener.onItemClick(getItem(getAdapterPosition()));
+            }
         }
 
     }

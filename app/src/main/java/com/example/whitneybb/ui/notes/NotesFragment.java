@@ -13,8 +13,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 
+import com.example.whitneybb.MainActivity;
 import com.example.whitneybb.R;
 import com.example.whitneybb.adapter.GridAdapter;
+
+import static com.example.whitneybb.MainActivity.smartFab;
 
 public class NotesFragment extends Fragment {
 
@@ -30,6 +33,9 @@ public class NotesFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         final View v = inflater.inflate(R.layout.notes_fragment, container, false);
+
+        MainActivity.currentPage = 0;
+        smartFab(MainActivity.currentPage);
 
         GridView gridView = v.findViewById(R.id.notesGrid);
         gridView.setAdapter(new GridAdapter(requireContext(),incidence_list,titles));

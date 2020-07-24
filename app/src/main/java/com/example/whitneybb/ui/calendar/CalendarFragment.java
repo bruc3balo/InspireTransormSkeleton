@@ -12,7 +12,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.whitneybb.MainActivity;
 import com.example.whitneybb.R;
+
+import static com.example.whitneybb.MainActivity.smartFab;
 
 public class CalendarFragment extends Fragment {
 
@@ -25,6 +28,8 @@ public class CalendarFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        MainActivity.currentPage = 6;
+        smartFab(MainActivity.currentPage);
         return inflater.inflate(R.layout.calendar_fragment, container, false);
     }
 

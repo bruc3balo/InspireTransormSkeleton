@@ -1,5 +1,9 @@
 package com.example.whitneybb;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -8,30 +12,51 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.TimePicker;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.example.whitneybb.model.DiaryModel;
+import com.example.whitneybb.ui.diary.DiaryViewModel;
+import com.example.whitneybb.ui.diary.NewDiaryEntry;
+import com.example.whitneybb.ui.goals.NewGoalEntry;
+import com.example.whitneybb.ui.notes.NewNotesEntry;
+import com.example.whitneybb.ui.objectives.NewObjectiveEntry;
 import com.example.whitneybb.ui.profile.ProfileActiviy;
+import com.example.whitneybb.utils.broadcasts.AlertReceiver;
 import com.example.whitneybb.utils.settings.SettingsActivity;
+import com.example.whitneybb.utils.timepicker.TimePickerFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.text.DateFormat;
+import java.util.Calendar;
 import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener{
 
     private AppBarConfiguration mAppBarConfiguration;
     private TextView emailTv, uidTv;
     private ImageView headerImage;
+    public static int currentPage;
+    public static final int ADD_DIARY_REQUEST = 1;
+    public static final int ADD_NOTES_REQUEST = 2;
+    public static final int ADD_OBJECTIVE_REQUEST = 3;
+    public static final int ADD_GOALS_REQUEST = 4;
+    public static FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,11 +65,37 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.left_chevron);
-        FloatingActionButton fab = findViewById(R.id.fab);
+        fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                switch (currentPage) {
+                    case 0:
+                        Intent intentN = new Intent(MainActivity.this, NewNotesEntry.class);
+                        startActivityForResult(intentN, ADD_NOTES_REQUEST);
+                        Snackbar.make(view, "Notes", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                        break;
+                    case 1:
+                        Snackbar.make(view, "Goals", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                           Intent intentG = new Intent(MainActivity.this, NewGoalEntry.class);
+                           startActivityForResult(intentG, ADD_DIARY_REQUEST);
+                        break;
+                    case 2:
+                        Snackbar.make(view, "Objectives", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                           Intent intentO = new Intent(MainActivity.this, NewObjectiveEntry.class);
+                           startActivityForResult(intentO, ADD_OBJECTIVE_REQUEST);
+                        break;
+                    case 3:
+                        Snackbar.make(view, "Diary", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                        Intent intentD = new Intent(MainActivity.this, NewDiaryEntry.class);
+                        startActivityForResult(intentD, ADD_GOALS_REQUEST);
+                        break;
+                    case 4:
+                        Snackbar.make(view, "Alerts", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                        openTimePicker();
+                        break;
+                    default:break;
+                }
             }
         });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -85,6 +136,11 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    public void openTimePicker() {
+        DialogFragment timePicker = new TimePickerFragment();
+        timePicker.show(getSupportFragmentManager(),"time picker");
+    }
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
@@ -100,6 +156,38 @@ public class MainActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration) || super.onSupportNavigateUp();
+    }
+
+    public static void smartFab (int i) {
+        switch (i) {
+            case 0: case 1: case 2: case 3: case 4:
+                fab.setVisibility(View.VISIBLE);
+                break;
+            case 5: case 6: case 7:
+                fab.setVisibility(View.GONE);
+                break;
+            default:break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == ADD_DIARY_REQUEST && resultCode == RESULT_OK) {
+            if (data != null) {
+                String title = data.getStringExtra(NewDiaryEntry.EXTRA_TITLE);
+                int id = data.getIntExtra(NewDiaryEntry.EXTRA_ID, 4);
+
+                DiaryModel diary = new DiaryModel(title, id);
+                DiaryViewModel diaryViewModel = new ViewModelProvider(MainActivity.this).get(DiaryViewModel.class);
+                diaryViewModel.insert(diary);
+                Toast.makeText(this, "Diary Created", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Nothing returned", Toast.LENGTH_SHORT).show();
+            }
+
+        }
     }
 
     private void updateUi() {
@@ -119,4 +207,48 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
+    @Override
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+        Toast.makeText(this, "Hour : "+hourOfDay+ " Minute : "+ minute , Toast.LENGTH_SHORT).show();
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.HOUR_OF_DAY,hourOfDay);
+        c.set(Calendar.MINUTE,minute);
+        c.set(Calendar.SECOND,0);
+        updateTimeText(c);
+        startAlarm(c);
+    }
+
+    private void updateTimeText(Calendar c) {
+        String timeText = "Alarm set for : ";
+        timeText+= DateFormat.getTimeInstance(DateFormat.SHORT).format(c.getTime());
+        Toast.makeText(this, timeText, Toast.LENGTH_SHORT).show();
+    }
+
+    private void startAlarm (Calendar c) {
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, AlertReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this,1,intent,0); //todo request code
+
+        if (c.before(Calendar.getInstance())) {
+            c.add(Calendar.DATE,1);
+        }
+
+        if (alarmManager != null) {
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP,c.getTimeInMillis(),pendingIntent);
+        }
+
+    }
+
+    public void cancelAlarm(View view) {
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this,AlertReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this,1,intent,0); //todo request code
+
+        if (alarmManager != null) {
+            alarmManager.cancel(pendingIntent);
+            Toast.makeText(this, "Alarm canceled", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 }
