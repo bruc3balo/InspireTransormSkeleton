@@ -32,51 +32,209 @@
                 android:orientation="vertical">
 
                 <EditText
+                    android:hint="State Objective"
+                    android:layout_gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textStyle="bold"
+                    android:text="Do's"
+                    android:layout_margin="10dp"/>
+
+                <LinearLayout
+                    android:layout_margin="10dp"
+                    android:layout_gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:layout_margin="3dp"
+                        android:hint="add Limitation"/>
+                    <ImageButton
+                        android:layout_margin="3dp"
+                        android:layout_width="70dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:background="@android:color/transparent"
+                        android:src="@android:drawable/ic_menu_add"/>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textStyle="bold"
+                    android:text="Don'ts"
+                    android:layout_margin="10dp"/>
+
+                <LinearLayout
+                    android:layout_margin="10dp"
+                    android:layout_gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:layout_margin="3dp"
+                        android:hint="add Limitation"/>
+                    <ImageButton
+                        android:layout_margin="3dp"
+                        android:layout_width="70dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:background="@android:color/transparent"
+                        android:src="@android:drawable/ic_menu_add"/>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textStyle="bold"
+                    android:text="Limitations"
+                    android:layout_margin="10dp"/>
+
+                <LinearLayout
+                    android:layout_margin="10dp"
+                    android:layout_gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:layout_margin="3dp"
+                        android:hint="add Limitation"/>
+                    <ImageButton
+                        android:layout_margin="3dp"
+                        android:layout_width="70dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:background="@android:color/transparent"
+                        android:src="@android:drawable/ic_menu_add"/>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textStyle="bold"
+                    android:text="Reward"
+                    android:layout_margin="10dp"/>
+
+                <LinearLayout
+                    android:layout_margin="10dp"
+                    android:layout_gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:layout_margin="3dp"
+                        android:hint="add Limitation"/>
+                    <ImageButton
+                        android:layout_margin="3dp"
+                        android:layout_width="70dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:background="@android:color/transparent"
+                        android:src="@android:drawable/ic_menu_add"/>
+                </LinearLayout>
+
+
+                <EditText
+                    android:hint="About goal"
+                    android:layout_gravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="15dp" />
 
 
                 <EditText
+                    android:hint=""
+                    android:layout_gravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="15dp" />
 
-
-                <EditText
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="15dp" />
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    android:text="Term of goal"
+                    android:textStyle="bold"/>
 
-
-                <EditText
-                    android:layout_width="match_parent"
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/tags_ChipGroup"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="15dp" />
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:background="@android:color/transparent"
+                    android:fitsSystemWindows="true"
+                    android:foregroundGravity="center"
+                    android:padding="4dp"
+                    android:theme="@style/Theme.MaterialComponents.Bridge"
+                    app:chipSpacing="2dp"
+                    app:itemSpacing="3dp"
+                    app:singleLine="false"
+                    app:singleSelection="true">
+
+                    <com.google.android.material.chip.Chip
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        style="@style/Widget.MaterialComponents.Chip.Action"
+                        android:text="Short Term"
+                        app:chipIcon="@drawable/ic_goal"
+                        app:chipStrokeColor="@android:color/holo_red_light"
+                        app:chipStrokeWidth="3dp"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        style="@style/Widget.MaterialComponents.Chip.Action"
+                        android:text="Mid Term"
+                        app:chipIcon="@drawable/ic_goal"
+                        app:chipStrokeColor="@android:color/holo_orange_light"
+                        app:chipStrokeWidth="3dp"/>
+
+                    <com.google.android.material.chip.Chip
+                        style="@style/Widget.MaterialComponents.Chip.Action"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorAccent"
+                        android:text="Long Term"
+                        app:chipIcon="@drawable/ic_goal"
+                        app:chipStrokeColor="@android:color/holo_green_light"
+                        app:chipStrokeWidth="3dp" />
 
 
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="15dp" />
 
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="15dp" />
-
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="15dp" />
-
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="15dp" />
+                </com.google.android.material.chip.ChipGroup>
 
 
                 <Button

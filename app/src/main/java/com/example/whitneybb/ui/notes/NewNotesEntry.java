@@ -1,6 +1,7 @@
 package com.example.whitneybb.ui.notes;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.view.Menu;
@@ -18,8 +19,9 @@ public class NewNotesEntry extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_new_notes_entry);
+
+        getWindow().setStatusBarColor(Color.BLACK);
     }
 
     @Override

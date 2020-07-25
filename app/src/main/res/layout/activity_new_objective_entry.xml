@@ -34,6 +34,14 @@
                 android:orientation="vertical">
 
                 <EditText
+                    android:hint="Objective Title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp" />
+
+                <EditText
+                    android:hint="Objective State yours"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -41,6 +49,7 @@
 
 
                 <EditText
+                    android:hint="objectiveExpiry"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -48,6 +57,7 @@
 
 
                 <EditText
+                    android:hint="objectiveLimits"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -55,6 +65,7 @@
 
 
                 <EditText
+                    android:hint="objectiveSteps"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -62,13 +73,14 @@
 
 
                 <EditText
+                    android:hint="sacrificeObjectiveCost"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="10dp" />
 
-
                 <EditText
+                    android:hint="objectiveReward"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"

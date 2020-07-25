@@ -5,26 +5,30 @@ import androidx.fragment.app.DialogFragment;
 
 import android.app.Activity;
 import android.app.AlarmManager;
+import android.app.DatePickerDialog;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.whitneybb.R;
 import com.example.whitneybb.utils.broadcasts.AlertReceiver;
+import com.example.whitneybb.utils.timepicker.DatePickerFragment;
 import com.example.whitneybb.utils.timepicker.TimePickerFragment;
 
 import java.text.DateFormat;
 import java.util.Calendar;
 
-public class NewAlertActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener, AdapterView.OnItemSelectedListener {
+public class NewAlertActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener, AdapterView.OnItemSelectedListener, DatePickerDialog.OnDateSetListener  {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,12 +42,19 @@ public class NewAlertActivity extends AppCompatActivity implements TimePickerDia
         // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+
+        getWindow().setStatusBarColor(Color.BLACK);
     }
 
     public void openTimePicker() {
         Toast.makeText(this, "Pick a time for alarm", Toast.LENGTH_SHORT).show();
         DialogFragment timePicker = new TimePickerFragment();
         timePicker.show(getSupportFragmentManager(), "time picker");
+    }
+
+    public void showDatePickerDialog() {
+        DialogFragment datePickerFragment = new DatePickerFragment();
+        datePickerFragment.show(getSupportFragmentManager(), "datePicker");
     }
 
     @Override
@@ -99,4 +110,8 @@ public class NewAlertActivity extends AppCompatActivity implements TimePickerDia
 
     }
 
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+
+    }
 }
