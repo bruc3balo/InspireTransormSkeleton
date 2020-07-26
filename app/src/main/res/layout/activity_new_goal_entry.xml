@@ -54,13 +54,15 @@
                     android:orientation="horizontal">
 
                     <EditText
+                        android:id="@+id/doField"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
                         android:layout_margin="3dp"
-                        android:hint="add Limitation"/>
+                        android:hint="Things to do"/>
                     <ImageButton
+                        android:id="@+id/addDo"
                         android:layout_margin="3dp"
                         android:layout_width="70dp"
                         android:layout_height="match_parent"
@@ -68,6 +70,14 @@
                         android:background="@android:color/transparent"
                         android:src="@android:drawable/ic_menu_add"/>
                 </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:padding="5dp"
+                    android:layout_margin="5dp"
+                    android:id="@+id/doRv"/>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -85,13 +95,15 @@
                     android:orientation="horizontal">
 
                     <EditText
+                        android:id="@+id/dontField"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
                         android:layout_margin="3dp"
-                        android:hint="add Limitation"/>
+                        android:hint="Things not to do"/>
                     <ImageButton
+                        android:id="@+id/addDont"
                         android:layout_margin="3dp"
                         android:layout_width="70dp"
                         android:layout_height="match_parent"
@@ -99,6 +111,14 @@
                         android:background="@android:color/transparent"
                         android:src="@android:drawable/ic_menu_add"/>
                 </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:padding="5dp"
+                    android:layout_margin="5dp"
+                    android:id="@+id/dontRv"/>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -116,13 +136,15 @@
                     android:orientation="horizontal">
 
                     <EditText
+                        android:id="@+id/limitationField"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
                         android:layout_margin="3dp"
-                        android:hint="add Limitation"/>
+                        android:hint="What can / will limit your goal"/>
                     <ImageButton
+                        android:id="@+id/addLimitation"
                         android:layout_margin="3dp"
                         android:layout_width="70dp"
                         android:layout_height="match_parent"
@@ -130,6 +152,14 @@
                         android:background="@android:color/transparent"
                         android:src="@android:drawable/ic_menu_add"/>
                 </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:padding="5dp"
+                    android:layout_margin="5dp"
+                    android:id="@+id/limitRv"/>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -147,13 +177,15 @@
                     android:orientation="horizontal">
 
                     <EditText
+                        android:id="@+id/rewardField"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
                         android:layout_margin="3dp"
-                        android:hint="add Limitation"/>
+                        android:hint="What do you get out of this goal"/>
                     <ImageButton
+                        android:id="@+id/addReward"
                         android:layout_margin="3dp"
                         android:layout_width="70dp"
                         android:layout_height="match_parent"
@@ -161,6 +193,14 @@
                         android:background="@android:color/transparent"
                         android:src="@android:drawable/ic_menu_add"/>
                 </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:padding="5dp"
+                    android:layout_margin="5dp"
+                    android:id="@+id/rewardRv"/>
 
 
                 <EditText
@@ -203,33 +243,36 @@
                     app:singleSelection="true">
 
                     <com.google.android.material.chip.Chip
+                        android:id="@+id/shortTermChip"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         style="@style/Widget.MaterialComponents.Chip.Action"
                         android:text="Short Term"
                         app:chipIcon="@drawable/ic_goal"
-                        app:chipStrokeColor="@android:color/holo_red_light"
+                        app:chipStrokeColor="@android:color/black"
                         app:chipStrokeWidth="3dp"/>
 
                     <com.google.android.material.chip.Chip
+                        android:id="@+id/midTermChip"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         style="@style/Widget.MaterialComponents.Chip.Action"
                         android:text="Mid Term"
                         app:chipIcon="@drawable/ic_goal"
-                        app:chipStrokeColor="@android:color/holo_orange_light"
+                        app:chipStrokeColor="@android:color/black"
                         app:chipStrokeWidth="3dp"/>
 
                     <com.google.android.material.chip.Chip
+                        android:id="@+id/longTermChip"
                         style="@style/Widget.MaterialComponents.Chip.Action"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@color/colorAccent"
                         android:text="Long Term"
                         app:chipIcon="@drawable/ic_goal"
-                        app:chipStrokeColor="@android:color/holo_green_light"
+                        app:chipStrokeColor="@android:color/black"
                         app:chipStrokeWidth="3dp" />
 
 
@@ -242,7 +285,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="15dp"
-                    android:background="@android:color/transparent"
+                    android:textColor="@android:color/white"
+                    android:background="@android:color/black"
                     android:elevation="6dp"
                     android:text="Create" />
 

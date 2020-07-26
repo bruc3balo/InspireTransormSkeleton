@@ -46,10 +46,6 @@ public class ObjectivesFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_objectives, container, false);
 
 
-        for (int i = 0;i<1;i++) {
-
-        }
-
         viewPager2 = root.findViewById(R.id.objectiveViewPager);
         viewPager2.setOrientation(ViewPager2.ORIENTATION_VERTICAL);
         allMightyPullAdapter = new AllMightyPullAdapter();
@@ -113,6 +109,7 @@ public class ObjectivesFragment extends Fragment {
                 allMightyPullAdapter.notifyDataSetChanged();
                 Toast.makeText(requireContext(), "size is " + objectiveList.size(), Toast.LENGTH_SHORT).show();
                 Toast.makeText(requireContext(), "onChanged", Toast.LENGTH_SHORT).show();
+                objectiveList.add(new ObjectiveModel());
             }
         });
         // TODO: Use the ViewModel

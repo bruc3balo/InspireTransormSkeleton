@@ -49,9 +49,7 @@ public class DiaryFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_diary, container, false);
 
 
-        for (int i = 0;i<1;i++) {
-         //   list.add(new DiaryFragment());
-        }
+
 
         viewPager2 = root.findViewById(R.id.diaryViewPager);
         viewPager2.setOrientation(ViewPager2.ORIENTATION_VERTICAL);
@@ -132,6 +130,7 @@ public class DiaryFragment extends Fragment {
                 allMightyPullAdapter.notifyDataSetChanged();
                 Toast.makeText(requireContext(), "size is " + diaryObjectList.size(), Toast.LENGTH_SHORT).show();
                 Toast.makeText(requireContext(), "onChanged", Toast.LENGTH_SHORT).show();
+                diaryObjectList.add(new DiaryModel());
             }
         });
     }

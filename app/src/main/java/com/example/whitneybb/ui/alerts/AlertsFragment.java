@@ -21,6 +21,7 @@ import com.example.whitneybb.MainActivity;
 import com.example.whitneybb.R;
 import com.example.whitneybb.adapter.AlertAdapter;
 import com.example.whitneybb.model.AlertsModel;
+import com.example.whitneybb.ui.diary.DiaryFragment;
 
 
 import java.util.ArrayList;
@@ -41,6 +42,7 @@ public class AlertsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+
 
         MainActivity.currentPage = 4;
         smartFab(MainActivity.currentPage);
@@ -67,6 +69,7 @@ public class AlertsFragment extends Fragment {
                 recyclerAdapter.notifyDataSetChanged();
                 Toast.makeText(requireContext(), "size is " + alertList.size(), Toast.LENGTH_SHORT).show();
                 Toast.makeText(requireContext(), "onChanged", Toast.LENGTH_SHORT).show();
+                 alertList.add(new AlertsModel());
             }
         });
     }

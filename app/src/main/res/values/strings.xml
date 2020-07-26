@@ -65,7 +65,6 @@
         <item>Remind me all day</item>
         <item>Set a one time alarm</item>
         <item>Set a repeated alarm</item>
-        <item>Remind me after every ... from ...</item>
     </string-array>
 
 </resources>

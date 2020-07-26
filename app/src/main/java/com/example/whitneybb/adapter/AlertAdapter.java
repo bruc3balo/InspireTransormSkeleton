@@ -1,10 +1,8 @@
 package com.example.whitneybb.adapter;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
@@ -16,16 +14,12 @@ import com.example.whitneybb.model.AlertsModel;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.LinkedList;
-
 
 public class AlertAdapter extends ListAdapter<AlertsModel,AlertAdapter.ViewHolder> {
 
-    private LinkedList<Object> list;
-    private LayoutInflater mInflater;
+
     private ItemClickListener mClickListener;
     private OnItemClickListener onItemClickListener;
-    private Context mContext;
 
     public static final DiffUtil.ItemCallback<AlertsModel> ALERT_DIFF_CALLBACK = new DiffUtil.ItemCallback<AlertsModel>() {
         @Override
@@ -48,7 +42,7 @@ public class AlertAdapter extends ListAdapter<AlertsModel,AlertAdapter.ViewHolde
     @NotNull
     @Override
     public ViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.alerts_item_layout, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.alerts_item_layout, parent, false);
         return new ViewHolder(view);
     }
 

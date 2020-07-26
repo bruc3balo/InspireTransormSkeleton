@@ -48,50 +48,185 @@
                     android:layout_margin="10dp" />
 
 
-                <EditText
-                    android:hint="objectiveExpiry"
+                <TextView
+                    android:text="Set a date and time for objective to achieve this objective"
+                    android:padding="3dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="10dp" />
 
-
-                <EditText
-                    android:hint="objectiveLimits"
+                <TextView
+                    android:drawableStart="@drawable/ic_calendar_"
+                    android:text="Pick Date"
+                    android:drawablePadding="30dp"
+                    android:padding="5dp"
+                    android:textStyle="bold"
+                    android:textSize="20dp"
+                    android:gravity="center_vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_margin="10dp" />
+                    android:layout_margin="15dp"/>
 
-
-                <EditText
-                    android:hint="objectiveSteps"
+                <TextView
+                    android:drawableStart="@drawable/ic_alarm_alert"
+                    android:text="Pick Time"
+                    android:drawablePadding="30dp"
+                    android:padding="5dp"
+                    android:textStyle="bold"
+                    android:textSize="20dp"
+                    android:gravity="center_vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_margin="10dp" />
+                    android:layout_margin="15dp"/>
 
+                <LinearLayout
+                    android:layout_margin="10dp"
+                    android:layout_gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
-                <EditText
-                    android:hint="sacrificeObjectiveCost"
+                    <EditText
+                        android:id="@+id/ObjectiveLimitsField"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:layout_margin="3dp"
+                        android:hint="Objective Limits"/>
+
+                    <ImageButton
+                        android:id="@+id/addObjLimit"
+                        android:layout_margin="3dp"
+                        android:layout_width="70dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:background="@android:color/transparent"
+                        android:src="@android:drawable/ic_menu_add"/>
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_margin="10dp" />
+                    android:padding="5dp"
+                    android:layout_margin="5dp"
+                    android:id="@+id/objLimitRv"/>
 
-                <EditText
-                    android:hint="objectiveReward"
+                <LinearLayout
+                    android:layout_margin="10dp"
+                    android:layout_gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/objectiveStepsField"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:layout_margin="3dp"
+                        android:hint="Objective Steps"/>
+
+                    <ImageButton
+                        android:id="@+id/addStep"
+                        android:layout_margin="3dp"
+                        android:layout_width="70dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:background="@android:color/transparent"
+                        android:src="@android:drawable/ic_menu_add"/>
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_margin="10dp" />
+                    android:padding="5dp"
+                    android:layout_margin="5dp"
+                    android:id="@+id/objStepsRv"/>
+
+                <LinearLayout
+                    android:layout_margin="10dp"
+                    android:layout_gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/sacrificeField"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:layout_margin="3dp"
+                        android:hint="Sacrifice i.e. Objective Cost"/>
+
+                    <ImageButton
+                        android:id="@+id/sacrificeAdd"
+                        android:layout_margin="3dp"
+                        android:layout_width="70dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:background="@android:color/transparent"
+                        android:src="@android:drawable/ic_menu_add"/>
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:padding="5dp"
+                    android:layout_margin="5dp"
+                    android:id="@+id/objSacrificeRv"/>
+
+
+                <LinearLayout
+                    android:layout_margin="10dp"
+                    android:layout_gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/objectiveRewardField"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:layout_margin="3dp"
+                        android:hint="Objective Reward"/>
+
+                    <ImageButton
+                        android:id="@+id/objectiveRewardAdd"
+                        android:layout_margin="3dp"
+                        android:layout_width="70dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:background="@android:color/transparent"
+                        android:src="@android:drawable/ic_menu_add"/>
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:padding="5dp"
+                    android:layout_margin="5dp"
+                    android:id="@+id/objRewardRv"/>
+
 
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="15dp"
-                    android:background="@android:color/transparent"
+                    android:textColor="@android:color/white"
+                    android:background="@android:color/black"
                     android:text="Create" />
 
             </LinearLayout>

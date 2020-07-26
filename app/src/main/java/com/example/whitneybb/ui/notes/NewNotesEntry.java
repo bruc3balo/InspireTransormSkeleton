@@ -1,25 +1,38 @@
 package com.example.whitneybb.ui.notes;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.whitneybb.R;
+import com.example.whitneybb.adapter.StandardRecyclerListAdapter;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
+
+import java.util.LinkedList;
 
 
 public class NewNotesEntry extends AppCompatActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_notes_entry);
+
+
 
         getWindow().setStatusBarColor(Color.BLACK);
     }
@@ -100,4 +113,6 @@ public class NewNotesEntry extends AppCompatActivity {
     public int checkSelfPermission(String permission) {
         return super.checkSelfPermission(permission);
     }
+
+
 }

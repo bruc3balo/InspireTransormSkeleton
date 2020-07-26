@@ -15,17 +15,22 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
+import androidx.preference.SwitchPreferenceCompat;
 
 import com.example.whitneybb.R;
 
-public class NewDiaryEntry extends AppCompatActivity {
+public class NewDiaryEntry extends AppCompatActivity implements View.OnClickListener {
 
     public static final String EXTRA_ID = "com.example.offlinenotes.ui.diary.EXTRA_ID";
     public static final String EXTRA_TITLE = "com.example.offlinenotes.ui.diary.EXTRA_TITLE";
 
-    private EditText idField, titleField;
+    private EditText idField, titleField,passwordFieldDiary,confirmPasswordFieldDiary;
     private Button createDiary;
+    private SwitchCompat passwordSwitch;
+    private boolean passwordOn;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +50,16 @@ public class NewDiaryEntry extends AppCompatActivity {
                 saveDiary();
             }
         });
+
+        passwordSwitch = findViewById(R.id.passwordSwitch);
+        passwordSwitch.setOnClickListener(this);
+
+        passwordFieldDiary = findViewById(R.id.passwordFieldDiary);
+        passwordFieldDiary.setVisibility(View.GONE);
+        confirmPasswordFieldDiary = findViewById(R.id.confirmPasswordFieldDiary);
+        confirmPasswordFieldDiary.setVisibility(View.GONE);
+
+        passwordOn = false;
 
         getWindow().setStatusBarColor(Color.BLACK);
 
@@ -184,5 +199,21 @@ public class NewDiaryEntry extends AppCompatActivity {
     @Override
     public int checkSelfPermission(String permission) {
         return super.checkSelfPermission(permission);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.passwordSwitch:
+                passwordOn = !passwordOn;
+                if (passwordOn) {
+                    passwordFieldDiary.setVisibility(View.VISIBLE);
+                    confirmPasswordFieldDiary.setVisibility(View.VISIBLE);
+                } else {
+                    passwordFieldDiary.setVisibility(View.GONE);
+                    confirmPasswordFieldDiary.setVisibility(View.GONE);
+                }
+            default:break;
+        }
     }
 }

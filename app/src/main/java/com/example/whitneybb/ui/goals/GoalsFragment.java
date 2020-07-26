@@ -50,9 +50,6 @@ public class GoalsFragment extends Fragment {
         MainActivity.currentPage = 1;
         smartFab(MainActivity.currentPage);
 
-        for (int i = 0;i<1;i++) {
-
-        }
 
         viewPager2 = v.findViewById(R.id.goalsViewPager);
         viewPager2.setOrientation(ViewPager2.ORIENTATION_VERTICAL);
@@ -117,6 +114,7 @@ public class GoalsFragment extends Fragment {
                 allMightyPullAdapter.notifyDataSetChanged();
                 Toast.makeText(requireContext(), "size is " + goalObjectList.size(), Toast.LENGTH_SHORT).show();
                 Toast.makeText(requireContext(), "onChanged", Toast.LENGTH_SHORT).show();
+                goalObjectList.add(new GoalsModel());
             }
         });
         // TODO: Use the ViewModel
