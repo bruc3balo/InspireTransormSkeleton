@@ -18,14 +18,12 @@ public class DiaryModel {
     private String createdAt;
     @ColumnInfo(name = "Last Modified Date")
     private String updatedAt;
-    private String diaryCreation;
     private String entryBody;
     private boolean passwordProtected;
     private String password; // add entry protection;
     private boolean dailyScheduleEntry;
     private String dairyReminderTime;
     private String diaryOwner;
-    private String entryId;
     private String diaryAbout;
     private String diaryCoverUrl;
     @Ignore
@@ -47,19 +45,17 @@ Don’t try to write a certain way, just be yourself.*/
     public DiaryModel() {
     }
 
-    public DiaryModel(String entryHeading, @NonNull int diaryId, String diaryPassword, String createdAt, String updatedAt, String diaryCreation, String diaryAbout, String entryBody, boolean passwordProtected, String password, boolean dailyScheduleEntry, String diaryOwner, String entryId, String dairyReminderTime) {
+    public DiaryModel(String entryHeading, @NonNull int diaryId, String diaryPassword, String createdAt, String updatedAt, String diaryAbout, String entryBody, boolean passwordProtected, String password, boolean dailyScheduleEntry, String diaryOwner, String dairyReminderTime) {
         this.entryHeading = entryHeading;
         this.diaryId = diaryId;
         this.diaryPassword = diaryPassword;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
-        this.diaryCreation = diaryCreation;
         this.entryBody = entryBody;
         this.passwordProtected = passwordProtected;
         this.password = password;
         this.dailyScheduleEntry = dailyScheduleEntry;
         this.diaryOwner = diaryOwner;
-        this.entryId = entryId;
         this.diaryAbout = diaryAbout;
         this.dairyReminderTime = dairyReminderTime;
     }
@@ -73,6 +69,8 @@ Don’t try to write a certain way, just be yourself.*/
         this.entryHeading = entryHeading;
         this.diaryId = diaryId;
     }
+
+
 
     public String getDiaryAbout() {
         return diaryAbout;
@@ -106,9 +104,6 @@ Don’t try to write a certain way, just be yourself.*/
         return updatedAt;
     }
 
-    public String getDiaryCreation() {
-        return diaryCreation;
-    }
 
     public String getEntryBody() {
         return entryBody;
@@ -130,9 +125,7 @@ Don’t try to write a certain way, just be yourself.*/
         return diaryOwner;
     }
 
-    public String getEntryId() {
-        return entryId;
-    }
+
 
     public List<DiaryModel> getDiaryEntries() {
         return diaryEntries;
@@ -166,9 +159,6 @@ Don’t try to write a certain way, just be yourself.*/
         this.updatedAt = updatedAt;
     }
 
-    public void setDiaryCreation(String diaryCreation) {
-        this.diaryCreation = diaryCreation;
-    }
 
     public void setEntryBody(String entryBody) {
         this.entryBody = entryBody;
@@ -190,9 +180,6 @@ Don’t try to write a certain way, just be yourself.*/
         this.diaryOwner = diaryOwner;
     }
 
-    public void setEntryId(String entryId) {
-        this.entryId = entryId;
-    }
 
     public String getDairyReminderTime() {
         return dairyReminderTime;

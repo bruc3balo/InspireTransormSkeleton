@@ -1,15 +1,23 @@
 package com.example.whitneybb.ui.diary;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -17,19 +25,27 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.preference.SwitchPreferenceCompat;
 
 import com.example.whitneybb.R;
+import com.example.whitneybb.model.DiaryModel;
+import com.google.firebase.auth.FirebaseAuth;
+
+import java.io.IOException;
+import java.util.Calendar;
+import java.util.Objects;
 
 public class NewDiaryEntry extends AppCompatActivity implements View.OnClickListener {
 
-    public static final String EXTRA_ID = "com.example.offlinenotes.ui.diary.EXTRA_ID";
-    public static final String EXTRA_TITLE = "com.example.offlinenotes.ui.diary.EXTRA_TITLE";
+    public static final String EXTRA_ID = "EXTRA_ID";
+    public static final String EXTRA_TITLE = "EXTRA_TITLE";
 
-    private EditText idField, titleField,passwordFieldDiary,confirmPasswordFieldDiary;
-    private Button createDiary;
-    private SwitchCompat passwordSwitch;
-    private boolean passwordOn;
+    private EditText aboutField,titleField,passwordFieldDiary,confirmPasswordFieldDiary;
+    private String imagePath = "";
+    private boolean passwordOn,dailyReminder;
+    private ImageView diaryCoverImage;
 
 
     @Override
@@ -37,22 +53,27 @@ public class NewDiaryEntry extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_diary_entry);
 
+        getStoragePermission();
+
         Toolbar toolbar = findViewById(R.id.diaryToolbar);
         setSupportActionBar(toolbar);
-
-        idField = findViewById(R.id.idField);
-        titleField = findViewById(R.id.titleField);
-        createDiary = findViewById(R.id.createDiary);
-
-        createDiary.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                saveDiary();
-            }
+        toolbar.setNavigationOnClickListener(v -> {
+            setResult(RESULT_CANCELED, null);
+            finish();
         });
+        
+        titleField = findViewById(R.id.titleField);
+        aboutField = findViewById(R.id.aboutField);
+        diaryCoverImage = findViewById(R.id.diaryCoverImage);
+        Button createDiary = findViewById(R.id.createDiary);
 
-        passwordSwitch = findViewById(R.id.passwordSwitch);
+        createDiary.setOnClickListener(v -> validateForm());
+
+        SwitchCompat passwordSwitch = findViewById(R.id.passwordSwitch);
         passwordSwitch.setOnClickListener(this);
+
+        SwitchCompat reminderSwitch = findViewById(R.id.reminderSwitch);
+        reminderSwitch.setOnClickListener(this);
 
         passwordFieldDiary = findViewById(R.id.passwordFieldDiary);
         passwordFieldDiary.setVisibility(View.GONE);
@@ -60,34 +81,70 @@ public class NewDiaryEntry extends AppCompatActivity implements View.OnClickList
         confirmPasswordFieldDiary.setVisibility(View.GONE);
 
         passwordOn = false;
+        dailyReminder = false;
 
         getWindow().setStatusBarColor(Color.BLACK);
 
     }
 
-    private void saveDiary() {
-        String title = titleField.getText().toString();
-        int id = Integer.parseInt(idField.getText().toString());
+    private void validateForm() {
+        DiaryModel diary = new DiaryModel();
+        diary.setDiaryOwner(FirebaseAuth.getInstance().getCurrentUser().getEmail());
+        diary.setCreatedAt(Calendar.getInstance().getTime().toString());
+        diary.setUpdatedAt(Calendar.getInstance().getTime().toString());
 
-        if (title.trim().isEmpty() || String.valueOf(id).isEmpty()) {
-
-            Toast.makeText(this, "Insert fields in value", Toast.LENGTH_SHORT).show();
-
-            if (title.isEmpty()) {
-                titleField.setError("Empty");
-                titleField.requestFocus();
+        if (titleField.getText().toString().isEmpty()) {
+        titleField.setError("Fill title");
+        titleField.requestFocus();
+        } else if (aboutField.getText().toString().isEmpty()) {
+        aboutField.setError("Fill about ");
+        aboutField.requestFocus();
+        } else if (passwordOn) {
+            diary.setPasswordProtected(passwordOn);
+            if (passwordFieldDiary.getText().toString().isEmpty()) {
+                passwordFieldDiary.setError("Fill");
+                passwordFieldDiary.requestFocus();
+            } else if (!confirmPasswordFieldDiary.getText().toString().equals(passwordFieldDiary.getText().toString())){
+                confirmPasswordFieldDiary.setError("Passwords don't match");
+                confirmPasswordFieldDiary.requestFocus();
+            } else {
+                diary.setPassword(confirmPasswordFieldDiary.getText().toString());
+                if (imagePath.equals("")) {
+                    Toast.makeText(this, "No Image selected", Toast.LENGTH_SHORT).show();
+                    diary.setDiaryCoverUrl("");
+                } else {
+                    diary.setDiaryCoverUrl(imagePath);
+                }
+                diary.setDailyScheduleEntry(dailyReminder);
+                diary.setDiaryAbout(aboutField.getText().toString());
+                diary.setEntryHeading(titleField.getText().toString());
+                toastObject(diary);
             }
-
-            if (String.valueOf(id).isEmpty()) {
-                idField.setError("Empty");
-                idField.requestFocus();
+        } else {
+            diary.setPasswordProtected(passwordOn);
+            diary.setPassword("");
+            if (imagePath.equals("")) {
+                Toast.makeText(this, "No Image selected", Toast.LENGTH_SHORT).show();
+                diary.setDiaryCoverUrl("");
+            } else {
+                diary.setDiaryCoverUrl(imagePath);
             }
-            return;
+            diary.setDailyScheduleEntry(dailyReminder);
+            diary.setDiaryAbout(aboutField.getText().toString());
+            diary.setEntryHeading(titleField.getText().toString());
+            toastObject(diary);
         }
+    }
+
+    private void toastObject(DiaryModel diary) {
+        Toast.makeText(this, "The Diary is called ,'" +diary.getEntryHeading()+ "' and the owner is "+diary.getDiaryOwner() +" and it's about "+diary.getDiaryAbout()+" and was created at "+diary.getCreatedAt()+ " also last modified at "+diary.getUpdatedAt() + ". The diary is private ? "+diary.isPasswordProtected() + " with password : "+diary.getDiaryPassword()+". You will be reminded ? "+diary.isDailyScheduleEntry() +" at "+diary.getDairyReminderTime() + " with image "+diary.getDiaryCoverUrl() , Toast.LENGTH_SHORT).show();
+    }
+
+    private void saveDiary(){
+        String title = titleField.getText().toString();
 
         Intent data = new Intent();
         data.putExtra(EXTRA_TITLE, title);
-        data.putExtra(EXTRA_ID, id);
 
         setResult(RESULT_OK, data);
         finish();
@@ -136,28 +193,16 @@ public class NewDiaryEntry extends AppCompatActivity implements View.OnClickList
 
         exit_dialog.show();
 
-        remindMe.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(NewDiaryEntry.this, "Remind me", Toast.LENGTH_SHORT).show();
-            }
+        remindMe.setOnClickListener(v -> Toast.makeText(NewDiaryEntry.this, "Remind me", Toast.LENGTH_SHORT).show());
+        no.setOnClickListener(v -> {
+            exit_dialog.cancel();
+            finish();
         });
-        no.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                exit_dialog.cancel();
-                finish();
-            }
-        });
-        yes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(NewDiaryEntry.this, "Saving", Toast.LENGTH_SHORT).show();
-                finish();
-            }
+        yes.setOnClickListener(v -> {
+            Toast.makeText(NewDiaryEntry.this, "Saving", Toast.LENGTH_SHORT).show();
+            finish();
         });
 
-        super.onBackPressed();
     }
 
     @Override
@@ -178,6 +223,23 @@ public class NewDiaryEntry extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+
+           if (resultCode == RESULT_OK) {
+               try {
+                   Bitmap bitmap = MediaStore.Images.Media.getBitmap(Objects.requireNonNull(this).getContentResolver(), Objects.requireNonNull(data).getData());
+                   diaryCoverImage.setImageBitmap(bitmap);
+                   TextView photoPath = findViewById(R.id.photoPath);
+                   photoPath.setText(getPath(data.getData()));
+                   imagePath = getPath(data.getData());
+                   Toast.makeText(this, "height : "+bitmap.getHeight() +" width : "+bitmap.getWidth(), Toast.LENGTH_SHORT).show();
+               } catch (IOException e) {
+                   e.printStackTrace();
+               }
+           } else {
+               Toast.makeText(this, "Failed to get photo", Toast.LENGTH_SHORT).show();
+           }
+        }
     }
 
     @Override
@@ -191,8 +253,24 @@ public class NewDiaryEntry extends AppCompatActivity implements View.OnClickList
         return super.onOptionsItemSelected(item);
     }
 
+    private void getStoragePermission() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
+            return;
+
+        ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},2);
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == 2) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                Toast.makeText(this, "Permission granted", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Permission not granted", Toast.LENGTH_SHORT).show();
+            }
+        }
+
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
@@ -213,7 +291,43 @@ public class NewDiaryEntry extends AppCompatActivity implements View.OnClickList
                     passwordFieldDiary.setVisibility(View.GONE);
                     confirmPasswordFieldDiary.setVisibility(View.GONE);
                 }
+
+            case R.id.reminderSwitch:
+                dailyReminder = !dailyReminder;
+                if (dailyReminder) {
+                    Toast.makeText(this, ""+dailyReminder, Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, ""+dailyReminder, Toast.LENGTH_SHORT).show();
+                }
+                break;
             default:break;
         }
     }
+
+    public void getDiaryPhoto(View view) {
+        startActivityForResult(new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI),1);
+    }
+
+    private String getPath(Uri uri){
+        //todo fix getting image intent
+
+        Cursor cursor = Objects.requireNonNull(this).getContentResolver().query(uri,null,null,null,null);
+        assert cursor != null;
+        cursor.moveToFirst();
+        String document_id = cursor.getString(0);
+
+        document_id = document_id.substring(document_id.lastIndexOf(":") + 1);
+        cursor.close();
+
+        cursor = this.getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,null,MediaStore.Images.Media._ID + "= ?",new String[]{document_id},null);
+
+        assert cursor != null;
+        cursor.moveToFirst();
+
+        String path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+        cursor.close();
+
+        return path;
+    }
+
 }

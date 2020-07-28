@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.CompositePageTransformer;
@@ -27,7 +28,7 @@ import static com.example.whitneybb.MainActivity.smartFab;
 
 public class SummaryFragment extends Fragment {
 
-    private SummaryViewModel slideshowViewModel;
+    private SummaryViewModel summaryViewModel;
     private ViewPager2 viewPager2;
     private LinkedList<SummaryModel> list = new LinkedList<>();
 
@@ -36,14 +37,9 @@ public class SummaryFragment extends Fragment {
 
         MainActivity.currentPage = 5;
         smartFab(MainActivity.currentPage);
-        slideshowViewModel = ViewModelProviders.of(this).get(SummaryViewModel.class);
+        summaryViewModel = new ViewModelProvider(this).get(SummaryViewModel.class);
         View root = inflater.inflate(R.layout.fragment_summary, container, false);
-        slideshowViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
 
-            }
-        });
 
         for (int i = 0;i<4;i++) {
             list.add(new SummaryModel());

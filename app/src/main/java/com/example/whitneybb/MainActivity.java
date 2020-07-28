@@ -27,13 +27,21 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.example.whitneybb.model.AlertsModel;
 import com.example.whitneybb.model.DiaryModel;
+import com.example.whitneybb.model.GoalsModel;
+import com.example.whitneybb.model.NotesModel;
+import com.example.whitneybb.model.ObjectiveModel;
+import com.example.whitneybb.ui.alerts.AlertsViewModel;
 import com.example.whitneybb.ui.alerts.NewAlertActivity;
 import com.example.whitneybb.ui.diary.DiaryViewModel;
 import com.example.whitneybb.ui.diary.NewDiaryEntry;
+import com.example.whitneybb.ui.goals.GoalsViewModel;
 import com.example.whitneybb.ui.goals.NewGoalEntry;
 import com.example.whitneybb.ui.notes.NewNotesEntry;
+import com.example.whitneybb.ui.notes.NotesViewModel;
 import com.example.whitneybb.ui.objectives.NewObjectiveEntry;
+import com.example.whitneybb.ui.objectives.ObjectivesViewModel;
 import com.example.whitneybb.ui.profile.ProfileActiviy;
 import com.example.whitneybb.utils.broadcasts.AlertReceiver;
 import com.example.whitneybb.utils.settings.SettingsActivity;
@@ -183,18 +191,95 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == ADD_DIARY_REQUEST && resultCode == RESULT_OK) {
-            if (data != null) {
-                String title = data.getStringExtra(NewDiaryEntry.EXTRA_TITLE);
-                int id = data.getIntExtra(NewDiaryEntry.EXTRA_ID, 4);
+        switch (requestCode) {
+            case ADD_DIARY_REQUEST:
+                if (resultCode == RESULT_OK) {
+                    if (data != null) {
+                        String title = data.getStringExtra(NewDiaryEntry.EXTRA_TITLE);
+                        int id = data.getIntExtra(NewDiaryEntry.EXTRA_ID, 4);
 
-                DiaryModel diary = new DiaryModel(title, id);
-                DiaryViewModel diaryViewModel = new ViewModelProvider(MainActivity.this).get(DiaryViewModel.class);
-                diaryViewModel.insert(diary);
-                Toast.makeText(this, "Diary Created", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, "Nothing returned", Toast.LENGTH_SHORT).show();
-            }
+                        DiaryModel diary = new DiaryModel(title, id);
+                        DiaryViewModel diaryViewModel = new ViewModelProvider(MainActivity.this).get(DiaryViewModel.class);
+                        diaryViewModel.insert(diary);
+                        Toast.makeText(this, "Diary Created", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(this, "Nothing returned", Toast.LENGTH_SHORT).show();
+                    }
+                } else if (resultCode == RESULT_CANCELED) {
+                    Toast.makeText(this, "Diary creation cancelled", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, "Diary Creation Failed", Toast.LENGTH_SHORT).show();
+                }
+                break;
+
+            case ADD_NOTES_REQUEST:
+                if (resultCode == RESULT_OK) {
+                    if (data != null) {
+                        NotesModel note = new NotesModel();
+                        NotesViewModel notesViewModel = new ViewModelProvider(MainActivity.this).get(NotesViewModel.class);
+                        notesViewModel.insert(note);
+                        Toast.makeText(this, "Note Created", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(this, "Nothing returned", Toast.LENGTH_SHORT).show();
+                    }
+                } else if (resultCode == RESULT_CANCELED) {
+                    Toast.makeText(this, "Notes creation cancelled", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, "Notes Creation Failed", Toast.LENGTH_SHORT).show();
+                }
+                break;
+                
+            case ADD_ALERT_REQUEST:
+                if (resultCode == RESULT_OK) {
+                    if (data != null) {
+                        AlertsModel alert = new AlertsModel();
+                        AlertsViewModel alertsViewModel = new ViewModelProvider(MainActivity.this).get(AlertsViewModel.class);
+                        alertsViewModel.insert(alert);
+                        Toast.makeText(this, "Alert Created", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(this, "Nothing returned", Toast.LENGTH_SHORT).show();
+                    }
+                } else if (resultCode == RESULT_CANCELED) {
+                    Toast.makeText(this, "Alerts creation cancelled", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, "Alerts Creation Failed", Toast.LENGTH_SHORT).show();
+                }
+                break;
+                
+            case ADD_GOALS_REQUEST:
+                if (resultCode == RESULT_OK) {
+                    if (data != null) {
+                        GoalsModel goal = new GoalsModel();
+                        GoalsViewModel goalsViewModel = new ViewModelProvider(MainActivity.this).get(GoalsViewModel.class);
+                        goalsViewModel.insert(goal);
+                        Toast.makeText(this, "Goal Created", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(this, "Nothing returned", Toast.LENGTH_SHORT).show();
+                    }
+                } else if (resultCode == RESULT_CANCELED) {
+                    Toast.makeText(this, "Goals creation cancelled", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, "Goals Creation Failed", Toast.LENGTH_SHORT).show();
+                }
+                break;
+                
+            case ADD_OBJECTIVE_REQUEST:
+                if (resultCode == RESULT_OK) {
+                    if (data != null) {
+                        ObjectiveModel objective = new ObjectiveModel();
+                        ObjectivesViewModel objectivesViewModel = new ViewModelProvider(MainActivity.this).get(ObjectivesViewModel.class);
+                        objectivesViewModel.insert(objective);
+                        Toast.makeText(this, "Objective created", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(this, "Nothing returned", Toast.LENGTH_SHORT).show();
+                    }
+                } else if (resultCode == RESULT_CANCELED) {
+                    Toast.makeText(this, "Objective creation cancelled", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, "Objective Creation Failed", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            default:break;
 
         }
     }

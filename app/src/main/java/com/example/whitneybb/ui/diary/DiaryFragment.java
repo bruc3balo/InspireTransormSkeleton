@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -13,8 +12,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.CompositePageTransformer;
 import androidx.viewpager2.widget.MarginPageTransformer;
@@ -25,9 +22,9 @@ import com.example.whitneybb.R;
 import com.example.whitneybb.adapter.AllMightyPullAdapter;
 import com.example.whitneybb.adapter.SliderAdapter;
 import com.example.whitneybb.model.DiaryModel;
+import com.example.whitneybb.ui.diary.pages.DiaryPagesActivity;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import static com.example.whitneybb.MainActivity.smartFab;
@@ -39,6 +36,8 @@ public class DiaryFragment extends Fragment {
     private List<Object> diaryObjectList = new ArrayList<>();
     private AllMightyPullAdapter allMightyPullAdapter;
 
+    public static final String DIARY_KEY = "";
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -47,9 +46,6 @@ public class DiaryFragment extends Fragment {
 
         diaryViewModel = new ViewModelProvider(this).get(DiaryViewModel.class);
         View root = inflater.inflate(R.layout.fragment_diary, container, false);
-
-
-
 
         viewPager2 = root.findViewById(R.id.diaryViewPager);
         viewPager2.setOrientation(ViewPager2.ORIENTATION_VERTICAL);
@@ -109,7 +105,7 @@ public class DiaryFragment extends Fragment {
             public void onItemClick(Object object) {
                 DiaryModel diary = (DiaryModel) object;
                 Toast.makeText(requireContext(), "Diary " + diary.getEntryHeading(), Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(requireContext(), DiaryPagesActivity.class));
+                startActivity(new Intent(requireContext(), DiaryPagesActivity.class).putExtra(DIARY_KEY,diary.getDiaryId()));
             }
         });
         return root;
@@ -119,19 +115,15 @@ public class DiaryFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         diaryViewModel = new ViewModelProvider(this).get(DiaryViewModel.class);
+        diaryViewModel.insert(new DiaryModel(22));
 
-
-        diaryViewModel.getAllDiaries().observe(getViewLifecycleOwner(), new Observer<List<DiaryModel>>() {
-            @Override
-            public void onChanged(List<DiaryModel> diaryModels) {
-                diaryObjectList.clear();
-                diaryObjectList.addAll(diaryModels); //todo check for duplicates in list
-                allMightyPullAdapter.submitList(diaryObjectList);
-                allMightyPullAdapter.notifyDataSetChanged();
-                Toast.makeText(requireContext(), "size is " + diaryObjectList.size(), Toast.LENGTH_SHORT).show();
-                Toast.makeText(requireContext(), "onChanged", Toast.LENGTH_SHORT).show();
-                diaryObjectList.add(new DiaryModel());
-            }
+        diaryViewModel.getAllDiaries().observe(getViewLifecycleOwner(), diaryModels -> {
+            diaryObjectList.clear();
+            diaryObjectList.addAll(diaryModels); //todo check for duplicates in list
+            allMightyPullAdapter.submitList(diaryObjectList);
+            allMightyPullAdapter.notifyDataSetChanged();
+            Toast.makeText(requireContext(), "size is " + diaryObjectList.size(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), "onChanged", Toast.LENGTH_SHORT).show();
         });
     }
 

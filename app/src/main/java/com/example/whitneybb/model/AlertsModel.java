@@ -19,7 +19,7 @@ public class AlertsModel {
     @NonNull
     private int alertId; //todo change to int
 
-    private static final String SUNDAY = "Sunday", MONDAY = "Monday", TUESDAY = "Tuesday", WEDNESDAY = "Wednesday",THURSDAY ="Thursday",FRIDAY = "Friday",SATURDAY = "Saturday";
+    public static final String SUNDAY = "Sunday", MONDAY = "Monday", TUESDAY = "Tuesday", WEDNESDAY = "Wednesday",THURSDAY ="Thursday",FRIDAY = "Friday",SATURDAY = "Saturday";
     public static final String REPEAT_ALARM = "REPEAT_ONCE",REPEAT_ON_DAY= "REPEAT_ON_DAY",ALL_DAY ="ALL_DAY",ONE_TIME_ALARM = "ONE_TIME_ALARM";
 
     public AlertsModel() {

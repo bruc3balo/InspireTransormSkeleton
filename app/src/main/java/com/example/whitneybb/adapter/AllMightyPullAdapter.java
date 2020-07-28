@@ -1,5 +1,6 @@
 package com.example.whitneybb.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.whitneybb.MainActivity;
 import com.example.whitneybb.R;
 import com.example.whitneybb.model.DiaryModel;
+import com.example.whitneybb.model.DiaryPageModel;
 import com.example.whitneybb.model.GoalsModel;
 import com.example.whitneybb.model.NotesModel;
 import com.example.whitneybb.model.ObjectiveModel;
@@ -59,28 +61,34 @@ public class AllMightyPullAdapter extends ListAdapter<Object, AllMightyPullAdapt
             }
         }
 
+        @SuppressLint("DiffUtilEquals")
         @Override
         public boolean areContentsTheSame(@NonNull Object oldItem, @NonNull Object newItem) {
             if (MainActivity.currentPage == 0) {
                 NotesModel olderNotes, newerNotes;
                 olderNotes = (NotesModel) oldItem;
                 newerNotes = (NotesModel) newItem;
-                return false; //todo notes
+                return olderNotes.getNoteId() == newerNotes.getNoteId() && olderNotes.getNoteContent().equals(newerNotes.getNoteContent()); //todo notes
             } else if (MainActivity.currentPage == 1) {
                 GoalsModel olderGoal, newerGoal;
                 olderGoal = (GoalsModel) oldItem;
                 newerGoal = (GoalsModel) newItem;
-                return false; //todo goals
+                return olderGoal.getGoalId() == newerGoal.getGoalId() && olderGoal.getGoalContent().equals(newerGoal.getGoalContent()) && olderGoal.getGoalNotes().equals(newerGoal.getGoalNotes()) && olderGoal.getGoalExpiry().equals(newerGoal.getGoalExpiry()) && olderGoal.getStepsToGoal().equals(newerGoal.getStepsToGoal()); //todo goals
             } else if (MainActivity.currentPage == 2) {
                 ObjectiveModel olderObjective, newerObjective;
                 olderObjective = (ObjectiveModel) oldItem;
                 newerObjective = (ObjectiveModel) newItem;
-                return false; //todo objectives
+                return olderObjective.getObjectiveId() == newerObjective.getObjectiveId() && olderObjective.getObjectiveSteps().equals(newerObjective.getObjectiveSteps()) && olderObjective.getObjectiveRemarks().equals(newerObjective.getObjectiveRemarks()) && olderObjective.getObjectiveLimits().equals(newerObjective.getObjectiveLimits()) && olderObjective.getObjectiveTitle().equals(newerObjective.getObjectiveTitle()); //todo objectives
             } else if (MainActivity.currentPage == 3) {
                 DiaryModel olderDiary, newerDiary;
                 olderDiary = (DiaryModel) oldItem;
                 newerDiary = (DiaryModel) newItem;
                 return olderDiary.getDiaryId() == newerDiary.getDiaryId() && olderDiary.getEntryHeading().equals(newerDiary.getEntryHeading());
+            } else if (MainActivity.currentPage == 6) {
+               DiaryPageModel olderPage, newerPage;
+               olderPage = (DiaryPageModel) oldItem;
+               newerPage = (DiaryPageModel) newItem;
+               return olderPage.getEntryId().equals(newerPage.getEntryId()) && olderPage.getEntryBody().equals(newerPage.getEntryBody());
             } else {
                 return false; //todo compare all data for each object for result
             }
@@ -111,6 +119,10 @@ public class AllMightyPullAdapter extends ListAdapter<Object, AllMightyPullAdapt
             System.out.println("Diary");
             View v = LayoutInflater.from(context).inflate(R.layout.vp_diary_layout, parent, false);
             return new ViewHolder(v);
+        } else if (viewType == 6 ) {
+            System.out.println("Diary Page");
+            View v = LayoutInflater.from(context).inflate(R.layout.vp_diary_page_layout, parent, false);
+            return new ViewHolder(v);
         } else {
             System.out.println("Unknown request");
             View v = LayoutInflater.from(context).inflate(R.layout.white, parent, false);
@@ -139,6 +151,10 @@ public class AllMightyPullAdapter extends ListAdapter<Object, AllMightyPullAdapt
                 holder.diaryTitle.setText(diaryModel.getEntryHeading());
                 Toast.makeText(context, "Diary" + diaryModel.getEntryHeading(), Toast.LENGTH_SHORT).show();
                 break;
+            case 6:
+                DiaryPageModel page = (DiaryPageModel) getItem(position);
+
+                break;
             default:
                 break;
         }
@@ -158,6 +174,10 @@ public class AllMightyPullAdapter extends ListAdapter<Object, AllMightyPullAdapt
 
     public ObjectiveModel getObjectivesAt(int position) {
         return (ObjectiveModel) getItem(position);
+    }
+
+    public DiaryPageModel getPageAt(int position) {
+        return (DiaryPageModel) getItem(position);
     }
 
 
