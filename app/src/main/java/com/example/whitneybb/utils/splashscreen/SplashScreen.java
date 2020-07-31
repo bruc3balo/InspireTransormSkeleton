@@ -12,8 +12,6 @@ import com.google.firebase.FirebaseApp;
 
 public class SplashScreen extends AppCompatActivity {
 
-    private int SPLASH_TIME_OUT = 2000;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,12 +19,9 @@ public class SplashScreen extends AppCompatActivity {
 
         FirebaseApp.initializeApp(this);
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                endSplashScreen();
-            }
-        },SPLASH_TIME_OUT);
+        int SPLASH_TIME_OUT = 1000;
+
+        new Handler().postDelayed(() -> endSplashScreen(), SPLASH_TIME_OUT);
     }
 
     private void endSplashScreen ( ) {

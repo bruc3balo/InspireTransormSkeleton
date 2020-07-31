@@ -86,11 +86,8 @@ public class ObjectivesFragment extends Fragment {
             }
         } );
 
-        allMightyPullAdapter.setOnItemClickListener(new AllMightyPullAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(Object object) {
-
-            }
+        allMightyPullAdapter.setOnItemClickListener(object -> {
+            ObjectiveModel obj = (ObjectiveModel) object;
         });
 
         return root;
@@ -100,17 +97,14 @@ public class ObjectivesFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         homeViewModel = new ViewModelProvider(this).get(ObjectivesViewModel.class);
-        homeViewModel.getAllObjectives().observe(getViewLifecycleOwner(), new Observer<List<ObjectiveModel>>() {
-            @Override
-            public void onChanged(List<ObjectiveModel> objectiveModels) {
-                objectiveList.clear();
-                objectiveList.addAll(objectiveModels); //todo check for duplicates in list
-                allMightyPullAdapter.submitList(objectiveList);
-                allMightyPullAdapter.notifyDataSetChanged();
-                Toast.makeText(requireContext(), "size is " + objectiveList.size(), Toast.LENGTH_SHORT).show();
-                Toast.makeText(requireContext(), "onChanged", Toast.LENGTH_SHORT).show();
-                objectiveList.add(new ObjectiveModel());
-            }
+        homeViewModel.getAllObjectives().observe(getViewLifecycleOwner(), objectiveModels -> {
+            objectiveList.clear();
+            objectiveList.addAll(objectiveModels); //todo check for duplicates in list
+            allMightyPullAdapter.submitList(objectiveList);
+            allMightyPullAdapter.notifyDataSetChanged();
+            Toast.makeText(requireContext(), "size is " + objectiveList.size(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), "onChanged", Toast.LENGTH_SHORT).show();
+           // objectiveList.add(new ObjectiveModel());
         });
         // TODO: Use the ViewModel
     }

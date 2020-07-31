@@ -114,7 +114,7 @@ public class GoalsFragment extends Fragment {
                 allMightyPullAdapter.notifyDataSetChanged();
                 Toast.makeText(requireContext(), "size is " + goalObjectList.size(), Toast.LENGTH_SHORT).show();
                 Toast.makeText(requireContext(), "onChanged", Toast.LENGTH_SHORT).show();
-                goalObjectList.add(new GoalsModel());
+               // goalObjectList.add(new GoalsModel());
             }
         });
         // TODO: Use the ViewModel

@@ -1,7 +1,11 @@
 package com.example.whitneybb.ui.notes;
 
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,19 +15,29 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import com.example.whitneybb.MainActivity;
 import com.example.whitneybb.R;
 import com.example.whitneybb.adapter.GridAdapter;
+import com.example.whitneybb.model.NotesModel;
+import com.google.android.material.snackbar.Snackbar;
+
+import java.util.LinkedList;
+import java.util.List;
 
 import static com.example.whitneybb.MainActivity.smartFab;
 
 public class NotesFragment extends Fragment {
 
     private NotesViewModel mViewModel;
-    int[] incidence_list = new int[]{R.drawable.ic_file_,R.drawable.ic_file_,R.drawable.ic_file_,R.drawable.ic_file_,R.drawable.ic_file_,R.drawable.ic_file_,R.drawable.ic_file_,R.drawable.ic_file_};
-    String[] titles = new String[]{"Note 1","Note 2","Note 3","Note 4","Note 5","Note 6","Note 7","Note 8"};
+    LinkedList<String> color_list = new LinkedList<>();
+    LinkedList<String> titles = new LinkedList<>();
+    private LinkedList<NotesModel> notesList = new LinkedList<>();
+
+    private GridAdapter notesAdapter;
 
     public static NotesFragment newInstance() {
         return new NotesFragment();
@@ -38,7 +52,13 @@ public class NotesFragment extends Fragment {
         smartFab(MainActivity.currentPage);
 
         GridView gridView = v.findViewById(R.id.notesGrid);
-        gridView.setAdapter(new GridAdapter(requireContext(),incidence_list,titles));
+        notesAdapter = new GridAdapter(requireContext(),color_list,titles);
+        gridView.setAdapter(notesAdapter);
+        gridView.setOnItemClickListener((parent, view, position, id) -> {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
+            }
+        } );
 
         return v;
     }
@@ -46,8 +66,30 @@ public class NotesFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(NotesViewModel.class);
-        // TODO: Use the ViewModel
+        mViewModel = new ViewModelProvider(this).get(NotesViewModel.class);
+
+        mViewModel.getAllNotes().observe(getViewLifecycleOwner(), notesModels -> {
+
+            titles.clear();
+            color_list.clear();
+            notesList.clear();
+            notesList.addAll(notesModels);
+            for (int i = 0; i<= notesList.size() - 1; i++) {
+                titles.add(notesList.get(i).getNoteTitle());
+                notesAdapter.notifyDataSetChanged();
+            }
+
+            for (int i = 0; i<= notesList.size() - 1; i++) {
+                color_list.add(notesList.get(i).getNoteColor());
+                notesAdapter.notifyDataSetChanged();
+            }
+
+            notesAdapter.notifyDataSetChanged();
+
+        } );
+
     }
+
+
 
 }

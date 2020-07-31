@@ -65,7 +65,7 @@
                     android:src="@drawable/ic_book"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
-                    android:scaleType="fitCenter"
+                    android:scaleType="fitXY"
                     android:layout_gravity="center"
                     android:layout_margin="10dp" />
 
@@ -76,7 +76,7 @@
                     android:gravity="center"
                     android:id="@+id/photoPath"
                     android:textColor="@android:color/holo_red_light"
-                    android:layout_margin="5dp"/>
+                    android:layout_margin="8dp"/>
 
                 <Button
                     android:onClick="getDiaryPhoto"

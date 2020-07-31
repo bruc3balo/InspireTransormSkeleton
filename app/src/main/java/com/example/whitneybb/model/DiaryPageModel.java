@@ -6,15 +6,19 @@ import androidx.room.PrimaryKey;
 
 import org.jetbrains.annotations.NotNull;
 
-//todo create database
+
 @Entity(tableName = "diary_pages_table")
 public class DiaryPageModel {
 
-    private int diaryId;
+    private String diaryId;
     @PrimaryKey
     @NotNull
     private String entryId;
+    public static final String ENTRY_ID = "entryId";
+    private String entryTitle;
+    public static final String ENTRY_TITLE = "entryTitle";
     private String entryBody;
+    public static final String ENTRY_BODY = "entryBody";
     private String createdAt;
     private String updatedAt;
 
@@ -22,25 +26,23 @@ public class DiaryPageModel {
 
     }
 
-    public DiaryPageModel(int diaryId) {
-        this.diaryId = diaryId;
-    }
-
-    public DiaryPageModel(int diaryId, @NotNull String entryId, String entryBody, String createdAt, String updatedAt) {
+    public DiaryPageModel (String diaryId, @NotNull String entryId, String entryTitle, String entryBody, String createdAt, String updatedAt) {
         this.diaryId = diaryId;
         this.entryId = entryId;
+        this.entryTitle = entryTitle;
         this.entryBody = entryBody;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
 
-    public int getDiaryId() {
-        return diaryId;
+    public String getEntryTitle() {
+        return entryTitle;
     }
 
-    public void setDiaryId(int diaryId) {
-        this.diaryId = diaryId;
+    public void setEntryTitle(String entryTitle) {
+        this.entryTitle = entryTitle;
     }
+
 
     @NotNull
     public String getEntryId() {
@@ -57,6 +59,14 @@ public class DiaryPageModel {
 
     public void setEntryBody(String entryBody) {
         this.entryBody = entryBody;
+    }
+
+    public String getDiaryId() {
+        return diaryId;
+    }
+
+    public void setDiaryId(String diaryId) {
+        this.diaryId = diaryId;
     }
 
     public String getCreatedAt() {

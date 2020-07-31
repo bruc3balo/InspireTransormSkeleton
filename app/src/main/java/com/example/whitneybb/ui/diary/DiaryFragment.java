@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.CompositePageTransformer;
 import androidx.viewpager2.widget.MarginPageTransformer;
@@ -59,12 +60,9 @@ public class DiaryFragment extends Fragment {
 
         CompositePageTransformer compositePageTransformer = new CompositePageTransformer();
         compositePageTransformer.addTransformer(new MarginPageTransformer(60));
-        compositePageTransformer.addTransformer(new ViewPager2.PageTransformer() {
-            @Override
-            public void transformPage(@NonNull View page, float position) {
-                float r = 1 - Math.abs(position);
-                page.setScaleX(0.85f + r * 0.15f);
-            }
+        compositePageTransformer.addTransformer((page, position) -> {
+            float r = 1 - Math.abs(position);
+            page.setScaleX(0.85f + r * 0.15f);
         });
 
         viewPager2.setPageTransformer(compositePageTransformer);
@@ -87,7 +85,7 @@ public class DiaryFragment extends Fragment {
             }
         } );
 
-       /* new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+        /*new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
                 return false;
@@ -100,13 +98,10 @@ public class DiaryFragment extends Fragment {
             }
         }).attachToRecyclerView();*/
 
-        allMightyPullAdapter.setOnItemClickListener(new AllMightyPullAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(Object object) {
-                DiaryModel diary = (DiaryModel) object;
-                Toast.makeText(requireContext(), "Diary " + diary.getEntryHeading(), Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(requireContext(), DiaryPagesActivity.class).putExtra(DIARY_KEY,diary.getDiaryId()));
-            }
+        allMightyPullAdapter.setOnItemClickListener(object -> {
+            DiaryModel diary = (DiaryModel) object;
+            Toast.makeText(requireContext(), "Diary " + diary.getDiaryCoverUrl(), Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(requireContext(), DiaryPagesActivity.class).putExtra(DIARY_KEY,diary.getDiaryId()));
         });
         return root;
     }
@@ -115,7 +110,6 @@ public class DiaryFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         diaryViewModel = new ViewModelProvider(this).get(DiaryViewModel.class);
-        diaryViewModel.insert(new DiaryModel(22));
 
         diaryViewModel.getAllDiaries().observe(getViewLifecycleOwner(), diaryModels -> {
             diaryObjectList.clear();

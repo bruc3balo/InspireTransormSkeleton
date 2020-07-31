@@ -29,6 +29,7 @@
 
 
             <TextView
+                android:id="@+id/obj_title_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -65,6 +66,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="10dp"
+                android:id="@+id/obj_description"
                 android:gravity="center"
                 android:text="I want to complete this thesis on genetic research by the end of this month."
                 android:textColor="@android:color/black"

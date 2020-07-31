@@ -44,7 +44,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/diaryTitle"
+                    android:id="@+id/diaryTitle_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="top"
@@ -72,14 +72,16 @@
                     tools:ignore="NestedWeights">
 
                     <ImageView
+                        android:id="@+id/diaryCover"
                         android:layout_width="match_parent"
-                        android:layout_height="300dp"
+                        android:layout_height="0dp"
                         android:layout_weight="1"
                         android:layout_gravity="center"
                         android:maxHeight="300dp"
                         android:minHeight="200dp"
                         android:scaleType="fitCenter"
-                        android:src="@mipmap/slik_foreground" />
+                        android:src="@mipmap/slik_foreground"
+                        android:contentDescription="@string/diarycoverurl" />
 
                     <TextView
                         android:layout_width="match_parent"

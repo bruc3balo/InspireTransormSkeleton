@@ -34,6 +34,7 @@
                 android:orientation="vertical">
 
                 <EditText
+                    android:id="@+id/objectiveTitle"
                     android:hint="Objective Title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -41,6 +42,7 @@
                     android:layout_margin="10dp" />
 
                 <EditText
+                    android:id="@+id/aboutObjective"
                     android:hint="Objective State yours"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -48,39 +50,7 @@
                     android:layout_margin="10dp" />
 
 
-                <TextView
-                    android:text="Set a date and time for objective to achieve this objective"
-                    android:padding="3dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_margin="10dp" />
 
-                <TextView
-                    android:drawableStart="@drawable/ic_calendar_"
-                    android:text="Pick Date"
-                    android:drawablePadding="30dp"
-                    android:padding="5dp"
-                    android:textStyle="bold"
-                    android:textSize="20dp"
-                    android:gravity="center_vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_margin="15dp"/>
-
-                <TextView
-                    android:drawableStart="@drawable/ic_alarm_alert"
-                    android:text="Pick Time"
-                    android:drawablePadding="30dp"
-                    android:padding="5dp"
-                    android:textStyle="bold"
-                    android:textSize="20dp"
-                    android:gravity="center_vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_margin="15dp"/>
 
                 <LinearLayout
                     android:layout_margin="10dp"
@@ -219,15 +189,52 @@
                     android:layout_margin="5dp"
                     android:id="@+id/objRewardRv"/>
 
-
-                <Button
+                <TextView
+                    android:text="Set a date and time for objective to achieve this objective"
+                    android:padding="3dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_margin="10dp" />
+
+                <TextView
+                    android:drawableStart="@drawable/ic_calendar_"
+                    android:text="Pick Date"
+                    android:id="@+id/pickDateObj"
+                    android:drawablePadding="30dp"
+                    android:padding="5dp"
+                    android:textStyle="bold"
+                    android:textSize="20dp"
+                    android:gravity="center_vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="15dp"/>
+
+                <TextView
+                    android:id="@+id/pickTimeObj"
+                    android:drawableStart="@drawable/ic_alarm_alert"
+                    android:text="Pick Time"
+                    android:drawablePadding="30dp"
+                    android:padding="5dp"
+                    android:textStyle="bold"
+                    android:textSize="20dp"
+                    android:gravity="center_vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="15dp"/>
+
+
+                <Button
+                    android:onClick="validateForm"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
                     android:layout_margin="15dp"
-                    android:textColor="@android:color/white"
                     android:background="@android:color/black"
-                    android:text="Create" />
+                    android:text="Create"
+                    android:textColor="@android:color/white" />
 
             </LinearLayout>
         </ScrollView>

@@ -8,6 +8,7 @@
     android:layout_height="110dp">
 
     <View
+        android:id="@+id/alertIndicator"
         android:layout_width="5dp"
         android:layout_gravity="start"
         android:layout_height="match_parent"
@@ -19,7 +20,8 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_gravity="center"
-        android:src="@android:drawable/ic_lock_idle_alarm"
+        android:id="@+id/alertImage"
+        android:src="@drawable/ic_alarm_alert"
         android:tint="@android:color/white"/>
 
     <LinearLayout
@@ -40,6 +42,7 @@
             android:gravity="center_vertical"
             android:autoSizeTextType="uniform"
             android:text="Alarm Title"
+            android:id="@+id/alarmTitle"
             android:textColor="@android:color/black"
             tools:ignore="NestedWeights"
             tools:targetApi="o" />
@@ -47,6 +50,7 @@
         <TextView
             android:layout_margin="3dp"
             android:layout_weight="1"
+            android:id="@+id/alarmDescription"
             android:textColor="@android:color/black"
             android:layout_width="match_parent"
             android:textStyle="italic"
@@ -61,6 +65,7 @@
     </LinearLayout>
 
     <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/alertSwitch"
         android:layout_width="wrap_content"
         android:layout_margin="5dp"
         android:layout_height="wrap_content"

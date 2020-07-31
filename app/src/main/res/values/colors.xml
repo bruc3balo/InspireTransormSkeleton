@@ -5,4 +5,22 @@
     <color name="colorAccent">#03DAC5</color>
     <color name="defaultDiary">#573535</color>
     <color name="editorBg">#DFCAAA</color>
+
+    <!-- Notes Colors -->
+    <color name="nRed">#ffcc0000</color>
+    <color name="nOrange">#ffff8800</color>
+    <color name="nYellow">#FFFC33</color>
+    <color name="nGreen">#ff99cc00</color>
+    <color name="nBlue">#ff0099cc</color>
+    <color name="nIndigo">#ffaa66cc</color>
+    <color name="nViolet">#9328D5</color>
+    <color name="nGray">#aaa</color>
+    <color name="nBlack">#000000</color>
+    <color name="nWhite">#ffffff</color>
+    <color name="nYuckgreen">#ff669900</color>
+    <color name="nPink">#EA6868</color>
+    <color name="nTransparent">#00FFFFFF</color>
+
+
+
 </resources>

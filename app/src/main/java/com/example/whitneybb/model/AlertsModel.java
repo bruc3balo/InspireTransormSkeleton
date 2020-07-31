@@ -8,21 +8,75 @@ import androidx.room.PrimaryKey;
 
 public class AlertsModel {
     String alertRingTime;
+    public static final String ALERT_RING_TIME = "alertRingTime";
     boolean alertRepeat;
+    public static final String ALERT_REPEAT = "alertRepeat";
     String snoozeTime;
+    public static final String SNOOZE_TIME = "snoozeTime";
     String alertTitle;
+    public static final String ALERT_TITLE = "alertTitle";
     String alertDescription;
+    public static final String ALERT_DESCRIPTION = "alertDescription";
     String stoppedAt;
+    public static final String STOPPED_AT = "stoppedAt";
+    String repeatDays;
+    public static final String REPEAT_DAYS = "repeatDays";
     boolean alertOn;
+    public static final String ALERT_ON = "alertOn";
     int snoozeCount;
-    @PrimaryKey(autoGenerate = false)
+    public static final String SNOOZE_COUNT = "snoozeCount";
+    String createdAt;
+
+    String updatedAt;
+    @PrimaryKey
     @NonNull
-    private int alertId; //todo change to int
+    private String alertId;
+
+    public static final String ALERT_ID = "alertId";
 
     public static final String SUNDAY = "Sunday", MONDAY = "Monday", TUESDAY = "Tuesday", WEDNESDAY = "Wednesday",THURSDAY ="Thursday",FRIDAY = "Friday",SATURDAY = "Saturday";
     public static final String REPEAT_ALARM = "REPEAT_ONCE",REPEAT_ON_DAY= "REPEAT_ON_DAY",ALL_DAY ="ALL_DAY",ONE_TIME_ALARM = "ONE_TIME_ALARM";
 
     public AlertsModel() {
+    }
+
+    public AlertsModel(String alertRingTime, boolean alertRepeat, String snoozeTime, String alertTitle, String alertDescription, String stoppedAt, String repeatDays, boolean alertOn, int snoozeCount, String createdAt, String updatedAt, @NonNull String alertId) {
+        this.alertRingTime = alertRingTime;
+        this.alertRepeat = alertRepeat;
+        this.snoozeTime = snoozeTime;
+        this.alertTitle = alertTitle;
+        this.alertDescription = alertDescription;
+        this.stoppedAt = stoppedAt;
+        this.repeatDays = repeatDays;
+        this.alertOn = alertOn;
+        this.snoozeCount = snoozeCount;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.alertId = alertId;
+    }
+
+    public String getRepeatDays() {
+        return repeatDays;
+    }
+
+    public void setRepeatDays(String repeatDays) {
+        this.repeatDays = repeatDays;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(String updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     public String getAlertRingTime() {
@@ -89,11 +143,11 @@ public class AlertsModel {
         this.snoozeCount = snoozeCount;
     }
 
-    public int getAlertId() {
+    public String getAlertId() {
         return alertId;
     }
 
-    public void setAlertId(int alertId) {
+    public void setAlertId(String alertId) {
         this.alertId = alertId;
     }
 }

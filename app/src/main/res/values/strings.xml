@@ -46,6 +46,7 @@
     <string name="pref_syncConnectionType">Synch Connection Type</string>
     <string name="pref_syncConnectionType_dialog_title">Perform Sync Using</string>
     <string name="pref_synchConnectionType_defaulf_value">Wifi</string>
+    <string name="diarycoverurl">diaryCoverUrl</string>
 
     <string-array name="pref_syncConnectionType_entries">
         <item>WiFi</item>

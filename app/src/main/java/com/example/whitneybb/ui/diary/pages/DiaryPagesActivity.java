@@ -41,7 +41,7 @@ public class DiaryPagesActivity extends AppCompatActivity {
 
         MainActivity.currentPage = 6;
 
-        int dId = Integer.parseInt(Objects.requireNonNull(Objects.requireNonNull(getIntent().getExtras()).get(DIARY_KEY)).toString());
+        String dId = Objects.requireNonNull(Objects.requireNonNull(getIntent().getExtras()).get(DIARY_KEY)).toString();
 
         allMightyPullAdapter = new AllMightyPullAdapter();
         viewPager2 = findViewById(R.id.diaryPagesPager);
@@ -61,7 +61,7 @@ public class DiaryPagesActivity extends AppCompatActivity {
 
         viewPager2.setPageTransformer(compositePageTransformer);
 
-        viewPager2.registerOnPageChangeCallback( new ViewPager2.OnPageChangeCallback() {
+        viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 super.onPageScrolled(position, positionOffset, positionOffsetPixels);
@@ -98,14 +98,10 @@ public class DiaryPagesActivity extends AppCompatActivity {
         });
 
         DiaryPagesViewModel diaryPagesViewModel = new ViewModelProvider(this).get(DiaryPagesViewModel.class);
-        diaryPagesViewModel.insert(new DiaryPageModel(22));
 
-        diaryPagesViewModel.getAllDiaryPages().observe(this, new Observer<List<DiaryPageModel>>() {
-            @Override
-            public void onChanged(List<DiaryPageModel> diaryPageModels) {
-                System.out.println(diaryPageModels.size()+"");
-                //Toast.makeText(DiaryPagesActivity.this, ""+diaryPageModels.get(0).getDiaryId(), Toast.LENGTH_SHORT).show();
-            }
+        diaryPagesViewModel.getAllDiaryPages().observe(this, diaryPageModels -> {
+            System.out.println(diaryPageModels.size()+"");
+            //Toast.makeText(DiaryPagesActivity.this, ""+diaryPageModels.get(0).getDiaryId(), Toast.LENGTH_SHORT).show();
         });
       /*  diaryPagesViewModel.getDiaryPagesWithId(dId).observe(this, diaryPageModel -> {
             diaryPagesObjectList.clear();

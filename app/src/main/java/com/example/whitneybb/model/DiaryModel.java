@@ -3,31 +3,38 @@ package com.example.whitneybb.model;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
-import java.util.List;
+import org.jetbrains.annotations.NotNull;
 
 @Entity(tableName = "diary_table")
 public class DiaryModel {
-    private String entryHeading;
-    @PrimaryKey(autoGenerate = false)
+    private String diaryTitle;
+    public static final String DIARY_TITLE = "diaryTitle";
+    @PrimaryKey
     @NonNull
-    private int diaryId; //todo changeID toString
+    private String diaryId; //todo changeID toString
+    public static final String DIARY_ID = "diaryId";
     private String diaryPassword;
+    public static final String DIARY_PASSWORD = "diaryPassword";
     private String createdAt;
-    @ColumnInfo(name = "Last Modified Date")
+    public static final String CREATED_AT = "createdAt";
     private String updatedAt;
-    private String entryBody;
+    public static final String UPDATED_AT = "updatedAt";
     private boolean passwordProtected;
-    private String password; // add entry protection;
+    public static final String DIARY_PROTECTED_PASSWORD = "passwordProtected";
+     //todo add entry protection;
     private boolean dailyScheduleEntry;
+    public static final String DIARY_SCHEDULE = "dailyScheduleEntry";
     private String dairyReminderTime;
+    public static final String DIARY_REMINDER_TIME = "dairyReminderTime";
     private String diaryOwner;
+    public static final String DIARY_OWNER = "diaryOwner";
     private String diaryAbout;
+    public static final String ABOUT_DIARY = "diaryAbout";
     private String diaryCoverUrl;
-    @Ignore
-    private List<DiaryModel> diaryEntries;
+    public static final String DIARY_COVER = "diaryCoverUrl";
+
 
     /*
     * Keys To Successfully Writing a Diary
@@ -45,28 +52,31 @@ Don’t try to write a certain way, just be yourself.*/
     public DiaryModel() {
     }
 
-    public DiaryModel(String entryHeading, @NonNull int diaryId, String diaryPassword, String createdAt, String updatedAt, String diaryAbout, String entryBody, boolean passwordProtected, String password, boolean dailyScheduleEntry, String diaryOwner, String dairyReminderTime) {
-        this.entryHeading = entryHeading;
+
+
+    public DiaryModel(String diaryTitle, @NotNull String diaryId, String diaryPassword, String createdAt, String updatedAt, boolean passwordProtected, boolean dailyScheduleEntry, String dairyReminderTime, String diaryOwner, String diaryAbout, String diaryCoverUrl) {
+        this.diaryTitle = diaryTitle;
         this.diaryId = diaryId;
         this.diaryPassword = diaryPassword;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
-        this.entryBody = entryBody;
         this.passwordProtected = passwordProtected;
-        this.password = password;
         this.dailyScheduleEntry = dailyScheduleEntry;
+        this.dairyReminderTime = dairyReminderTime;
         this.diaryOwner = diaryOwner;
         this.diaryAbout = diaryAbout;
-        this.dairyReminderTime = dairyReminderTime;
+        this.diaryCoverUrl = diaryCoverUrl;
     }
 
-
-    public DiaryModel(@NonNull int diaryId) {
-        this.diaryId = diaryId;
+    public String getDiaryTitle() {
+        return diaryTitle;
     }
 
-    public DiaryModel(String entryHeading, @NonNull int diaryId) {
-        this.entryHeading = entryHeading;
+    public void setDiaryTitle(String diaryTitle) {
+        this.diaryTitle = diaryTitle;
+    }
+
+    public DiaryModel(@NonNull String diaryId) {
         this.diaryId = diaryId;
     }
 
@@ -84,9 +94,7 @@ Don’t try to write a certain way, just be yourself.*/
         return diaryCoverUrl;
     }
 
-    public String getEntryHeading() {
-        return entryHeading;
-    }
+
 
     public void setDiaryCoverUrl(String diaryCoverUrl) {
         this.diaryCoverUrl = diaryCoverUrl;
@@ -105,17 +113,10 @@ Don’t try to write a certain way, just be yourself.*/
     }
 
 
-    public String getEntryBody() {
-        return entryBody;
-    }
-
     public boolean isPasswordProtected() {
         return passwordProtected;
     }
 
-    public String getPassword() {
-        return password;
-    }
 
     public boolean isDailyScheduleEntry() {
         return dailyScheduleEntry;
@@ -125,26 +126,12 @@ Don’t try to write a certain way, just be yourself.*/
         return diaryOwner;
     }
 
-
-
-    public List<DiaryModel> getDiaryEntries() {
-        return diaryEntries;
-    }
-
-    public void setDiaryEntries(List<DiaryModel> diaryEntries) {
-        this.diaryEntries = diaryEntries;
-    }
-
-    public int getDiaryId() {
+    public String getDiaryId() {
         return diaryId;
     }
 
-    public void setDiaryId(int diaryId) {
+    public void setDiaryId(@NotNull String diaryId) {
         this.diaryId = diaryId;
-    }
-
-    public void setEntryHeading(String entryHeading) {
-        this.entryHeading = entryHeading;
     }
 
     public void setDiaryPassword(String diaryPassword) {
@@ -159,17 +146,8 @@ Don’t try to write a certain way, just be yourself.*/
         this.updatedAt = updatedAt;
     }
 
-
-    public void setEntryBody(String entryBody) {
-        this.entryBody = entryBody;
-    }
-
     public void setPasswordProtected(boolean passwordProtected) {
         this.passwordProtected = passwordProtected;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public void setDailyScheduleEntry(boolean dailyScheduleEntry) {

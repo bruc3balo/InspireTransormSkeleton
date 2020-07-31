@@ -6,16 +6,25 @@ import androidx.room.PrimaryKey;
 
 @Entity(tableName = "log_table")
 public class LogModel {
-    @PrimaryKey(autoGenerate = false)
+    @PrimaryKey
     @NonNull
-    private int logId;
+    private String logId;
+    public static final String LOG_ID = "logId";
     private String logCategory;
+    public static final String LOG_CATEGORY = "logCategory";
     private String logType;
+    public static final String LOG_TYPE = "logType";
     private String logData;
+    public static final String LOG_DATA = "logData";
     private String loggersAccount;
+    public static final String LOGGER_ACCOUNT = "loggersAccount";
     private String deviceInfo;
+    public static final String DEVICE_INFO = "deviceInfo";
 
-    public LogModel(int logId, String logCategory, String logType, String logData, String loggersAccount, String deviceInfo) {
+
+    public static final String OBJECTIVE_LOG = "OBJ", ALERT_LOG = "ALT", GOAL_LOG = "GOL" , DIARY_LOG = "DRY", NOTES_LOG = "NTS" , SETTINGS_LOG = "STN" , BACK_UP_LOG = "BCK", DIARY_PAGE_LOG = "PGE",UNKNOWN_LOG = "UNK";
+
+    public LogModel(@NonNull String logId, String logCategory, String logType, String logData, String loggersAccount, String deviceInfo) {
         this.logId = logId;
         this.logCategory = logCategory;
         this.logType = logType;
@@ -24,11 +33,12 @@ public class LogModel {
         this.deviceInfo = deviceInfo;
     }
 
-    public int getLogId() {
+    @NonNull
+    public String getLogId() {
         return logId;
     }
 
-    public void setLogId(int logId) {
+    public void setLogId(@NonNull String logId) {
         this.logId = logId;
     }
 

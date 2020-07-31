@@ -31,13 +31,27 @@ import androidx.preference.SwitchPreferenceCompat;
 
 import com.example.whitneybb.R;
 import com.example.whitneybb.model.DiaryModel;
+import com.example.whitneybb.model.LogModel;
+import com.example.whitneybb.utils.randomDuties.IdGenerator;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Objects;
 
-public class NewDiaryEntry extends AppCompatActivity implements View.OnClickListener {
+import static com.example.whitneybb.model.DiaryModel.ABOUT_DIARY;
+import static com.example.whitneybb.model.DiaryModel.CREATED_AT;
+import static com.example.whitneybb.model.DiaryModel.DIARY_COVER;
+import static com.example.whitneybb.model.DiaryModel.DIARY_ID;
+import static com.example.whitneybb.model.DiaryModel.DIARY_OWNER;
+import static com.example.whitneybb.model.DiaryModel.DIARY_PASSWORD;
+import static com.example.whitneybb.model.DiaryModel.DIARY_PROTECTED_PASSWORD;
+import static com.example.whitneybb.model.DiaryModel.DIARY_REMINDER_TIME;
+import static com.example.whitneybb.model.DiaryModel.DIARY_SCHEDULE;
+import static com.example.whitneybb.model.DiaryModel.DIARY_TITLE;
+import static com.example.whitneybb.model.DiaryModel.UPDATED_AT;
+
+public class NewDiaryEntry extends AppCompatActivity implements View.OnClickListener, IdGenerator {
 
     public static final String EXTRA_ID = "EXTRA_ID";
     public static final String EXTRA_TITLE = "EXTRA_TITLE";
@@ -70,9 +84,11 @@ public class NewDiaryEntry extends AppCompatActivity implements View.OnClickList
         createDiary.setOnClickListener(v -> validateForm());
 
         SwitchCompat passwordSwitch = findViewById(R.id.passwordSwitch);
+        passwordSwitch.setChecked(false);
         passwordSwitch.setOnClickListener(this);
 
         SwitchCompat reminderSwitch = findViewById(R.id.reminderSwitch);
+        reminderSwitch.setChecked(false);
         reminderSwitch.setOnClickListener(this);
 
         passwordFieldDiary = findViewById(R.id.passwordFieldDiary);
@@ -89,7 +105,7 @@ public class NewDiaryEntry extends AppCompatActivity implements View.OnClickList
 
     private void validateForm() {
         DiaryModel diary = new DiaryModel();
-        diary.setDiaryOwner(FirebaseAuth.getInstance().getCurrentUser().getEmail());
+        diary.setDiaryOwner(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid());
         diary.setCreatedAt(Calendar.getInstance().getTime().toString());
         diary.setUpdatedAt(Calendar.getInstance().getTime().toString());
 
@@ -100,7 +116,7 @@ public class NewDiaryEntry extends AppCompatActivity implements View.OnClickList
         aboutField.setError("Fill about ");
         aboutField.requestFocus();
         } else if (passwordOn) {
-            diary.setPasswordProtected(passwordOn);
+            diary.setPasswordProtected(true);
             if (passwordFieldDiary.getText().toString().isEmpty()) {
                 passwordFieldDiary.setError("Fill");
                 passwordFieldDiary.requestFocus();
@@ -108,43 +124,62 @@ public class NewDiaryEntry extends AppCompatActivity implements View.OnClickList
                 confirmPasswordFieldDiary.setError("Passwords don't match");
                 confirmPasswordFieldDiary.requestFocus();
             } else {
-                diary.setPassword(confirmPasswordFieldDiary.getText().toString());
+                diary.setDiaryPassword(confirmPasswordFieldDiary.getText().toString());
                 if (imagePath.equals("")) {
                     Toast.makeText(this, "No Image selected", Toast.LENGTH_SHORT).show();
                     diary.setDiaryCoverUrl("");
                 } else {
                     diary.setDiaryCoverUrl(imagePath);
                 }
+                String dId = titleField.getText().toString().replaceAll(" ","");
+
                 diary.setDailyScheduleEntry(dailyReminder);
+                diary.setDairyReminderTime("");
+                diary.setDiaryId(getId(dId, LogModel.DIARY_LOG));
                 diary.setDiaryAbout(aboutField.getText().toString());
-                diary.setEntryHeading(titleField.getText().toString());
-                toastObject(diary);
+                diary.setDiaryTitle(titleField.getText().toString());
+                saveDiary(diary);
             }
         } else {
-            diary.setPasswordProtected(passwordOn);
-            diary.setPassword("");
+            diary.setPasswordProtected(false);
+            diary.setDiaryPassword("");
             if (imagePath.equals("")) {
                 Toast.makeText(this, "No Image selected", Toast.LENGTH_SHORT).show();
                 diary.setDiaryCoverUrl("");
             } else {
                 diary.setDiaryCoverUrl(imagePath);
             }
+            String dId = titleField.getText().toString().replaceAll(" ","");
+            diary.setDiaryId(getId(dId, LogModel.DIARY_LOG));
             diary.setDailyScheduleEntry(dailyReminder);
             diary.setDiaryAbout(aboutField.getText().toString());
-            diary.setEntryHeading(titleField.getText().toString());
-            toastObject(diary);
+            diary.setDiaryTitle(titleField.getText().toString());
+            diary.setDairyReminderTime("");
+            saveDiary(diary);
         }
     }
 
     private void toastObject(DiaryModel diary) {
-        Toast.makeText(this, "The Diary is called ,'" +diary.getEntryHeading()+ "' and the owner is "+diary.getDiaryOwner() +" and it's about "+diary.getDiaryAbout()+" and was created at "+diary.getCreatedAt()+ " also last modified at "+diary.getUpdatedAt() + ". The diary is private ? "+diary.isPasswordProtected() + " with password : "+diary.getDiaryPassword()+". You will be reminded ? "+diary.isDailyScheduleEntry() +" at "+diary.getDairyReminderTime() + " with image "+diary.getDiaryCoverUrl() , Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "The Diary is called ,'" +diary.getDiaryTitle()+ "' and the owner is "+diary.getDiaryOwner() +" and it's about "+diary.getDiaryAbout()+" and was created at "+diary.getCreatedAt()+ " also last modified at "+diary.getUpdatedAt() + ". The diary is private ? "+diary.isPasswordProtected() + " with password : "+diary.getDiaryPassword()+". You will be reminded ? "+diary.isDailyScheduleEntry() +" at "+diary.getDairyReminderTime() + " with image "+diary.getDiaryCoverUrl() , Toast.LENGTH_SHORT).show();
     }
 
-    private void saveDiary(){
-        String title = titleField.getText().toString();
-
+    private void saveDiary (DiaryModel diary) {
         Intent data = new Intent();
-        data.putExtra(EXTRA_TITLE, title);
+
+        data.putExtra(DIARY_TITLE, diary.getDiaryTitle());
+        data.putExtra(DIARY_COVER, diary.getDiaryCoverUrl());
+        data.putExtra(DIARY_ID,diary.getDiaryId() );
+
+        data.putExtra(DIARY_OWNER, diary.getDiaryOwner());
+        data.putExtra(DIARY_PASSWORD,diary.getDiaryPassword() );
+        data.putExtra(DIARY_PROTECTED_PASSWORD, diary.isPasswordProtected());
+
+        data.putExtra(DIARY_SCHEDULE, diary.getDairyReminderTime());
+        data.putExtra(DIARY_REMINDER_TIME, diary.isDailyScheduleEntry());
+        data.putExtra(CREATED_AT, diary.getCreatedAt());
+
+        data.putExtra(UPDATED_AT, diary.getUpdatedAt());
+        data.putExtra(ABOUT_DIARY,diary.getDiaryAbout());
 
         setResult(RESULT_OK, data);
         finish();
@@ -283,21 +318,27 @@ public class NewDiaryEntry extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.passwordSwitch:
+                SwitchCompat sw = (SwitchCompat) v;
                 passwordOn = !passwordOn;
                 if (passwordOn) {
+                    sw.setChecked(true);
                     passwordFieldDiary.setVisibility(View.VISIBLE);
                     confirmPasswordFieldDiary.setVisibility(View.VISIBLE);
                 } else {
+                    sw.setChecked(false);
                     passwordFieldDiary.setVisibility(View.GONE);
                     confirmPasswordFieldDiary.setVisibility(View.GONE);
                 }
 
             case R.id.reminderSwitch:
+                SwitchCompat swr = (SwitchCompat) v;
                 dailyReminder = !dailyReminder;
                 if (dailyReminder) {
-                    Toast.makeText(this, ""+dailyReminder, Toast.LENGTH_SHORT).show();
+                    swr.setChecked(true);
+                    Toast.makeText(this, ""+ true, Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(this, ""+dailyReminder, Toast.LENGTH_SHORT).show();
+                    swr.setChecked(false);
+                    Toast.makeText(this, ""+ false, Toast.LENGTH_SHORT).show();
                 }
                 break;
             default:break;
@@ -330,4 +371,8 @@ public class NewDiaryEntry extends AppCompatActivity implements View.OnClickList
         return path;
     }
 
+    @Override
+    public String getId(String s, String cat) {
+        return s+IdGenerator.block+cat;
+    }
 }

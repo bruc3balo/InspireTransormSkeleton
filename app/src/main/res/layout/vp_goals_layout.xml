@@ -8,111 +8,110 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/goalTermBackgroundCard"
         app:cardCornerRadius="80dp"
-        app:cardBackgroundColor="@android:color/darker_gray"
+        app:cardBackgroundColor="@android:color/holo_blue_dark"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="10dp"
-                android:text="Goal Content"
-                android:textStyle="bold"
-                android:fontFamily="sans-serif-black"
-                android:textColor="@android:color/holo_orange_dark"
-                android:gravity="center"
-                android:layout_gravity="center"
-                android:textSize="30sp" />
-
-           <androidx.recyclerview.widget.RecyclerView
-               android:layout_margin="5dp"
-               android:padding="4dp"
+       <androidx.cardview.widget.CardView
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:layout_gravity="center"
+           app:cardCornerRadius="90dp"
+           app:cardBackgroundColor="@android:color/darker_gray">
+           <LinearLayout
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
-               android:layout_gravity="center"
-               android:id="@+id/goalStepsRecyclerView"/>
-
-            <LinearLayout
-                android:padding="5dp"
-                android:layout_gravity="center"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:orientation="horizontal">
-
-                <ImageButton
-                    android:layout_gravity="center"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:background="@android:color/transparent"
-                    android:src="@drawable/ic_scissors"
-                    android:layout_height="match_parent"/>
-
-                <ImageButton
-                    android:layout_gravity="center"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:background="@android:color/transparent"
-                    android:src="@drawable/ic_hurdle_"
-                    android:layout_height="match_parent"/>
-
-                <ImageButton
-                    android:layout_gravity="center"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:background="@android:color/transparent"
-                    android:src="@drawable/ic_trash"
-                    android:layout_height="match_parent"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:padding="5dp"
-                android:layout_gravity="center"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:orientation="horizontal">
-
-                <ImageButton
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:tint="@android:color/white"
-                    android:src="@drawable/ic_file_"
-                    android:background="@android:color/transparent"/>
-
-                <ImageButton
-
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_treasure_chest_"
-                    android:background="@android:color/transparent"/>
-            </LinearLayout>
+               android:orientation="vertical">
 
 
-            <TextClock
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginBottom="10dp"
-                android:gravity="center"
-                android:text="Expire in"
-                android:textColor="#13DF36"
-                android:textSize="30sp"
-                android:textStyle="bold|italic" />
+               <TextView
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:layout_marginTop="5dp"
+                   android:layout_marginBottom="10dp"
+                   android:text="Goal Title"
+                   android:id="@+id/goalTitle_tv"
+                   android:textStyle="bold"
+                   android:fontFamily="sans-serif-black"
+                   android:textColor="@android:color/holo_orange_dark"
+                   android:gravity="center"
+                   android:layout_gravity="center"
+                   android:textSize="30sp" />
 
-        </LinearLayout>
+               <androidx.recyclerview.widget.RecyclerView
+                   android:layout_margin="5dp"
+                   android:padding="4dp"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:layout_gravity="center"
+                   android:id="@+id/goalStepsRecyclerView"/>
+
+               <LinearLayout
+                   android:padding="5dp"
+                   android:layout_gravity="center"
+                   android:layout_width="match_parent"
+                   android:layout_height="60dp"
+                   android:orientation="horizontal">
+
+                   <ImageButton
+                       android:layout_gravity="center"
+                       android:layout_width="0dp"
+                       android:layout_weight="1"
+                       android:background="@android:color/transparent"
+                       android:src="@drawable/ic_scissors"
+                       android:layout_height="match_parent"/>
+
+                   <ImageButton
+                       android:layout_gravity="center"
+                       android:layout_width="0dp"
+                       android:layout_weight="1"
+                       android:background="@android:color/transparent"
+                       android:src="@drawable/ic_hurdle_"
+                       android:layout_height="match_parent"/>
+
+                   <ImageButton
+                       android:layout_gravity="center"
+                       android:layout_width="0dp"
+                       android:layout_weight="1"
+                       android:background="@android:color/transparent"
+                       android:src="@drawable/ic_trash"
+                       android:layout_height="match_parent"/>
+
+               </LinearLayout>
+
+               <LinearLayout
+                   android:padding="5dp"
+                   android:layout_gravity="center"
+                   android:layout_width="match_parent"
+                   android:layout_height="60dp"
+                   android:orientation="horizontal">
+
+                   <ImageButton
+                       android:layout_weight="1"
+                       android:layout_width="0dp"
+                       android:layout_height="match_parent"
+                       android:layout_gravity="center"
+                       android:tint="@android:color/white"
+                       android:src="@drawable/ic_file_"
+                       android:background="@android:color/transparent"/>
+
+                   <ImageButton
+
+                       android:layout_width="0dp"
+                       android:layout_weight="1"
+                       android:layout_height="match_parent"
+                       android:layout_gravity="center"
+                       android:src="@drawable/ic_treasure_chest_"
+                       android:background="@android:color/transparent"/>
+               </LinearLayout>
+
+
+
+           </LinearLayout>
+       </androidx.cardview.widget.CardView>
 
     </androidx.cardview.widget.CardView>
 

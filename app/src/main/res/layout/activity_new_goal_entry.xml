@@ -32,7 +32,8 @@
                 android:orientation="vertical">
 
                 <EditText
-                    android:hint="State Objective"
+                    android:id="@+id/goalTitle"
+                    android:hint="State Goal"
                     android:layout_gravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -108,6 +109,7 @@
                         android:layout_width="70dp"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
+
                         android:background="@android:color/transparent"
                         android:src="@android:drawable/ic_menu_add"/>
                 </LinearLayout>
@@ -204,6 +206,7 @@
 
 
                 <EditText
+                    android:id="@+id/aboutGoal"
                     android:hint="About goal"
                     android:layout_gravity="center"
                     android:layout_width="match_parent"
@@ -211,12 +214,6 @@
                     android:layout_margin="15dp" />
 
 
-                <EditText
-                    android:hint=""
-                    android:layout_gravity="center"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="15dp" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -279,8 +276,16 @@
 
                 </com.google.android.material.chip.ChipGroup>
 
+                <androidx.appcompat.widget.SwitchCompat
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Is goal private ? "
+                    android:id="@+id/goalPrivacySwitch"/>
+
 
                 <Button
+                    android:onClick="validateForm"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"

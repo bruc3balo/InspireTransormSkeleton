@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 
 @Entity(tableName = "settings_table")
 public class SettingsModel {
-    @PrimaryKey(autoGenerate = false)
+    @PrimaryKey
     @NotNull
     private int settingId;
 

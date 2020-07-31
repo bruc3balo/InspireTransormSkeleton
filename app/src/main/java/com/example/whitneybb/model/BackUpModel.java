@@ -7,10 +7,10 @@ import org.jetbrains.annotations.NotNull;
 
 @Entity(tableName = "back_up_table")
 public class BackUpModel {
-    @PrimaryKey(autoGenerate = false)
+    @PrimaryKey
     @NotNull
     private int backUpId;
-
+    public static final String BACK_UP_ID = "backUpId";
 
     public BackUpModel(int backUpId) {
         this.backUpId = backUpId;

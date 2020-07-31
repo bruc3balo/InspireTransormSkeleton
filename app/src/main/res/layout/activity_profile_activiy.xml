@@ -12,6 +12,8 @@
         android:orientation="vertical">
 
         <androidx.appcompat.widget.Toolbar
+            android:background="@android:color/black"
+            app:titleTextColor="@android:color/white"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="top"

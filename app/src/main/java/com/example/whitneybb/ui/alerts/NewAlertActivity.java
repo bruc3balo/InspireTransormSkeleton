@@ -1,5 +1,6 @@
 package com.example.whitneybb.ui.alerts;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
@@ -25,7 +26,10 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.whitneybb.R;
+import com.example.whitneybb.model.AlertsModel;
+import com.example.whitneybb.model.LogModel;
 import com.example.whitneybb.utils.broadcasts.AlertReceiver;
+import com.example.whitneybb.utils.randomDuties.IdGenerator;
 import com.example.whitneybb.utils.timepicker.DatePickerFragment;
 import com.example.whitneybb.utils.timepicker.TimePickerFragment;
 
@@ -33,19 +37,34 @@ import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.LinkedList;
 
+
+import static com.example.whitneybb.MainActivity.ADD_ALERT_REQUEST;
+import static com.example.whitneybb.login.LoginActivity.truncate;
+import static com.example.whitneybb.model.AlertsModel.ALERT_DESCRIPTION;
+import static com.example.whitneybb.model.AlertsModel.ALERT_ID;
+import static com.example.whitneybb.model.AlertsModel.ALERT_ON;
+import static com.example.whitneybb.model.AlertsModel.ALERT_REPEAT;
+import static com.example.whitneybb.model.AlertsModel.ALERT_RING_TIME;
+import static com.example.whitneybb.model.AlertsModel.ALERT_TITLE;
 import static com.example.whitneybb.model.AlertsModel.ALL_DAY;
 import static com.example.whitneybb.model.AlertsModel.FRIDAY;
 import static com.example.whitneybb.model.AlertsModel.MONDAY;
 import static com.example.whitneybb.model.AlertsModel.ONE_TIME_ALARM;
 import static com.example.whitneybb.model.AlertsModel.REPEAT_ALARM;
+import static com.example.whitneybb.model.AlertsModel.REPEAT_DAYS;
 import static com.example.whitneybb.model.AlertsModel.REPEAT_ON_DAY;
 import static com.example.whitneybb.model.AlertsModel.SATURDAY;
+import static com.example.whitneybb.model.AlertsModel.SNOOZE_COUNT;
+import static com.example.whitneybb.model.AlertsModel.SNOOZE_TIME;
+import static com.example.whitneybb.model.AlertsModel.STOPPED_AT;
 import static com.example.whitneybb.model.AlertsModel.SUNDAY;
 import static com.example.whitneybb.model.AlertsModel.THURSDAY;
 import static com.example.whitneybb.model.AlertsModel.TUESDAY;
 import static com.example.whitneybb.model.AlertsModel.WEDNESDAY;
+import static com.example.whitneybb.model.DiaryModel.CREATED_AT;
+import static com.example.whitneybb.model.DiaryModel.UPDATED_AT;
 
-public class NewAlertActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener, AdapterView.OnItemSelectedListener, DatePickerDialog.OnDateSetListener, View.OnClickListener {
+public class NewAlertActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener, AdapterView.OnItemSelectedListener, DatePickerDialog.OnDateSetListener, View.OnClickListener, IdGenerator {
 
     private String alertLabel = "", alertDescription = "", alarmTime = "";
     private EditText alertTitleField, alertDescriptionField;
@@ -59,6 +78,7 @@ public class NewAlertActivity extends AppCompatActivity implements TimePickerDia
     private TextView repeatTv, snoozeTv, pickTime;
     private LinearLayout repeatLayout, snoozeLayout;
     private boolean sunB, monB, tueB, wedB, thurB, friB, satB;
+    private boolean alertRepeat;
 
     private int snoozeDuration = Q1_SNOOZE; //15min
     private LinkedList<String> repeatDays = new LinkedList<>();
@@ -131,11 +151,13 @@ public class NewAlertActivity extends AppCompatActivity implements TimePickerDia
         pickTime = findViewById(R.id.pickTimeTv);
         pickTime.setOnClickListener(this);
 
+        alertRepeat = false;
+
         getWindow().setStatusBarColor(Color.BLACK);
     }
 
     public void openTimePicker() {
-        Toast.makeText(this, "Pick a time for alarm", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Pick a time for alarm" , Toast.LENGTH_SHORT).show();
         DialogFragment timePicker = new TimePickerFragment();
         timePicker.show(getSupportFragmentManager(), "time picker");
     }
@@ -153,12 +175,14 @@ public class NewAlertActivity extends AppCompatActivity implements TimePickerDia
         c.set(Calendar.MINUTE, minute);
         c.set(Calendar.SECOND, 0);
         updateTimeText(c);
-        switch (ALARM_TYPE){
+        alarmTime = DateFormat.getTimeInstance(DateFormat.SHORT).format(c.getTime());
+        switch (ALARM_TYPE) {
             default:break;
             case REPEAT_ON_DAY:
+
                 break;
             case ONE_TIME_ALARM:
-                setOneTimeAlarm(c);
+                //setOneTimeAlarm(c);
                 break;
         }
     }
@@ -321,6 +345,7 @@ public class NewAlertActivity extends AppCompatActivity implements TimePickerDia
                 repeatLayout.setVisibility(View.GONE);
                 snoozeTv.setVisibility(View.GONE);
                 snoozeLayout.setVisibility(View.GONE);
+                alertRepeat = false;
                 break;
             case 1: //Set a one time alarm
                 ALARM_TYPE = ONE_TIME_ALARM;
@@ -329,6 +354,7 @@ public class NewAlertActivity extends AppCompatActivity implements TimePickerDia
                 repeatLayout.setVisibility(View.GONE);
                 snoozeTv.setVisibility(View.VISIBLE);
                 snoozeLayout.setVisibility(View.VISIBLE);
+                alertRepeat = false;
                 break;
             case 2: //Set a repeated alarm
                 ALARM_TYPE = REPEAT_ON_DAY;
@@ -337,6 +363,7 @@ public class NewAlertActivity extends AppCompatActivity implements TimePickerDia
                 repeatLayout.setVisibility(View.VISIBLE);
                 snoozeTv.setVisibility(View.VISIBLE);
                 snoozeLayout.setVisibility(View.VISIBLE);
+                alertRepeat = true;
                 break;
 
             default:
@@ -361,12 +388,12 @@ public class NewAlertActivity extends AppCompatActivity implements TimePickerDia
         } else if (alertDescriptionField.getText().toString().isEmpty()) {
             alertDescriptionField.setError("Give a description");
             alertTitleField.requestFocus();
-        } /*else if (alarmTime.equals("")) {
+        } else if (alarmTime.equals("")) {
             Toast.makeText(this, "Pick a time", Toast.LENGTH_SHORT).show();
-            pickTime.setBackgroundColor(Color.RED);
+            pickTime.setTextColor(Color.RED);
             pickTime.requestFocus();
-            new Handler().postDelayed(() -> pickTime.setBackgroundColor(Color.TRANSPARENT), 300);
-        } */else if (ALARM_TYPE.equals(REPEAT_ON_DAY)) {
+            new Handler().postDelayed(() -> pickTime.setTextColor(Color.BLACK), 300);
+        } else if (ALARM_TYPE.equals(REPEAT_ON_DAY)) {
              boolean[] daysList = new boolean[]{sunB, monB, tueB, wedB, thurB, friB, satB};
             repeatDays.clear();
             for (int i = 0; i <= 6; i++) { //add days to mix
@@ -410,17 +437,49 @@ public class NewAlertActivity extends AppCompatActivity implements TimePickerDia
             if (repeatDays.size() == 0) {
                 Toast.makeText(this, "Choose Repeat days", Toast.LENGTH_SHORT).show();
             } else {
-                toastObject();
+                String days = "";
+                String time = truncate(Calendar.getInstance().getTime().toString(),16);
+                String idTitle = alertTitleField.getText().toString().replaceAll(" ","");
+
+                for (int i = 0;i <= repeatDays.size() - 1 ;i++) {
+                  try {
+                      days = days.concat("{" + repeatDays.get(i) + "}");
+                  } catch (Exception e) {
+                  e.printStackTrace();
+                  }
+                }
+                AlertsModel alert = new AlertsModel(alarmTime, alertRepeat,  String.valueOf(snoozeDuration),  alertTitleField.getText().toString(),  alertDescriptionField.getText().toString(),  "", days ,  true,  0, time ,  time,getId(idTitle, LogModel.ALERT_LOG));
+                saveObject(alert);
             }
 
         } else {
-            toastObject();
+            String days = "";
+            String time = truncate(Calendar.getInstance().getTime().toString(),16);
+            String idTitle = alertTitleField.getText().toString().replaceAll(" ","");
+
+            AlertsModel alert = new AlertsModel(alarmTime, alertRepeat,  String.valueOf(snoozeDuration),  alertTitleField.getText().toString(),  alertDescriptionField.getText().toString(),  "", days ,  true,  0, time ,  time,getId(idTitle, LogModel.ALERT_LOG));
+            saveObject(alert);
+
         }
 
     }
 
-    private void toastObject() {
-        Toast.makeText(this, ""+repeatDays.size(), Toast.LENGTH_SHORT).show();
+    private void saveObject(AlertsModel alert) {
+        Intent data = new Intent();
+        data.putExtra(ALERT_RING_TIME,alert.getAlertRingTime());
+        data.putExtra(ALERT_REPEAT,String.valueOf(alert.isAlertRepeat()));
+        data.putExtra(SNOOZE_TIME,alert.getSnoozeTime());
+        data.putExtra(ALERT_TITLE,alert.getAlertTitle());
+        data.putExtra(ALERT_DESCRIPTION,alert.getAlertDescription());
+        data.putExtra(STOPPED_AT,alert.getStoppedAt());
+        data.putExtra(REPEAT_DAYS,alert.getRepeatDays());
+        data.putExtra(ALERT_ON,String.valueOf(alert.isAlertOn()));
+        data.putExtra(SNOOZE_COUNT,String.valueOf(alert.getSnoozeCount()));
+        data.putExtra(CREATED_AT,alert.getCreatedAt());
+        data.putExtra(UPDATED_AT,alert.getUpdatedAt());
+        data.putExtra(ALERT_ID,alert.getAlertId());
+        setResult(RESULT_OK,data);
+        finish();
     }
 
     @Override
@@ -514,5 +573,10 @@ public class NewAlertActivity extends AppCompatActivity implements TimePickerDia
             default:
                 break;
         }
+    }
+
+    @Override
+    public String getId(String s, String cat) {
+        return s + IdGenerator.block + cat;
     }
 }

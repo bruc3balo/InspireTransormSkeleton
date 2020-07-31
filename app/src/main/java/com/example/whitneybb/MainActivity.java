@@ -55,6 +55,64 @@ import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Objects;
 
+import static com.example.whitneybb.model.AlertsModel.ALERT_DESCRIPTION;
+import static com.example.whitneybb.model.AlertsModel.ALERT_ID;
+import static com.example.whitneybb.model.AlertsModel.ALERT_ON;
+import static com.example.whitneybb.model.AlertsModel.ALERT_REPEAT;
+import static com.example.whitneybb.model.AlertsModel.ALERT_RING_TIME;
+import static com.example.whitneybb.model.AlertsModel.ALERT_TITLE;
+import static com.example.whitneybb.model.AlertsModel.REPEAT_DAYS;
+import static com.example.whitneybb.model.AlertsModel.SNOOZE_COUNT;
+import static com.example.whitneybb.model.AlertsModel.SNOOZE_TIME;
+import static com.example.whitneybb.model.AlertsModel.STOPPED_AT;
+import static com.example.whitneybb.model.DiaryModel.ABOUT_DIARY;
+import static com.example.whitneybb.model.DiaryModel.CREATED_AT;
+import static com.example.whitneybb.model.DiaryModel.DIARY_COVER;
+import static com.example.whitneybb.model.DiaryModel.DIARY_ID;
+import static com.example.whitneybb.model.DiaryModel.DIARY_OWNER;
+import static com.example.whitneybb.model.DiaryModel.DIARY_PASSWORD;
+import static com.example.whitneybb.model.DiaryModel.DIARY_PROTECTED_PASSWORD;
+import static com.example.whitneybb.model.DiaryModel.DIARY_REMINDER_TIME;
+import static com.example.whitneybb.model.DiaryModel.DIARY_SCHEDULE;
+import static com.example.whitneybb.model.DiaryModel.DIARY_TITLE;
+import static com.example.whitneybb.model.DiaryModel.UPDATED_AT;
+import static com.example.whitneybb.model.GoalsModel.GOAL_ACHIEVED;
+import static com.example.whitneybb.model.GoalsModel.GOAL_CONTENT;
+import static com.example.whitneybb.model.GoalsModel.GOAL_ID;
+import static com.example.whitneybb.model.GoalsModel.GOAL_LIMITATIONS;
+import static com.example.whitneybb.model.GoalsModel.GOAL_NOTES;
+import static com.example.whitneybb.model.GoalsModel.GOAL_PRIVATE;
+import static com.example.whitneybb.model.GoalsModel.GOAL_REVIEW;
+import static com.example.whitneybb.model.GoalsModel.GOAL_REWARD;
+import static com.example.whitneybb.model.GoalsModel.GOAL_STEPS;
+import static com.example.whitneybb.model.GoalsModel.GOAL_TERM;
+import static com.example.whitneybb.model.GoalsModel.GOAL_XP;
+import static com.example.whitneybb.model.NotesModel.NOTE_COLOR;
+import static com.example.whitneybb.model.NotesModel.NOTE_CONTENT;
+import static com.example.whitneybb.model.NotesModel.NOTE_ID;
+import static com.example.whitneybb.model.NotesModel.NOTE_OWNER;
+import static com.example.whitneybb.model.NotesModel.NOTE_PASSWORD;
+import static com.example.whitneybb.model.NotesModel.NOTE_PRIORITY;
+import static com.example.whitneybb.model.NotesModel.NOTE_PRIVATE;
+import static com.example.whitneybb.model.NotesModel.NOTE_TITLE;
+import static com.example.whitneybb.model.ObjectiveModel.ABOUT_OBJECTIVE;
+import static com.example.whitneybb.model.ObjectiveModel.EXTENDING_OBJECTIVE;
+import static com.example.whitneybb.model.ObjectiveModel.OBJECTIVE_ACHIEVED;
+import static com.example.whitneybb.model.ObjectiveModel.OBJECTIVE_EXPIRY;
+import static com.example.whitneybb.model.ObjectiveModel.OBJECTIVE_ID;
+import static com.example.whitneybb.model.ObjectiveModel.OBJECTIVE_LIMITS;
+import static com.example.whitneybb.model.ObjectiveModel.OBJECTIVE_REMARK;
+import static com.example.whitneybb.model.ObjectiveModel.OBJECTIVE_REWARD;
+import static com.example.whitneybb.model.ObjectiveModel.OBJECTIVE_SCORE;
+import static com.example.whitneybb.model.ObjectiveModel.OBJECTIVE_STEPS;
+import static com.example.whitneybb.model.ObjectiveModel.OBJECTIVE_TITLE;
+import static com.example.whitneybb.model.ObjectiveModel.OBJ_EXTENSION_CONTENT;
+import static com.example.whitneybb.model.ObjectiveModel.OBJ_EXTENSION_ID;
+import static com.example.whitneybb.model.ObjectiveModel.OBJ_QUANTIFIABLE;
+import static com.example.whitneybb.model.ObjectiveModel.SACRIFICE_COST;
+import static com.example.whitneybb.model.ObjectiveModel.SET_OBJECTIVE_SCORE;
+import static com.example.whitneybb.model.ObjectiveModel.TIMESTAMP;
+
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
@@ -88,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
                     case 1:
                         //Snackbar.make(view, "Goals", Snackbar.LENGTH_LONG).setAction("Action", null).show();
                         Intent intentG = new Intent(MainActivity.this, NewGoalEntry.class);
-                        startActivityForResult(intentG, ADD_DIARY_REQUEST);
+                        startActivityForResult(intentG, ADD_GOALS_REQUEST);
                         break;
                     case 2:
                         //Snackbar.make(view, "Objectives", Snackbar.LENGTH_LONG).setAction("Action", null).show();
@@ -98,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
                     case 3:
                         //Snackbar.make(view, "Diary", Snackbar.LENGTH_LONG).setAction("Action", null).show();
                         Intent intentD = new Intent(MainActivity.this, NewDiaryEntry.class);
-                        startActivityForResult(intentD, ADD_GOALS_REQUEST);
+                        startActivityForResult(intentD, ADD_DIARY_REQUEST);
                         break;
                     case 4:
                         //Snackbar.make(view, "Alerts", Snackbar.LENGTH_LONG).setAction("Action", null).show();
@@ -195,10 +253,24 @@ public class MainActivity extends AppCompatActivity {
             case ADD_DIARY_REQUEST:
                 if (resultCode == RESULT_OK) {
                     if (data != null) {
-                        String title = data.getStringExtra(NewDiaryEntry.EXTRA_TITLE);
-                        int id = data.getIntExtra(NewDiaryEntry.EXTRA_ID, 4);
+                        DiaryModel diary = new DiaryModel();
 
-                        DiaryModel diary = new DiaryModel(title, id);
+                        diary.setDiaryTitle(Objects.requireNonNull(Objects.requireNonNull(data.getExtras()).get(DIARY_TITLE)).toString());
+                        diary.setDiaryPassword(Objects.requireNonNull(data.getExtras().get(DIARY_PASSWORD)).toString());
+                        diary.setDailyScheduleEntry(Boolean.parseBoolean(Objects.requireNonNull(data.getExtras().get(DIARY_SCHEDULE)).toString()));
+
+                        diary.setUpdatedAt(Objects.requireNonNull(data.getExtras().get(UPDATED_AT)).toString());
+                        diary.setCreatedAt(Objects.requireNonNull(data.getExtras().get(CREATED_AT)).toString());
+                        diary.setDiaryOwner(Objects.requireNonNull(data.getExtras().get(DIARY_OWNER)).toString());
+
+                        diary.setDiaryCoverUrl(Objects.requireNonNull(data.getExtras().get(DIARY_COVER)).toString());
+                        diary.setDiaryAbout(Objects.requireNonNull(data.getExtras().get(ABOUT_DIARY)).toString());
+                        diary.setPasswordProtected(Boolean.parseBoolean(Objects.requireNonNull(data.getExtras().get(DIARY_PROTECTED_PASSWORD)).toString()));
+
+                        diary.setDairyReminderTime(Objects.requireNonNull(data.getExtras().get(DIARY_REMINDER_TIME)).toString());
+                        diary.setDiaryId(Objects.requireNonNull(data.getExtras().get(DIARY_ID)).toString());
+
+
                         DiaryViewModel diaryViewModel = new ViewModelProvider(MainActivity.this).get(DiaryViewModel.class);
                         diaryViewModel.insert(diary);
                         Toast.makeText(this, "Diary Created", Toast.LENGTH_SHORT).show();
@@ -216,6 +288,22 @@ public class MainActivity extends AppCompatActivity {
                 if (resultCode == RESULT_OK) {
                     if (data != null) {
                         NotesModel note = new NotesModel();
+
+                        note.setNoteId(Objects.requireNonNull(Objects.requireNonNull(data.getExtras()).get(NOTE_ID)).toString());
+                        note.setNoteOwner(Objects.requireNonNull(data.getExtras().get(NOTE_OWNER)).toString());
+                        note.setNoteColor(Objects.requireNonNull(data.getExtras().get(NOTE_COLOR)).toString());
+
+                        note.setCreatedAt(Objects.requireNonNull(data.getExtras().get(CREATED_AT)).toString());
+
+                        note.setUpdatedAt(Objects.requireNonNull(data.getExtras().get(UPDATED_AT)).toString());
+                        note.setNoteTitle(Objects.requireNonNull(data.getExtras().get(NOTE_TITLE)).toString());
+                        note.setNoteContent(Objects.requireNonNull(data.getExtras().get(NOTE_CONTENT)).toString());
+
+                        note.setNotePriority(Integer.parseInt(Objects.requireNonNull(data.getExtras().get(NOTE_PRIORITY)).toString()));
+                        note.setNotePrivate(Boolean.parseBoolean(Objects.requireNonNull(data.getExtras().get(NOTE_PRIVATE)).toString()));
+                        note.setNotePassword(Objects.requireNonNull(data.getExtras().get(NOTE_PASSWORD)).toString());
+
+
                         NotesViewModel notesViewModel = new ViewModelProvider(MainActivity.this).get(NotesViewModel.class);
                         notesViewModel.insert(note);
                         Toast.makeText(this, "Note Created", Toast.LENGTH_SHORT).show();
@@ -233,6 +321,20 @@ public class MainActivity extends AppCompatActivity {
                 if (resultCode == RESULT_OK) {
                     if (data != null) {
                         AlertsModel alert = new AlertsModel();
+
+                        alert.setAlertRingTime(Objects.requireNonNull(Objects.requireNonNull(data.getExtras()).get(ALERT_RING_TIME)).toString());
+                        alert.setAlertRepeat(Boolean.parseBoolean(Objects.requireNonNull(data.getExtras().get(ALERT_REPEAT)).toString()));
+                        alert.setSnoozeTime(Objects.requireNonNull(data.getExtras().get(SNOOZE_TIME)).toString());
+                        alert.setAlertTitle(Objects.requireNonNull(data.getExtras().get(ALERT_TITLE)).toString());
+                        alert.setAlertDescription(Objects.requireNonNull(data.getExtras().get(ALERT_DESCRIPTION)).toString());
+                        alert.setStoppedAt(Objects.requireNonNull(data.getExtras().get(STOPPED_AT)).toString());
+                        alert.setRepeatDays(Objects.requireNonNull(data.getExtras().get(REPEAT_DAYS)).toString());
+                        alert.setAlertOn(Boolean.parseBoolean(Objects.requireNonNull(data.getExtras().get(ALERT_ON)).toString()));
+                        alert.setSnoozeCount(Integer.parseInt(Objects.requireNonNull(data.getExtras().get(SNOOZE_COUNT)).toString()));
+                        alert.setCreatedAt(Objects.requireNonNull(data.getExtras().get(CREATED_AT)).toString());
+                        alert.setUpdatedAt(Objects.requireNonNull(data.getExtras().get(UPDATED_AT)).toString());
+                        alert.setAlertId(Objects.requireNonNull(data.getExtras().get(ALERT_ID)).toString());
+
                         AlertsViewModel alertsViewModel = new ViewModelProvider(MainActivity.this).get(AlertsViewModel.class);
                         alertsViewModel.insert(alert);
                         Toast.makeText(this, "Alert Created", Toast.LENGTH_SHORT).show();
@@ -250,6 +352,26 @@ public class MainActivity extends AppCompatActivity {
                 if (resultCode == RESULT_OK) {
                     if (data != null) {
                         GoalsModel goal = new GoalsModel();
+
+                        goal.setGoalId(Objects.requireNonNull(Objects.requireNonNull(data.getExtras()).get(GOAL_ID)).toString());
+                        goal.setGoalTerm(Objects.requireNonNull(data.getExtras().get(GOAL_TERM)).toString());
+                        goal.setGoalContent(Objects.requireNonNull(data.getExtras().get(GOAL_CONTENT)).toString());
+
+                        goal.setGoalPrivate(Boolean.parseBoolean(Objects.requireNonNull(data.getExtras().get(GOAL_PRIVATE)).toString()));
+                        goal.setGoalSetAt(Objects.requireNonNull(data.getExtras().get(TIMESTAMP)).toString());
+                        goal.setGoalUpdatedAt(Objects.requireNonNull(data.getExtras().get(TIMESTAMP)).toString());
+                        goal.setGoalAchieved(Boolean.parseBoolean(Objects.requireNonNull(data.getExtras().get(GOAL_ACHIEVED)).toString()));
+
+                        goal.setGoalExperienceRating(Integer.parseInt(Objects.requireNonNull(data.getExtras().get(GOAL_XP)).toString()));
+                        goal.setGoalLimitations(Objects.requireNonNull(data.getExtras().get(GOAL_LIMITATIONS)).toString());
+
+                        goal.setStepsToGoal(Objects.requireNonNull(data.getExtras().get(GOAL_STEPS)).toString());
+                        goal.setGoalNotes(Objects.requireNonNull(data.getExtras().get(GOAL_NOTES)).toString());
+                        goal.setReward(Objects.requireNonNull(data.getExtras().get(GOAL_REWARD)).toString());
+
+                        goal.setGoalReview(Objects.requireNonNull(data.getExtras().get(GOAL_REVIEW)).toString());
+
+
                         GoalsViewModel goalsViewModel = new ViewModelProvider(MainActivity.this).get(GoalsViewModel.class);
                         goalsViewModel.insert(goal);
                         Toast.makeText(this, "Goal Created", Toast.LENGTH_SHORT).show();
@@ -267,6 +389,33 @@ public class MainActivity extends AppCompatActivity {
                 if (resultCode == RESULT_OK) {
                     if (data != null) {
                         ObjectiveModel objective = new ObjectiveModel();
+
+                        objective.setObjectiveId(Objects.requireNonNull(Objects.requireNonNull(data.getExtras()).get(OBJECTIVE_ID)).toString());
+                        objective.setObjectiveExpiry(Objects.requireNonNull(data.getExtras().get(OBJECTIVE_EXPIRY)).toString());
+                        objective.setSetAt(Objects.requireNonNull(data.getExtras().get(TIMESTAMP)).toString());
+                        objective.setUpdatedAt(Objects.requireNonNull(data.getExtras().get(TIMESTAMP)).toString());
+
+
+                        objective.setObjectiveLimits(Objects.requireNonNull(data.getExtras().get(OBJECTIVE_LIMITS)).toString());
+                        objective.setObjectiveTitle(Objects.requireNonNull(data.getExtras().get(OBJECTIVE_TITLE)).toString());
+                        objective.setAboutObjective(Objects.requireNonNull(data.getExtras().get(ABOUT_OBJECTIVE)).toString());
+
+                        objective.setExtensionOfObjective(Boolean.parseBoolean(Objects.requireNonNull(data.getExtras().get(EXTENDING_OBJECTIVE)).toString()));
+                        objective.setObjectiveAchieved(Boolean.parseBoolean(Objects.requireNonNull(data.getExtras().get(OBJECTIVE_ACHIEVED)).toString()));
+                        objective.setSacrificeObjectiveCost(Objects.requireNonNull(data.getExtras().get(SACRIFICE_COST)).toString());
+
+                        objective.setQuantifiable(Boolean.parseBoolean(Objects.requireNonNull(data.getExtras().get(OBJ_QUANTIFIABLE)).toString()));
+                        objective.setObjectiveRemarks(Objects.requireNonNull(data.getExtras().get(OBJECTIVE_REMARK)).toString());
+                        objective.setObjectiveReward(Objects.requireNonNull(data.getExtras().get(OBJECTIVE_REWARD)).toString());
+
+                        objective.setSetObjectiveScore(Integer.parseInt(Objects.requireNonNull(data.getExtras().get(SET_OBJECTIVE_SCORE)).toString()));
+                        objective.setObjectiveSteps(Objects.requireNonNull(data.getExtras().get(OBJECTIVE_STEPS)).toString());
+                        objective.setObjectiveExtensionContent(Objects.requireNonNull(data.getExtras().get(OBJ_EXTENSION_CONTENT)).toString());
+
+                        objective.setObjectiveExtensionId(Objects.requireNonNull(data.getExtras().get(OBJ_EXTENSION_ID)).toString());
+                        objective.setAboutObjective(Objects.requireNonNull(data.getExtras().get(ABOUT_OBJECTIVE)).toString());
+                        objective.setObjectiveScore(Integer.parseInt(Objects.requireNonNull(data.getExtras().get(OBJECTIVE_SCORE)).toString()));
+
                         ObjectivesViewModel objectivesViewModel = new ViewModelProvider(MainActivity.this).get(ObjectivesViewModel.class);
                         objectivesViewModel.insert(objective);
                         Toast.makeText(this, "Objective created", Toast.LENGTH_SHORT).show();

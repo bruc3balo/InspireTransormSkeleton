@@ -48,11 +48,11 @@ public class DiaryPagesViewModel extends AndroidViewModel {
         return allDiaryPages;
     }
 
-    public LiveData<DiaryPageModel> getDiaryPagesWithId(int id) {
+    public LiveData<DiaryPageModel> getDiaryPagesWithId(String id) {
         System.out.println("size is "+ Objects.requireNonNull(allDiaryPages.getValue()).size());
         try{
             for (int i = 0;i <= Objects.requireNonNull(allDiaryPages.getValue()).size();i++) {
-                if (allDiaryPages.getValue().get(i).getDiaryId() == id) {
+                if (allDiaryPages.getValue().get(i).getDiaryId().equals(id)) {
                     diaryPages.setValue(allDiaryPages.getValue().get(i));
                 }
             }

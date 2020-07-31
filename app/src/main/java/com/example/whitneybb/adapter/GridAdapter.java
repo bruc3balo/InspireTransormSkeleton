@@ -2,6 +2,7 @@ package com.example.whitneybb.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,24 +11,28 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.cardview.widget.CardView;
+
 import com.bumptech.glide.Glide;
 import com.example.whitneybb.R;
+
+import java.util.LinkedList;
 
 
 public class GridAdapter extends BaseAdapter {
     private Context context;
-    private int menu_items[]; //getPreview
-    private String menu_titles []; //getNoteTitle
+    private LinkedList<String> item_color; //getPreview
+    private LinkedList<String> menu_titles; //getNoteTitle
     private LayoutInflater inflater;
-    public GridAdapter(Context applicationContext, int[] incidence_list, String[] titles) {
+    public GridAdapter(Context applicationContext,LinkedList<String> menu_items, LinkedList<String> menu_titles) {
         this.context = applicationContext;
-        this.menu_items = incidence_list;
-        this.menu_titles = titles;
+       this.item_color = menu_items;
+       this.menu_titles = menu_titles;
         inflater = (LayoutInflater.from(applicationContext));
     }
     @Override
     public int getCount() {
-        return menu_items.length;
+        return menu_titles.size();
     }
     @Override
     public Object getItem(int i) {
@@ -37,22 +42,24 @@ public class GridAdapter extends BaseAdapter {
     public long getItemId(int i) {
         return 0;
     }
-    @SuppressLint("ViewHolder")
+    @SuppressLint({"ViewHolder", "InflateParams"})
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         view = inflater.inflate(R.layout.grid_row, null); // inflate the layout
         ImageView icon = view.findViewById(R.id.incidence_pic); // get the reference of ImageView
+        CardView noteCardBg = view.findViewById(R.id.noteCardBg);
 
         try {
-            Glide.with(context).load(menu_items[i]).into(icon);
-        } catch (Exception e){
+            noteCardBg.setCardBackgroundColor(Color.parseColor(item_color.get(i)));
+            Glide.with(context).load(R.drawable.ic_note).into(icon);
+        } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(context, "Image failed to load", Toast.LENGTH_SHORT).show();
             icon.setImageResource(R.drawable.error);
         }
 
         TextView title = view.findViewById(R.id.incidence_title); // title tv
-        title.setText(menu_titles[i]);
+        title.setText(menu_titles.get(i));
 
         return view;
     }
