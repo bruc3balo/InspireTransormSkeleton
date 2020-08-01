@@ -4,6 +4,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -23,12 +24,15 @@ import com.example.whitneybb.MainActivity;
 import com.example.whitneybb.R;
 import com.example.whitneybb.adapter.GridAdapter;
 import com.example.whitneybb.model.NotesModel;
+import com.example.whitneybb.ui.editors.Diary_NotesEditorActivity;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.LinkedList;
 import java.util.List;
 
 import static com.example.whitneybb.MainActivity.smartFab;
+import static com.example.whitneybb.model.NotesModel.NOTE_ID;
+import static com.example.whitneybb.ui.editors.Diary_NotesEditorActivity.EDITOR_SPECIFIC;
 
 public class NotesFragment extends Fragment {
 
@@ -52,13 +56,11 @@ public class NotesFragment extends Fragment {
         smartFab(MainActivity.currentPage);
 
         GridView gridView = v.findViewById(R.id.notesGrid);
-        notesAdapter = new GridAdapter(requireContext(),color_list,titles);
+        notesAdapter = new GridAdapter(requireContext(), color_list, titles);
         gridView.setAdapter(notesAdapter);
         gridView.setOnItemClickListener((parent, view, position, id) -> {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-
-            }
-        } );
+            startActivity(new Intent(requireContext(), Diary_NotesEditorActivity.class).putExtra(NOTE_ID,notesList.get(position).getNoteId()).putExtra(EDITOR_SPECIFIC, "NOTES"));
+        });
 
         return v;
     }
@@ -74,22 +76,21 @@ public class NotesFragment extends Fragment {
             color_list.clear();
             notesList.clear();
             notesList.addAll(notesModels);
-            for (int i = 0; i<= notesList.size() - 1; i++) {
+            for (int i = 0; i <= notesList.size() - 1; i++) {
                 titles.add(notesList.get(i).getNoteTitle());
                 notesAdapter.notifyDataSetChanged();
             }
 
-            for (int i = 0; i<= notesList.size() - 1; i++) {
+            for (int i = 0; i <= notesList.size() - 1; i++) {
                 color_list.add(notesList.get(i).getNoteColor());
                 notesAdapter.notifyDataSetChanged();
             }
 
             notesAdapter.notifyDataSetChanged();
 
-        } );
+        });
 
     }
-
 
 
 }

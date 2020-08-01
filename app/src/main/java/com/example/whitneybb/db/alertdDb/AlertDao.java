@@ -26,6 +26,6 @@ public interface AlertDao {
     @Query("DELETE FROM alerts_table")
     void deleteAllAlerts();
 
-    @Query("SELECT * FROM alerts_table ORDER BY alertId DESC")
+    @Query("SELECT * FROM alerts_table ORDER BY createdAt ASC")
     LiveData<List<AlertsModel>> getAllAlerts();
 }

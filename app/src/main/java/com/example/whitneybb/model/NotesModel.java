@@ -5,6 +5,10 @@ import androidx.room.PrimaryKey;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
 @Entity(tableName = "notes_table")
 public class NotesModel {
 
@@ -31,6 +35,19 @@ public class NotesModel {
     public static final String NOTE_PRIVATE = "notePrivate";
     private String notePassword;
     public static final String NOTE_PASSWORD = "notePassword";
+
+    public static final String NOTE_COLOR_WHITE = "#ffffff";
+    public static final String NOTE_COLOR_BLACK = "#000000";
+    public static final String NOTE_COLOR_YELLOW = "#FFFC33";
+    public static final String NOTE_COLOR_GREEN = "#ff99cc00";
+    public static final String NOTE_COLOR_RED = "#ffcc0000";
+    public static final String NOTE_COLOR_GRAY = "#A5A2A2";
+    public static final String NOTE_COLOR_BLUE = "#ff0099cc";
+    public static final String NOTE_COLOR_PURPLE = "#ffaa66cc";
+    public static final String NOTE_COLOR_ORANGE = "#ffff8800";
+    public static final String NOTE_COLOR_GREEN_YUCK = "#ff669900";
+    public static final String NOTE_COLOR_PINK = "#EA6868";
+    public static final String NOTE_EDITOR_BG = "#DFCAAA";
 
     public NotesModel() {
     }
@@ -127,5 +144,9 @@ public class NotesModel {
 
     public void setNotePrivate(boolean notePrivate) {
         this.notePrivate = notePrivate;
+    }
+
+    public static String[] getColorList() {
+        return new String[]{NOTE_EDITOR_BG,NOTE_COLOR_WHITE, NOTE_COLOR_BLACK, NOTE_COLOR_YELLOW, NOTE_COLOR_GREEN, NOTE_COLOR_RED, NOTE_COLOR_GRAY, NOTE_COLOR_BLUE, NOTE_COLOR_PURPLE, NOTE_COLOR_ORANGE, NOTE_COLOR_GREEN_YUCK, NOTE_COLOR_PINK};
     }
 }

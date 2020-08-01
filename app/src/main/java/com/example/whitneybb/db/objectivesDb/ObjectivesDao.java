@@ -26,7 +26,7 @@ public interface ObjectivesDao {
     @Query("DELETE FROM objective_table")
     void deleteAllObjectives();
 
-    @Query("SELECT * FROM objective_table ")
+    @Query("SELECT * FROM objective_table ORDER BY setAt ASC")
         //ORDER BY diaryId DESC
     LiveData<List<ObjectiveModel>> getAllObjectives();
 }

@@ -18,6 +18,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <ImageView
+            android:background="@color/nWhite"
             android:padding="8dp"
             android:elevation="15dp"
             android:id="@+id/incidence_pic"
@@ -32,6 +33,7 @@
         android:id="@+id/incidence_title"
         android:layout_width="wrap_content"
         android:textSize="15sp"
+        android:singleLine="true"
         android:fontFamily="sans-serif-condensed"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

@@ -76,6 +76,7 @@ import static com.example.whitneybb.model.DiaryModel.DIARY_REMINDER_TIME;
 import static com.example.whitneybb.model.DiaryModel.DIARY_SCHEDULE;
 import static com.example.whitneybb.model.DiaryModel.DIARY_TITLE;
 import static com.example.whitneybb.model.DiaryModel.UPDATED_AT;
+import static com.example.whitneybb.model.GoalsModel.ABOUT_GOAL;
 import static com.example.whitneybb.model.GoalsModel.GOAL_ACHIEVED;
 import static com.example.whitneybb.model.GoalsModel.GOAL_CONTENT;
 import static com.example.whitneybb.model.GoalsModel.GOAL_ID;
@@ -169,6 +170,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
+
         NavigationView navigationView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -183,12 +185,8 @@ public class MainActivity extends AppCompatActivity {
         uidTv = header.findViewById(R.id.uidTv);
 
         headerImage = header.findViewById(R.id.headerImage);
-        headerImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, ProfileActiviy.class));
-            }
-        });
+
+        headerImage.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, ProfileActiviy.class)));
 
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
 
@@ -370,6 +368,7 @@ public class MainActivity extends AppCompatActivity {
                         goal.setReward(Objects.requireNonNull(data.getExtras().get(GOAL_REWARD)).toString());
 
                         goal.setGoalReview(Objects.requireNonNull(data.getExtras().get(GOAL_REVIEW)).toString());
+                        goal.setAboutGoal(Objects.requireNonNull(data.getExtras().get(ABOUT_GOAL)).toString());
 
 
                         GoalsViewModel goalsViewModel = new ViewModelProvider(MainActivity.this).get(GoalsViewModel.class);

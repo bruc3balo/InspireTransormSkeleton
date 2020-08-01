@@ -26,7 +26,7 @@ public interface NotesDao {
     @Query("DELETE FROM notes_table")
     void deleteAllNotes();
 
-    @Query("SELECT * FROM notes_table ")
+    @Query("SELECT * FROM notes_table ORDER BY createdAt DESC")
         //ORDER BY diaryId DESC
     LiveData<List<NotesModel>> getAllNotes();
 }

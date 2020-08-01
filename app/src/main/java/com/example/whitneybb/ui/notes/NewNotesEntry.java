@@ -34,6 +34,17 @@ import java.util.Objects;
 import static com.example.whitneybb.model.DiaryModel.CREATED_AT;
 import static com.example.whitneybb.model.DiaryModel.UPDATED_AT;
 import static com.example.whitneybb.model.NotesModel.NOTE_COLOR;
+import static com.example.whitneybb.model.NotesModel.NOTE_COLOR_BLACK;
+import static com.example.whitneybb.model.NotesModel.NOTE_COLOR_BLUE;
+import static com.example.whitneybb.model.NotesModel.NOTE_COLOR_GRAY;
+import static com.example.whitneybb.model.NotesModel.NOTE_COLOR_GREEN;
+import static com.example.whitneybb.model.NotesModel.NOTE_COLOR_GREEN_YUCK;
+import static com.example.whitneybb.model.NotesModel.NOTE_COLOR_ORANGE;
+import static com.example.whitneybb.model.NotesModel.NOTE_COLOR_PINK;
+import static com.example.whitneybb.model.NotesModel.NOTE_COLOR_PURPLE;
+import static com.example.whitneybb.model.NotesModel.NOTE_COLOR_RED;
+import static com.example.whitneybb.model.NotesModel.NOTE_COLOR_WHITE;
+import static com.example.whitneybb.model.NotesModel.NOTE_COLOR_YELLOW;
 import static com.example.whitneybb.model.NotesModel.NOTE_CONTENT;
 import static com.example.whitneybb.model.NotesModel.NOTE_HIGH_PRIORITY;
 import static com.example.whitneybb.model.NotesModel.NOTE_ID;
@@ -52,7 +63,6 @@ public class NewNotesEntry extends AppCompatActivity implements IdGenerator, Rad
     private int notePriority = 0;
     private boolean reminderOn, privacyOn;
     private SwitchCompat noteReminderSwitch, passwordSwitchNote;
-    private RadioGroup group;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,13 +74,14 @@ public class NewNotesEntry extends AppCompatActivity implements IdGenerator, Rad
 
         passwordF = findViewById(R.id.passwordFieldNote);
         passwordF.setVisibility(View.GONE);
+
         cPasswordF = findViewById(R.id.confirmPasswordFieldNote);
         cPasswordF.setVisibility(View.GONE);
 
         noteReminderSwitch = findViewById(R.id.noteReminderSwitch);
         passwordSwitchNote = findViewById(R.id.passwordSwitchNote);
 
-        group = findViewById(R.id.priorityGroup);
+        RadioGroup group = findViewById(R.id.priorityGroup);
         group.setOnCheckedChangeListener(this);
 
 
@@ -260,47 +271,47 @@ public class NewNotesEntry extends AppCompatActivity implements IdGenerator, Rad
     }
 
     public void setWhiteNote(View view) {
-        noteColor = "#ffffff";
+        noteColor = NOTE_COLOR_WHITE;
     }
 
     public void setBlackNote(View view) {
-        noteColor = "#000000";
+        noteColor = NOTE_COLOR_BLACK;
     }
 
     public void setYellowNote(View view) {
-        noteColor = "#FFFC33";
+        noteColor = NOTE_COLOR_YELLOW;
     }
 
     public void setGreenTile(View view) {
-        noteColor = "#ff99cc00";
+        noteColor = NOTE_COLOR_GREEN;
     }
 
     public void setRedNote(View view) {
-        noteColor = "#ffcc0000";
+        noteColor = NOTE_COLOR_RED;
     }
 
     public void setGrayTile(View view) {
-        noteColor = "#aaa";
+        noteColor = NOTE_COLOR_GRAY;
     }
 
     public void setBlueTile(View view) {
-        noteColor = "#ff0099cc";
+        noteColor = NOTE_COLOR_BLUE;
     }
 
     public void setPurpleTile(View view) {
-        noteColor = "#ffaa66cc";
+        noteColor = NOTE_COLOR_PURPLE;
     }
 
     public void setOrangeTile(View view) {
-        noteColor = "#ffff8800";
+        noteColor = NOTE_COLOR_ORANGE;
     }
 
     public void setYuckGreenTile(View view) {
-        noteColor = "#ff669900";
+        noteColor = NOTE_COLOR_GREEN_YUCK;
     }
 
     public void setPinkTile(View view) {
-        noteColor = "#EA6868";
+        noteColor = NOTE_COLOR_PINK;
     }
 
     @Override

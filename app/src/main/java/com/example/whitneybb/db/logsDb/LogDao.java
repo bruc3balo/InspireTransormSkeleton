@@ -26,7 +26,7 @@ public interface LogDao {
     @Query("DELETE FROM log_table")
     void deleteAllLogs();
 
-    @Query("SELECT * FROM log_table ")
+    @Query("SELECT * FROM log_table ORDER BY timeStamp ASC")
         //ORDER BY diaryId DESC
     LiveData<List<LogModel>> getAllLogs();
 }

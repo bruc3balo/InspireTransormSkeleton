@@ -260,7 +260,7 @@ public class NewObjectiveEntry extends AppCompatActivity implements View.OnClick
             objectiveTitle.setError("Give title");
             objectiveTitle.requestFocus();
         } else if (objectiveTitle.getText().toString().contains("{") || objectiveTitle.getText().toString().contains("}")) {
-            objectiveTitle.setError("Remove \" } \" ");
+            objectiveTitle.setError("Remove \" {} \" ");
         } else if (aboutObjective.getText().toString().isEmpty()) {
             aboutObjective.setError("Give about ");
             aboutObjective.requestFocus();

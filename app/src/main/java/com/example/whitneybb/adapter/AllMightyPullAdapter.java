@@ -16,6 +16,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,6 +31,7 @@ import com.example.whitneybb.model.NotesModel;
 import com.example.whitneybb.model.ObjectiveModel;
 
 import java.io.File;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
@@ -68,7 +70,7 @@ public class AllMightyPullAdapter extends ListAdapter<Object, AllMightyPullAdapt
                 DiaryModel olderDiary, newerDiary;
                 olderDiary = (DiaryModel) oldItem;
                 newerDiary = (DiaryModel) newItem;
-                return olderDiary.getDiaryId() == newerDiary.getDiaryId();
+                return olderDiary.getDiaryId().equals(newerDiary.getDiaryId());
             } else {
                 return false; //todo compare ids for each object for result
             }
@@ -81,22 +83,22 @@ public class AllMightyPullAdapter extends ListAdapter<Object, AllMightyPullAdapt
                 NotesModel olderNotes, newerNotes;
                 olderNotes = (NotesModel) oldItem;
                 newerNotes = (NotesModel) newItem;
-                return olderNotes.getNoteId() == newerNotes.getNoteId() && olderNotes.getNoteContent().equals(newerNotes.getNoteContent()); //todo notes
+                return olderNotes.getNoteId().equals(newerNotes.getNoteId()) && olderNotes.getNoteContent().equals(newerNotes.getNoteContent()); //todo notes
             } else if (MainActivity.currentPage == 1) {
                 GoalsModel olderGoal, newerGoal;
                 olderGoal = (GoalsModel) oldItem;
                 newerGoal = (GoalsModel) newItem;
-                return olderGoal.getGoalId() == newerGoal.getGoalId() && olderGoal.getGoalContent().equals(newerGoal.getGoalContent()) && olderGoal.getGoalNotes().equals(newerGoal.getGoalNotes()) && olderGoal.getGoalUpdatedAt().equals(newerGoal.getGoalUpdatedAt()) && olderGoal.getStepsToGoal().equals(newerGoal.getStepsToGoal()); //todo goals
+                return olderGoal.getGoalId().equals(newerGoal.getGoalId()) && olderGoal.getGoalContent().equals(newerGoal.getGoalContent()) && olderGoal.getGoalNotes().equals(newerGoal.getGoalNotes()) && olderGoal.getGoalUpdatedAt().equals(newerGoal.getGoalUpdatedAt()) && olderGoal.getStepsToGoal().equals(newerGoal.getStepsToGoal()); //todo goals
             } else if (MainActivity.currentPage == 2) {
                 ObjectiveModel olderObjective, newerObjective;
                 olderObjective = (ObjectiveModel) oldItem;
                 newerObjective = (ObjectiveModel) newItem;
-                return olderObjective.getObjectiveId() == newerObjective.getObjectiveId() && olderObjective.getObjectiveSteps().equals(newerObjective.getObjectiveSteps()) && olderObjective.getObjectiveRemarks().equals(newerObjective.getObjectiveRemarks()) && olderObjective.getObjectiveLimits().equals(newerObjective.getObjectiveLimits()) && olderObjective.getObjectiveTitle().equals(newerObjective.getObjectiveTitle()); //todo objectives
+                return olderObjective.getObjectiveId().equals(newerObjective.getObjectiveId()) && olderObjective.getObjectiveSteps().equals(newerObjective.getObjectiveSteps()) && olderObjective.getObjectiveRemarks().equals(newerObjective.getObjectiveRemarks()) && olderObjective.getObjectiveLimits().equals(newerObjective.getObjectiveLimits()) && olderObjective.getObjectiveTitle().equals(newerObjective.getObjectiveTitle()); //todo objectives
             } else if (MainActivity.currentPage == 3) {
                 DiaryModel olderDiary, newerDiary;
                 olderDiary = (DiaryModel) oldItem;
                 newerDiary = (DiaryModel) newItem;
-                return olderDiary.getDiaryId() == newerDiary.getDiaryId() && olderDiary.getDiaryTitle().equals(newerDiary.getDiaryTitle());
+                return olderDiary.getDiaryId().equals(newerDiary.getDiaryId()) && olderDiary.getDiaryTitle().equals(newerDiary.getDiaryTitle());
             } else if (MainActivity.currentPage == 6) {
                DiaryPageModel olderPage, newerPage;
                olderPage = (DiaryPageModel) oldItem;
@@ -149,29 +151,42 @@ public class AllMightyPullAdapter extends ListAdapter<Object, AllMightyPullAdapt
         switch (MainActivity.currentPage) {
             case 0:
                 NotesModel notesModel = (NotesModel) getItem(position);
-                Toast.makeText(context, "Notes", Toast.LENGTH_SHORT).show();
+
                 break;
             case 1:
                 GoalsModel goalsModel = (GoalsModel) getItem(position);
                 setGoalTerm(goalsModel,holder);
                 holder.goalTitle.setText(goalsModel.getGoalContent());
-                Toast.makeText(context, "Goals", Toast.LENGTH_SHORT).show();
+
+                holder.goalStepsRecyclerView.setLayoutManager(new LinearLayoutManager(context,RecyclerView.VERTICAL,false));
+                StepAdapter adapter = new StepAdapter(context,listFromString(goalsModel.getStepsToGoal()));
+                adapter.notifyDataSetChanged();
+                holder.goalStepsRecyclerView.setAdapter(adapter);
+
                 break;
             case 2:
                 ObjectiveModel objectiveModel = (ObjectiveModel) getItem(position);
                 holder.obj_title_tv.setText(objectiveModel.getObjectiveTitle());
                 holder.obj_description_tv.setText(objectiveModel.getAboutObjective());
-                Toast.makeText(context, "Objective", Toast.LENGTH_SHORT).show();
+
+                holder.objectiveStepsRv.setLayoutManager(new LinearLayoutManager(context,RecyclerView.VERTICAL,false));
+                StepAdapter adapterObj = new StepAdapter(context,listFromString(objectiveModel.objectiveSteps));
+                adapterObj.notifyDataSetChanged();
+                holder.objectiveStepsRv.setAdapter(adapterObj);
+
                 break;
             case 3:
                 DiaryModel diaryModel = (DiaryModel) getItem(position);
                // holder.diaryCover.setImageURI(Uri.fromFile(new File(diaryModel.getDiaryCoverUrl())));
                 Glide.with(context).load(diaryModel.getDiaryCoverUrl()).into(holder.diaryCover);
                 holder.diaryTitle.setText(diaryModel.getDiaryTitle());
-                Toast.makeText(context, "Diary" + diaryModel.getDiaryTitle(), Toast.LENGTH_SHORT).show();
+
+
                 break;
             case 6:
                 DiaryPageModel page = (DiaryPageModel) getItem(position);
+                holder.pageTitle.setText(page.getEntryTitle());
+                holder.pageContent.setText(page.getEntryBody());
 
                 break;
             default:
@@ -214,6 +229,40 @@ public class AllMightyPullAdapter extends ListAdapter<Object, AllMightyPullAdapt
         return (DiaryPageModel) getItem(position);
     }
 
+    public static LinkedList<String> listFromString(String s) {
+
+        int listCount = 0;
+        String word = "";
+        LinkedList<String> wordsList = new LinkedList<>();
+        boolean print = false;
+
+        for (int i = 0; i <= s.length() - 1; i++) { //count list
+            System.out.println(s.substring(i, i + 1));
+            if (s.substring(i, i + 1).contains("{")) {
+                listCount++;
+                System.out.println(listCount);
+
+            }
+        }
+
+        for (int i = 0; i <= s.length() - 1; i++) { //start of list
+
+            if (s.substring(i, i + 1).contains("{")) { //start of word, counting letters
+                print = true;
+            } else if (s.substring(i, i + 1).contains("}")) {
+                print = false;
+            }
+
+            if (print) {
+                word = word.concat(s.substring(i + 1, i + 2));
+            } else {
+                wordsList.add(word.substring(0, word.length() - 1));
+                word = "";
+            }
+        }
+        return wordsList;
+    }
+
 
     @Override
     public int getItemViewType(int position) {
@@ -224,6 +273,20 @@ public class AllMightyPullAdapter extends ListAdapter<Object, AllMightyPullAdapt
         this.onItemClickListener = listener;
     }
 
+   /* private LinkedList<String> listFromString (String s) {
+        int listCount = 0;
+        for (int i = 0; i <= s.length() - 1; i++) {
+            if (s.substring(i,i+1).contains("{")) {
+                listCount++;
+                System.out.println(listCount);
+            }
+        }
+
+        for (int b = 0;b <= listCount;b++) {
+
+        }
+        return
+    }*/
 
     public void setClickListener(ItemClickListener itemClickListener) {
         this.mClickListener = itemClickListener;
@@ -238,21 +301,32 @@ public class AllMightyPullAdapter extends ListAdapter<Object, AllMightyPullAdapt
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView diaryTitle;
-        ImageView diaryCover;
-        TextView goalTitle;
-        CardView goalTermBackgroundCard;
-        TextView obj_title_tv,obj_description_tv;
+        TextView diaryTitle; ImageView diaryCover;
+
+        TextView goalTitle; RecyclerView goalStepsRecyclerView; CardView goalTermBackgroundCard;
+
+        TextView obj_title_tv,obj_description_tv; RecyclerView objectiveStepsRv;
+
+        TextView pageTitle,pageContent;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
+
             diaryTitle = itemView.findViewById(R.id.diaryTitle_tv);
             goalTitle = itemView.findViewById(R.id.goalTitle_tv);
             obj_title_tv = itemView.findViewById(R.id.obj_title_tv);
 
+
             goalTermBackgroundCard = itemView.findViewById(R.id.goalTermBackgroundCard);
             obj_description_tv = itemView.findViewById(R.id.obj_description);
             diaryCover = itemView.findViewById(R.id.diaryCover);
+
+            goalStepsRecyclerView = itemView.findViewById(R.id.goalStepsRecyclerView);
+            pageTitle = itemView.findViewById(R.id.pageTitle);
+            pageContent = itemView.findViewById(R.id.pageContent);
+
+            objectiveStepsRv = itemView.findViewById(R.id.objectiveStepsRv);
+
             itemView.setOnClickListener(this);
         }
 

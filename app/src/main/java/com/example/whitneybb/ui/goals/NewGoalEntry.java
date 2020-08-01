@@ -35,6 +35,7 @@ import java.util.Map;
 
 import static com.example.whitneybb.MainActivity.ADD_GOALS_REQUEST;
 import static com.example.whitneybb.login.LoginActivity.truncate;
+import static com.example.whitneybb.model.GoalsModel.ABOUT_GOAL;
 import static com.example.whitneybb.model.GoalsModel.GOAL_ACHIEVED;
 import static com.example.whitneybb.model.GoalsModel.GOAL_CONTENT;
 import static com.example.whitneybb.model.GoalsModel.GOAL_ID;
@@ -349,12 +350,12 @@ public class NewGoalEntry extends AppCompatActivity implements View.OnClickListe
                 }
             }
             goal.setGoalLimitations(limits);
-
             goal.setGoalTerm(termGoal);
             goal.setGoalSetAt(time);
 
             goal.setGoalReview("");
             goal.setGoalUpdatedAt(time);
+            goal.setAboutGoal(aboutGoal.getText().toString());
 
             goal.setGoalNotes("");
             goal.setGoalExperienceRating(0);
@@ -373,6 +374,7 @@ public class NewGoalEntry extends AppCompatActivity implements View.OnClickListe
 
         data.putExtra(GOAL_CONTENT, goal.getGoalContent());
         data.putExtra(GOAL_PRIVATE, goal.isGoalPrivate());
+        data.putExtra(ABOUT_GOAL,goal.getAboutGoal());
 
         data.putExtra(GOAL_ID, goal.getGoalId());
         data.putExtra(GOAL_REWARD, goal.getReward());

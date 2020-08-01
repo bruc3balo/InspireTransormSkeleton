@@ -22,7 +22,7 @@ public interface DiaryPagesDao {
     void delete(DiaryPageModel page);
     @Query("DELETE FROM diary_pages_table")
     void deleteAllDiaryPages();
-    @Query("SELECT * FROM diary_pages_table")
+    @Query("SELECT * FROM diary_pages_table ORDER BY createdAt ASC")
     LiveData<List<DiaryPageModel>> getAllDiaryPages();
 
 }

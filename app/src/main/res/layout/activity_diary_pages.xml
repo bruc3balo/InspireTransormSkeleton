@@ -7,6 +7,7 @@
     tools:context=".ui.diary.pages.DiaryPagesActivity">
 
     <LinearLayout
+        android:background="@color/nBlack"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -15,20 +16,35 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="top"
-            android:background="@android:color/transparent"
+            android:background="@android:color/black"
             app:title="Pages"
-            app:titleTextColor="@android:color/black" />
+            app:titleTextColor="@android:color/white" />
 
         <androidx.viewpager2.widget.ViewPager2
+            android:layout_weight="1"
             android:id="@+id/diaryPagesPager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             android:layout_gravity="center" />
+
+        <TextView
+            android:text="-"
+            android:textColor="@color/nOrange"
+            android:textStyle="bold|italic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textSize="30sp"
+            android:padding="5dp"
+            android:background="@color/nTransparent"
+            android:id="@+id/pageCount"/>
 
 
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:onClick="addNewPage"
         android:layout_width="wrap_content"
         android:layout_height="60dp"
         android:layout_gravity="bottom|end"

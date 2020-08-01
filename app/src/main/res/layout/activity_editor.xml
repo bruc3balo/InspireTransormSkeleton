@@ -11,47 +11,49 @@
         android:layout_height="match_parent"
         android:background="@android:color/darker_gray">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/editorToolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+        <EditText
+            android:hint="Title"
+            android:textColorHint="@android:color/holo_orange_light"
+            android:background="@android:color/black"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="false"
-            android:background="@android:color/black"
-            app:logo="@drawable/font_a"
-            app:navigationIcon="@drawable/back_arrow"
-            app:title="Editor"
-            app:titleMarginStart="70dp"
-            app:titleTextColor="@android:color/holo_orange_light" />
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:textColor="@android:color/holo_orange_dark"
+            android:gravity="center_vertical"
+            android:drawablePadding="20dp"
+            android:id="@+id/titleText"
+            android:drawableStart="@drawable/font_a"/>
 
         <com.example.whitneybb.utils.randomDuties.LinedEditText
+            android:id="@+id/editorTextField"
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:layout_above="@+id/textEditorOptions"
-            android:layout_below="@+id/editorToolbar"
+            android:layout_above="@+id/buttonsTray"
+            android:layout_below="@+id/titleText"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
             android:layout_margin="1dp"
             android:autofillHints="@android:string/autofill"
             android:background="@color/editorBg"
-            android:ems="6"
+            android:ems="10"
             android:gravity="start"
             android:hint="Start typing..."
             android:inputType="textCapSentences|textNoSuggestions|textMultiLine"
-            android:lineHeight="30dp"
+            android:lineHeight="40dp"
             android:overScrollMode="ifContentScrolls"
-            android:padding="4dp"
+            android:padding="8dp"
             android:scrollIndicators="end"
             android:scrollbarStyle="insideOverlay"
             android:scrollbars="vertical"
             android:textColor="@android:color/black"
             android:textColorHint="@android:color/darker_gray"
-            tools:targetApi="o_mr1" />
+            tools:targetApi="p" />
 
         <HorizontalScrollView
-            android:id="@+id/textEditorOptions"
+            android:id="@+id/buttonsTray"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_alignParentStart="true"
@@ -67,29 +69,8 @@
                 android:orientation="horizontal">
 
                 <ImageButton
-                    android:layout_width="60dp"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:layout_margin="1dp"
-                    android:src="@drawable/spell_check" />
-
-                <ImageButton
-                    android:layout_width="60dp"
-                    android:layout_height="match_parent"
-
-                    android:layout_gravity="center"
-                    android:layout_margin="1dp"
-                    android:src="@drawable/font" />
-
-                <ImageButton
-                    android:layout_width="60dp"
-                    android:layout_height="match_parent"
-
-                    android:layout_gravity="center"
-                    android:layout_margin="1dp"
-                    android:src="@drawable/back_up" />
-
-                <ImageButton
+                    android:onClick="saveChanges"
+                    android:id="@+id/saveButton"
                     android:layout_width="60dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
@@ -97,24 +78,57 @@
                     android:padding="5dp"
                     android:src="@drawable/save_ic" />
 
+                <ImageButton
+                    android:onClick="spellCheck"
+                    android:id="@+id/spellCheck"
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_margin="1dp"
+                    android:src="@drawable/spell_check" />
 
                 <ImageButton
+                    android:onClick="changeTextColor"
+                    android:id="@+id/textColorChange"
                     android:layout_width="60dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:padding="5dp"
-                    android:src="@drawable/color_changer" />
+                    android:tint="@color/nRed"
+                    android:src="@drawable/ic_pen" />
 
                 <ImageButton
+                    android:onClick="changeFont"
+                    android:id="@+id/fontChange"
                     android:layout_width="60dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:layout_margin="1dp"
-                    android:padding="5dp"
-                    android:src="@drawable/button_color" />
+                    android:src="@drawable/font" />
 
                 <ImageButton
+                    android:onClick="setTextSizeDown"
+                    android:id="@+id/textSizeDown"
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_margin="1dp"
+                    android:src="@drawable/text_size_down" />
+
+                <ImageButton
+                    android:onClick="setTextSizeUp"
+                    android:id="@+id/textSizeUo"
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_margin="1dp"
+                    android:src="@drawable/text_size_up" />
+
+
+                <ImageButton
+                    android:onClick="zoomOutPage"
+                    android:id="@+id/zoomOut"
                     android:layout_width="60dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
@@ -123,25 +137,46 @@
 
 
                 <ImageButton
+                    android:onClick="zoomInPage"
+                    android:id="@+id/zoomIn"
                     android:layout_width="60dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:src="@drawable/zoom_in" />
 
-                <ImageButton
-                    android:layout_width="60dp"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:layout_margin="1dp"
-                    android:src="@drawable/text_size_down" />
+
 
                 <ImageButton
+                    android:onClick="changeTrayColor"
+                    android:id="@+id/changeLineBackground"
                     android:layout_width="60dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:layout_margin="1dp"
-                    android:src="@drawable/text_size_up" />
+                    android:padding="5dp"
+                    android:src="@drawable/color_changer" />
+
+                <ImageButton
+                    android:onClick="changeButtonColor"
+                    android:id="@+id/changeButtonsColor"
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_margin="1dp"
+                    android:padding="5dp"
+                    android:src="@drawable/button_color" />
+
+
+                <ImageButton
+                    android:onClick="editorBackground"
+                    android:id="@+id/changeEditorBg"
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_margin="1dp"
+                    android:tint="@color/editorBg"
+                    android:src="@android:drawable/editbox_background" />
 
             </LinearLayout>
         </HorizontalScrollView>

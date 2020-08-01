@@ -19,7 +19,6 @@
         android:roundIcon="@drawable/ic_treasure_chest_"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".ui.alerts.NewAlertActivity" />
         <activity android:name=".utils.splashscreen.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -43,6 +42,7 @@
             android:name=".MainActivity"
             android:label="@string/main_page"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".ui.alerts.NewAlertActivity" />
         <activity android:name=".ui.diary.NewDiaryEntry" />
         <activity android:name=".ui.goals.NewGoalEntry" />
         <activity android:name=".ui.editors.ObjectiveEditorActivity" />
@@ -51,7 +51,6 @@
         <activity android:name=".ui.notes.NewNotesEntry" />
         <activity android:name=".ui.objectives.NewObjectiveEntry" />
         <activity android:name=".ui.diary.pages.DiaryPagesActivity" />
-
         <receiver android:name=".utils.broadcasts.AlertReceiver" />
     </application>
 

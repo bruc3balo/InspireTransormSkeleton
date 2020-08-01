@@ -49,8 +49,9 @@ public class DiaryPagesViewModel extends AndroidViewModel {
     }
 
     public LiveData<DiaryPageModel> getDiaryPagesWithId(String id) {
-        System.out.println("size is "+ Objects.requireNonNull(allDiaryPages.getValue()).size());
         try{
+            System.out.println("size is "+ Objects.requireNonNull(allDiaryPages.getValue()).size());
+
             for (int i = 0;i <= Objects.requireNonNull(allDiaryPages.getValue()).size();i++) {
                 if (allDiaryPages.getValue().get(i).getDiaryId().equals(id)) {
                     diaryPages.setValue(allDiaryPages.getValue().get(i));

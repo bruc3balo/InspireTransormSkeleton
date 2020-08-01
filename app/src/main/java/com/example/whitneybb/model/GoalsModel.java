@@ -15,8 +15,8 @@ public class GoalsModel {
     //todo changeID toString
     private String goalId;
     public static final String GOAL_ID = "goalId";
-    //private String goalExpiry; //time
-   // public static final String GOAL_EXPIRY = "goalExpiry";
+    private String aboutGoal; //time
+    public static final String ABOUT_GOAL = "aboutGoal";
     private String goalContent;
     public static final String GOAL_CONTENT = "goalContent";
     private String stepsToGoal; //path
@@ -54,9 +54,9 @@ public class GoalsModel {
 
     }
 
-
-    public GoalsModel(@NonNull String goalId, String goalContent, String stepsToGoal, String goalSacrifices, boolean goalAchieved, String goalSetAt, String goalUpdatedAt, boolean goalPrivate, String reward, String goalLimitations, String goalReview, String goalTerm, int goalExperienceRating, String goalNotes) {
+    public GoalsModel(@NonNull String goalId, String aboutGoal, String goalContent, String stepsToGoal, String goalSacrifices, boolean goalAchieved, String goalSetAt, String goalUpdatedAt, boolean goalPrivate, String reward, String goalLimitations, String goalReview, String goalTerm, int goalExperienceRating, String goalNotes) {
         this.goalId = goalId;
+        this.aboutGoal = aboutGoal;
         this.goalContent = goalContent;
         this.stepsToGoal = stepsToGoal;
         this.goalSacrifices = goalSacrifices;
@@ -79,6 +79,14 @@ public class GoalsModel {
 
     public void setGoalId(@NonNull String goalId) {
         this.goalId = goalId;
+    }
+
+    public String getAboutGoal() {
+        return aboutGoal;
+    }
+
+    public void setAboutGoal(String aboutGoal) {
+        this.aboutGoal = aboutGoal;
     }
 
     public String getStepsToGoal() {

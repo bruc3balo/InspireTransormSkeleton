@@ -21,6 +21,8 @@ public class LogModel {
     private String deviceInfo;
     public static final String DEVICE_INFO = "deviceInfo";
 
+    private String timeStamp;
+
 
     public static final String OBJECTIVE_LOG = "OBJ", ALERT_LOG = "ALT", GOAL_LOG = "GOL" , DIARY_LOG = "DRY", NOTES_LOG = "NTS" , SETTINGS_LOG = "STN" , BACK_UP_LOG = "BCK", DIARY_PAGE_LOG = "PGE",UNKNOWN_LOG = "UNK";
 
@@ -80,5 +82,13 @@ public class LogModel {
 
     public void setDeviceInfo(String deviceInfo) {
         this.deviceInfo = deviceInfo;
+    }
+
+    public String getTimeStamp() {
+        return timeStamp;
+    }
+
+    public void setTimeStamp(String timeStamp) {
+        this.timeStamp = timeStamp;
     }
 }

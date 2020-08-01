@@ -80,7 +80,7 @@ public class GoalsFragment extends Fragment {
 
             @Override
             public void onPageSelected(int position) {
-                Toast.makeText(requireContext(), "adapter : "+viewPager2.getCurrentItem(), Toast.LENGTH_SHORT).show();
+
                 super.onPageSelected(position);
             }
 
@@ -91,11 +91,9 @@ public class GoalsFragment extends Fragment {
         } );
 
 
-        allMightyPullAdapter.setOnItemClickListener(new AllMightyPullAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(Object object) {
-
-            }
+        allMightyPullAdapter.setOnItemClickListener(object -> {
+            GoalsModel goal = (GoalsModel) object;
+            Toast.makeText(requireContext(), ""+goal.getAboutGoal(), Toast.LENGTH_SHORT).show();
         });
 
         return v;
@@ -105,17 +103,14 @@ public class GoalsFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(GoalsViewModel.class);
-        mViewModel.getAllGoals().observe(getViewLifecycleOwner(), new Observer<List<GoalsModel>>() {
-            @Override
-            public void onChanged(List<GoalsModel> goalsModels) {
-                goalObjectList.clear();
-                goalObjectList.addAll(goalsModels); //todo check for duplicates in list
-                allMightyPullAdapter.submitList(goalObjectList);
-                allMightyPullAdapter.notifyDataSetChanged();
-                Toast.makeText(requireContext(), "size is " + goalObjectList.size(), Toast.LENGTH_SHORT).show();
-                Toast.makeText(requireContext(), "onChanged", Toast.LENGTH_SHORT).show();
-               // goalObjectList.add(new GoalsModel());
-            }
+        mViewModel.getAllGoals().observe(getViewLifecycleOwner(), goalsModels -> {
+            goalObjectList.clear();
+            goalObjectList.addAll(goalsModels); //todo check for duplicates in list
+            allMightyPullAdapter.submitList(goalObjectList);
+            allMightyPullAdapter.notifyDataSetChanged();
+            Toast.makeText(requireContext(), "size is " + goalObjectList.size(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), "onChanged", Toast.LENGTH_SHORT).show();
+           // goalObjectList.add(new GoalsModel());
         });
         // TODO: Use the ViewModel
     }

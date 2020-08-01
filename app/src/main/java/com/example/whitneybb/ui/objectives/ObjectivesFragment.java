@@ -38,6 +38,7 @@ public class ObjectivesFragment extends Fragment {
     private ViewPager2 viewPager2;
     private List<Object> objectiveList = new ArrayList<>();
     private AllMightyPullAdapter allMightyPullAdapter;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         MainActivity.currentPage = 2;
@@ -46,11 +47,12 @@ public class ObjectivesFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_objectives, container, false);
 
 
+
         viewPager2 = root.findViewById(R.id.objectiveViewPager);
         viewPager2.setOrientation(ViewPager2.ORIENTATION_VERTICAL);
         allMightyPullAdapter = new AllMightyPullAdapter();
         viewPager2.setAdapter(allMightyPullAdapter);
-        viewPager2.setPadding(40,80,40,120);
+        viewPager2.setPadding(40, 80, 40, 120);
         viewPager2.setClipToPadding(false);
         viewPager2.setClipChildren(false);
         viewPager2.setOffscreenPageLimit(3);
@@ -58,17 +60,14 @@ public class ObjectivesFragment extends Fragment {
 
         CompositePageTransformer compositePageTransformer = new CompositePageTransformer();
         compositePageTransformer.addTransformer(new MarginPageTransformer(60));
-        compositePageTransformer.addTransformer(new ViewPager2.PageTransformer() {
-            @Override
-            public void transformPage(@NonNull View page, float position) {
-                float r = 1 - Math.abs(position);
-                page.setScaleX(0.85f + r * 0.15f);
-            }
+        compositePageTransformer.addTransformer((page, position) -> {
+            float r = 1 - Math.abs(position);
+            page.setScaleX(0.85f + r * 0.15f);
         });
 
         viewPager2.setPageTransformer(compositePageTransformer);
 
-        viewPager2.registerOnPageChangeCallback( new ViewPager2.OnPageChangeCallback() {
+        viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 super.onPageScrolled(position, positionOffset, positionOffsetPixels);
@@ -76,7 +75,7 @@ public class ObjectivesFragment extends Fragment {
 
             @Override
             public void onPageSelected(int position) {
-                Toast.makeText(requireContext(), "adapter : "+viewPager2.getCurrentItem(), Toast.LENGTH_SHORT).show();
+
                 super.onPageSelected(position);
             }
 
@@ -84,7 +83,7 @@ public class ObjectivesFragment extends Fragment {
             public void onPageScrollStateChanged(int state) {
                 super.onPageScrollStateChanged(state);
             }
-        } );
+        });
 
         allMightyPullAdapter.setOnItemClickListener(object -> {
             ObjectiveModel obj = (ObjectiveModel) object;
@@ -92,6 +91,7 @@ public class ObjectivesFragment extends Fragment {
 
         return root;
     }
+
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -104,8 +104,10 @@ public class ObjectivesFragment extends Fragment {
             allMightyPullAdapter.notifyDataSetChanged();
             Toast.makeText(requireContext(), "size is " + objectiveList.size(), Toast.LENGTH_SHORT).show();
             Toast.makeText(requireContext(), "onChanged", Toast.LENGTH_SHORT).show();
-           // objectiveList.add(new ObjectiveModel());
+            // objectiveList.add(new ObjectiveModel());
         });
+
+
         // TODO: Use the ViewModel
     }
 
@@ -117,13 +119,13 @@ public class ObjectivesFragment extends Fragment {
 
     @Override
     public void onStop() {
-    //    SliderAdapter.currentClass = 4;
+        //    SliderAdapter.currentClass = 4;
         super.onStop();
     }
 
     @Override
     public void onDestroy() {
-    //    SliderAdapter.currentClass = 4;
+        //    SliderAdapter.currentClass = 4;
         super.onDestroy();
     }
 }

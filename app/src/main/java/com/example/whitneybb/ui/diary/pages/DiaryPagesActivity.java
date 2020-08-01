@@ -1,8 +1,13 @@
 package com.example.whitneybb.ui.diary.pages;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -17,31 +22,44 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.example.whitneybb.MainActivity;
 import com.example.whitneybb.R;
 import com.example.whitneybb.adapter.AllMightyPullAdapter;
+import com.example.whitneybb.login.LoginActivity;
 import com.example.whitneybb.model.DiaryModel;
 import com.example.whitneybb.model.DiaryPageModel;
+import com.example.whitneybb.model.LogModel;
 import com.example.whitneybb.ui.editors.Diary_NotesEditorActivity;
+import com.example.whitneybb.utils.randomDuties.IdGenerator;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
 
-import static com.example.whitneybb.ui.diary.DiaryFragment.DIARY_KEY;
+import static com.example.whitneybb.model.DiaryModel.DIARY_ID;
+import static com.example.whitneybb.model.DiaryPageModel.ENTRY_ID;
+import static com.example.whitneybb.ui.editors.Diary_NotesEditorActivity.EDITOR_SPECIFIC;
 
 
-public class DiaryPagesActivity extends AppCompatActivity {
+public class DiaryPagesActivity extends AppCompatActivity implements IdGenerator {
 
     private ViewPager2 viewPager2;
     private List<Object> diaryPagesObjectList = new ArrayList<>();
     private AllMightyPullAdapter allMightyPullAdapter;
     private int count = 0;
+    private DiaryPagesViewModel diaryPagesViewModel;
+    private String dId = "";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diary_pages);
 
+        diaryPagesViewModel = new ViewModelProvider(this).get(DiaryPagesViewModel.class);
+
+
         MainActivity.currentPage = 6;
 
-        String dId = Objects.requireNonNull(Objects.requireNonNull(getIntent().getExtras()).get(DIARY_KEY)).toString();
+        dId = Objects.requireNonNull(Objects.requireNonNull(getIntent().getExtras()).get(DIARY_ID)).toString();
 
         allMightyPullAdapter = new AllMightyPullAdapter();
         viewPager2 = findViewById(R.id.diaryPagesPager);
@@ -69,6 +87,7 @@ public class DiaryPagesActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
+                changePage(String.valueOf(position+1));
                 super.onPageSelected(position);
             }
 
@@ -78,38 +97,63 @@ public class DiaryPagesActivity extends AppCompatActivity {
             }
         } );
 
-       /* new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
-            @Override
-            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-                return false;
-            }
-
-            @Override
-            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                diaryViewModel.delete(allMightyPullAdapter.getDiaryAt(viewHolder.getAdapterPosition()));
-                Toast.makeText(requireContext(), "Diary Deleted", Toast.LENGTH_SHORT).show();
-            }
-        }).attachToRecyclerView();*/
 
         allMightyPullAdapter.setOnItemClickListener(object -> {
             DiaryPageModel page = (DiaryPageModel) object;
             Toast.makeText(DiaryPagesActivity.this, "Diary " + page.getEntryId(), Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(DiaryPagesActivity.this, Diary_NotesEditorActivity.class).putExtra(DIARY_KEY,page.getDiaryId()));
+            startActivity(new Intent(DiaryPagesActivity.this, Diary_NotesEditorActivity.class).putExtra(ENTRY_ID,page.getEntryId()).putExtra(EDITOR_SPECIFIC,"DIARY"));
         });
 
-        DiaryPagesViewModel diaryPagesViewModel = new ViewModelProvider(this).get(DiaryPagesViewModel.class);
 
         diaryPagesViewModel.getAllDiaryPages().observe(this, diaryPageModels -> {
-            System.out.println(diaryPageModels.size()+"");
-            //Toast.makeText(DiaryPagesActivity.this, ""+diaryPageModels.get(0).getDiaryId(), Toast.LENGTH_SHORT).show();
-        });
-      /*  diaryPagesViewModel.getDiaryPagesWithId(dId).observe(this, diaryPageModel -> {
             diaryPagesObjectList.clear();
-            System.out.println("Page loaded "+count++);
-            diaryPagesObjectList.add(diaryPageModel);
+            diaryPagesObjectList.addAll(diaryPageModels);
             allMightyPullAdapter.submitList(diaryPagesObjectList);
-        });*/
+            allMightyPullAdapter.notifyDataSetChanged();
+            System.out.println(diaryPageModels.size()+"");
+        });
+
+        getWindow().setStatusBarColor(Color.DKGRAY);
+
+    }
+
+    private void changePage (String c) {
+        TextView pageCount = findViewById(R.id.pageCount);
+        pageCount.setText(c);
     }
 
 
+    public void addNewPage(View view) {
+        Dialog new_Page = new Dialog(this);
+        new_Page.setContentView(R.layout.diary_page);
+        EditText diaryPageTitleField = new_Page.findViewById(R.id.diaryPageTitleField);
+        Button savePage = new_Page.findViewById(R.id.savePageButton);
+        new_Page.show();
+        savePage.setOnClickListener(v -> {
+            if (diaryPageTitleField.getText().toString().isEmpty()) {
+                diaryPageTitleField.setError("Set title");
+                diaryPageTitleField.requestFocus();
+            } else {
+                String ttl = diaryPageTitleField.getText().toString().replaceAll(" ","");
+                String time = Calendar.getInstance().getTime().toString();
+
+                DiaryPageModel pageModel = new DiaryPageModel();
+                pageModel.setCreatedAt(time);
+                pageModel.setDiaryId(dId);
+                pageModel.setEntryId(getId(ttl,LogModel.DIARY_PAGE_LOG));
+                pageModel.setEntryBody("");
+                pageModel.setEntryTitle(diaryPageTitleField.getText().toString());
+                pageModel.setUpdatedAt(time);
+
+                diaryPagesViewModel.insert(pageModel);
+                new_Page.cancel();
+            }
+        });
+
+    }
+
+    @Override
+    public String getId(String s, String cat) {
+        return s+IdGenerator.block+cat;
+    }
 }

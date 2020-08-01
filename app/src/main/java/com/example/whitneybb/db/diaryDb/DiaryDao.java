@@ -22,6 +22,6 @@ public interface DiaryDao {
     void delete(DiaryModel diary);
     @Query("DELETE FROM diary_table")
     void deleteAllDiaries();
-    @Query("SELECT * FROM diary_table ORDER BY diaryId DESC")
+    @Query("SELECT * FROM diary_table ORDER BY createdAt ASC")
     LiveData<List<DiaryModel>> getAllDiaries();
 }
