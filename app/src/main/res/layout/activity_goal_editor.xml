@@ -21,83 +21,208 @@
             android:orientation="vertical">
 
             <androidx.appcompat.widget.Toolbar
+                android:background="@color/nBlack"
+                app:titleTextColor="@color/nWhite"
+                android:id="@+id/goalEditorToolbar"
+                app:title="Goal Editor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top" />
 
             <EditText
+                android:id="@+id/goalContent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top"
                 android:layout_margin="15dp"
                 android:hint="Title" />
 
+            <EditText
+                android:id="@+id/aboutGoal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:layout_margin="15dp"
+                android:hint="About Goal" />
+
             <TextView
+                android:textStyle="bold"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top"
                 android:layout_margin="15dp"
                 android:text="Sacrifices" />
 
+            <LinearLayout
+                android:layout_margin="10dp"
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/sacrificeFieldEditor"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:layout_margin="3dp"
+                    android:hint="Sacrifices"/>
+                <ImageButton
+                    android:onClick="addSacrificeList"
+                    android:id="@+id/addSacrificeEditor"
+                    android:layout_margin="3dp"
+                    android:layout_width="70dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:background="@android:color/transparent"
+                    android:src="@android:drawable/ic_menu_add"/>
+            </LinearLayout>
+
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/sacrificesRvEditor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="5dp" />
 
             <TextView
+                android:textStyle="bold"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top"
                 android:layout_margin="15dp"
                 android:text="Steps" />
 
+            <LinearLayout
+                android:layout_margin="10dp"
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/stepFieldEditor"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:layout_margin="3dp"
+                    android:hint="Steps"/>
+                <ImageButton
+                    android:onClick="addStepList"
+                    android:id="@+id/addStepEditor"
+                    android:layout_margin="3dp"
+                    android:layout_width="70dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:background="@android:color/transparent"
+                    android:src="@android:drawable/ic_menu_add"/>
+            </LinearLayout>
+
+
+
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/stepsRvEditor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="5dp" />
 
             <TextView
+                android:textStyle="bold"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top"
                 android:layout_margin="15dp"
                 android:text="Limitations" />
 
+
+            <LinearLayout
+                android:layout_margin="10dp"
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/limitFieldEditor"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:layout_margin="3dp"
+                    android:hint="Limitations"/>
+                <ImageButton
+                    android:onClick="addLimitField"
+                    android:id="@+id/addlimitEditor"
+                    android:layout_margin="3dp"
+                    android:layout_width="70dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:background="@android:color/transparent"
+                    android:src="@android:drawable/ic_menu_add"/>
+            </LinearLayout>
+
+
+
+
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/dontGoalRv"
+                android:id="@+id/limitGoalRvEditor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="5dp" />
 
             <TextView
+                android:textStyle="bold"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top"
                 android:layout_margin="15dp"
                 android:text="Reward" />
 
+            <LinearLayout
+                android:layout_margin="10dp"
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/rewardFieldEditor"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:layout_margin="3dp"
+                    android:hint="Reward"/>
+                <ImageButton
+                    android:onClick="addRewardField"
+                    android:id="@+id/addRewardEditor"
+                    android:layout_margin="3dp"
+                    android:layout_width="70dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:background="@android:color/transparent"
+                    android:src="@android:drawable/ic_menu_add"/>
+            </LinearLayout>
+
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rewardRvEditor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="5dp" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="top"
-                android:layout_margin="15dp"
-                android:text="Extend Time" />
-
 
             <Button
+                android:layout_gravity="center"
+                android:id="@+id/updateGoalB"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp"
-                android:text="Save" />
+                android:text="Update" />
 
         </LinearLayout>
     </ScrollView>

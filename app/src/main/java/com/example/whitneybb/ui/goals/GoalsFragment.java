@@ -1,9 +1,8 @@
 package com.example.whitneybb.ui.goals;
 
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -26,10 +25,10 @@ import com.example.whitneybb.adapter.SliderAdapter;
 import com.example.whitneybb.model.GoalsModel;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import static com.example.whitneybb.MainActivity.smartFab;
+import static com.example.whitneybb.model.GoalsModel.GOAL_ID;
 
 public class GoalsFragment extends Fragment {
 
@@ -93,7 +92,7 @@ public class GoalsFragment extends Fragment {
 
         allMightyPullAdapter.setOnItemClickListener(object -> {
             GoalsModel goal = (GoalsModel) object;
-            Toast.makeText(requireContext(), ""+goal.getAboutGoal(), Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(requireContext(), NewGoalEntry.class).putExtra(GOAL_ID,goal.getGoalId()));
         });
 
         return v;

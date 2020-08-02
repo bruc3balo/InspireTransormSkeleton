@@ -12,6 +12,8 @@
         android:orientation="vertical">
 
         <androidx.appcompat.widget.Toolbar
+            app:titleTextColor="@color/nWhite"
+            android:background="@color/nBlack"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="top"
@@ -20,20 +22,74 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Main quest" />
+            android:layout_gravity="center"
+            android:textStyle="bold"
+            android:text="Title"
+            android:layout_margin="10dp"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:hint="Title"
+            android:layout_margin="10dp"
+            android:id="@+id/obj_title_editor"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Steps" />
+            android:layout_gravity="center"
+            android:textStyle="bold"
+            android:text="Steps"
+            android:layout_margin="10dp"/>
+
+        <LinearLayout
+            android:layout_margin="10dp"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:hint="Steps"
+                android:layout_margin="10dp"
+                android:id="@+id/obj_steps_editor"/>
+            <ImageButton
+                android:id="@+id/addSepObj"
+                android:layout_margin="3dp"
+                android:layout_width="70dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@android:color/transparent"
+                android:src="@android:drawable/ic_menu_add"/>
+        </LinearLayout>
+
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Notes" />
+            android:layout_gravity="center"
+            android:textStyle="bold"
+            android:text="Notes"
+            android:layout_margin="10dp"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_margin="10dp"
+            android:hint="Notes"/>
 
 
         <Button
+            android:textColor="@color/nWhite"
+            android:background="@color/nBlack"
+            android:layout_gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"

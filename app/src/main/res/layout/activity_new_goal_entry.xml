@@ -12,12 +12,12 @@
         android:orientation="vertical">
 
         <androidx.appcompat.widget.Toolbar
+            android:id="@+id/newGoalToolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/black"
             app:titleTextColor="@android:color/white"
             android:layout_gravity="center"
-            app:subtitle="The first step to achieving"
             app:subtitleTextColor="@android:color/darker_gray"
             app:title="New Goal"
             app:navigationIcon="@android:drawable/ic_menu_add" />
@@ -44,7 +44,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:textStyle="bold"
-                    android:text="Do's"
+                    android:text="Do's / Steps"
                     android:layout_margin="10dp"/>
 
                 <LinearLayout
@@ -85,7 +85,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:textStyle="bold"
-                    android:text="Don'ts"
+                    android:text="Don'ts / Sacrifices"
                     android:layout_margin="10dp"/>
 
                 <LinearLayout
@@ -285,6 +285,7 @@
 
 
                 <Button
+                    android:id="@+id/submitGoal"
                     android:onClick="validateForm"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

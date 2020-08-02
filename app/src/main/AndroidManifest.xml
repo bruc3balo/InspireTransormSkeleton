@@ -13,7 +13,7 @@
         tools:ignore="ProtectedPermissions" />
 
     <application
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@drawable/ic_treasure_chest_"
         android:label="@string/app_name"
         android:roundIcon="@drawable/ic_treasure_chest_"
@@ -45,8 +45,6 @@
         <activity android:name=".ui.alerts.NewAlertActivity" />
         <activity android:name=".ui.diary.NewDiaryEntry" />
         <activity android:name=".ui.goals.NewGoalEntry" />
-        <activity android:name=".ui.editors.ObjectiveEditorActivity" />
-        <activity android:name=".ui.editors.GoalEditorActivity" />
         <activity android:name=".ui.editors.Diary_NotesEditorActivity" />
         <activity android:name=".ui.notes.NewNotesEntry" />
         <activity android:name=".ui.objectives.NewObjectiveEntry" />

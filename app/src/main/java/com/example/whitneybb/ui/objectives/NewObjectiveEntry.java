@@ -51,6 +51,7 @@ import static com.example.whitneybb.model.ObjectiveModel.OBJ_QUANTIFIABLE;
 import static com.example.whitneybb.model.ObjectiveModel.SACRIFICE_COST;
 import static com.example.whitneybb.model.ObjectiveModel.SET_OBJECTIVE_SCORE;
 import static com.example.whitneybb.model.ObjectiveModel.TIMESTAMP;
+import static com.example.whitneybb.ui.goals.NewGoalEntry.listToString;
 
 public class NewObjectiveEntry extends AppCompatActivity implements View.OnClickListener, DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener,IdGenerator {
 
@@ -60,13 +61,16 @@ public class NewObjectiveEntry extends AppCompatActivity implements View.OnClick
     private ImageButton sacrificeB,stepsB,rewardB,limitB;
     private String time = ""    ,date = "";
     private TextView pickDateObj, pickTimeObj;
-
+    private boolean isUpdating;
 
     private String uid = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        isUpdating = getIntent().getExtras() != null;
+
         setContentView(R.layout.activity_new_objective_entry);
 
         //tv
@@ -289,44 +293,17 @@ public class NewObjectiveEntry extends AppCompatActivity implements View.OnClick
             obj.setAboutObjective(aboutObjective.getText().toString());
 
             String limits = "";
-            for (int i = 0;i <= limitList.size() - 1 ;i++) {
-                try {
-                    limits = limits.concat("{" + limitList.get(i) + "}");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-            obj.setObjectiveLimits(limits);
+            obj.setObjectiveLimits(listToString(limits,limitList));
 
             String sacrifices = "";
-            for (int i = 0;i <= sacrificeList.size() - 1 ;i++) {
-                try {
-                    sacrifices = sacrifices.concat("{" + sacrificeList.get(i) + "}");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-            obj.setSacrificeObjectiveCost(sacrifices);
+            obj.setSacrificeObjectiveCost(listToString(sacrifices,sacrificeList));
 
             String rewards = "";
-            for (int i = 0;i <= rewardList.size() - 1 ;i++) {
-                try {
-                    rewards = rewards.concat("{" + rewardList.get(i) + "}");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-            obj.setObjectiveReward(rewards);
+
+            obj.setObjectiveReward(listToString(rewards,rewardList));
 
             String steps = "";
-            for (int i = 0;i <= stepsList.size() - 1 ;i++) {
-                try {
-                    steps = steps.concat("{" + stepsList.get(i) + "}");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-            obj.setObjectiveSteps(steps);
+            obj.setObjectiveSteps(listToString(steps,stepsList));
 
             obj.setSetAt(timeN);
             obj.setUpdatedAt(timeN);

@@ -1,5 +1,6 @@
 package com.example.whitneybb.ui.goals;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -8,6 +9,7 @@ import android.os.PersistableBundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -16,6 +18,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
+import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Ignore;
@@ -32,8 +36,10 @@ import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import static com.example.whitneybb.MainActivity.ADD_GOALS_REQUEST;
+import static com.example.whitneybb.adapter.AllMightyPullAdapter.listFromString;
 import static com.example.whitneybb.login.LoginActivity.truncate;
 import static com.example.whitneybb.model.GoalsModel.ABOUT_GOAL;
 import static com.example.whitneybb.model.GoalsModel.GOAL_ACHIEVED;
@@ -48,6 +54,9 @@ import static com.example.whitneybb.model.GoalsModel.GOAL_SACRIFICE;
 import static com.example.whitneybb.model.GoalsModel.GOAL_STEPS;
 import static com.example.whitneybb.model.GoalsModel.GOAL_TERM;
 import static com.example.whitneybb.model.GoalsModel.GOAL_XP;
+import static com.example.whitneybb.model.GoalsModel.LONG_TERM;
+import static com.example.whitneybb.model.GoalsModel.MID_TERM;
+import static com.example.whitneybb.model.GoalsModel.SHORT_TERM;
 import static com.example.whitneybb.model.ObjectiveModel.TIMESTAMP;
 
 
@@ -57,14 +66,33 @@ public class NewGoalEntry extends AppCompatActivity implements View.OnClickListe
     private LinkedList<String> doList = new LinkedList<>(), dontList = new LinkedList<>(), rewardList = new LinkedList<>(), limitList = new LinkedList<>();
     private StandardRecyclerListAdapter doAdapter, dontAdapter, rewardAdapter, limitAdapter;
     private Chip shortTerm, midTerm, longTerm;
-    private String termGoal = "";
+    private String termGoal = "",keyId = "";
     private boolean goalPrivacy;
+    private boolean isUpdating;
+    private GoalsViewModel goalsViewModel;
+    private GoalsModel editedGoal;
 
 
+
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        isUpdating = false;
+        goalsViewModel = new ViewModelProvider(this).get(GoalsViewModel.class);
         setContentView(R.layout.activity_new_goal_entry);
+
+        Toolbar toolbar = findViewById(R.id.newGoalToolbar);
+        setSupportActionBar(toolbar);
+
+        Button submit = findViewById(R.id.submitGoal);
+
+
+        if (getIntent().getExtras() != null) {
+            keyId = Objects.requireNonNull(Objects.requireNonNull(getIntent().getExtras()).get(GOAL_ID)).toString();
+            isUpdating = true;
+        }
+
         final Chip[] chipList = new Chip[]{shortTerm = findViewById(R.id.shortTermChip), midTerm = findViewById(R.id.midTermChip), longTerm = findViewById(R.id.longTermChip)};
 
         //chips
@@ -117,6 +145,29 @@ public class NewGoalEntry extends AppCompatActivity implements View.OnClickListe
 
         SwitchCompat goalPrivacySwitch = findViewById(R.id.goalPrivacySwitch);
         goalPrivacySwitch.setOnClickListener(this);
+
+
+        if (isUpdating) {
+            toolbar.setTitle("Update Goal");
+            toolbar.setSubtitle("Making changes ...");
+            submit.setText("Update");
+            goalsViewModel.getAllGoals().observe(this, goalsModels -> {
+                for (int i = 0; i <= goalsModels.size() - 1; i++) {
+                    if (goalsModels.get(i).getGoalId().equals(keyId)) {
+                        editedGoal = goalsModels.get(i);
+                        aboutGoal.setText(editedGoal.getAboutGoal());
+                        goalTitle.setText(editedGoal.getGoalContent());
+                        termGoal = editedGoal.getGoalTerm();
+                        goalPrivacySwitch.setChecked(editedGoal.isGoalPrivate());
+                        updateRvs(editedGoal.getReward(),editedGoal.getGoalLimitations(),editedGoal.getStepsToGoal(),editedGoal.getGoalSacrifices(),termGoal,chipList);
+                    }
+                }
+            });
+        } else {
+            submit.setText("Create");
+            toolbar.setTitle("New Goal");
+            toolbar.setSubtitle("The first step to achieving");
+        }
 
         getWindow().setStatusBarColor(Color.BLACK);
     }
@@ -179,13 +230,25 @@ public class NewGoalEntry extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        if (isUpdating) {
+
+        } else {
+            return super.onCreateOptionsMenu(menu);
+        }
         return super.onCreateOptionsMenu(menu);
+
     }
 
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (isUpdating) {
+            //todo delete
+        } else {
+            return super.onOptionsItemSelected(item);
+        }
         return super.onOptionsItemSelected(item);
+
     }
 
     @Override
@@ -303,7 +366,6 @@ public class NewGoalEntry extends AppCompatActivity implements View.OnClickListe
             Toast.makeText(this, "Pick goal term", Toast.LENGTH_SHORT).show();
         } else {
 
-
             goal.setGoalContent(goalTitle.getText().toString());
             goal.setGoalPrivate(goalPrivacy);
             String time = truncate(Calendar.getInstance().getTime().toString(), 16);
@@ -312,46 +374,20 @@ public class NewGoalEntry extends AppCompatActivity implements View.OnClickListe
             goal.setGoalId(getId(idTitle, LogModel.GOAL_LOG));
 
             String rewards = "";
-            for (int i = 0; i <= rewardList.size() - 1; i++) {
-                try {
-                    rewards = rewards.concat("{" + rewardList.get(i) + "}");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-            goal.setReward(rewards);
+
+            goal.setReward(listToString(rewards,rewardList));
 
             String dos = "";
-            for (int i = 0; i <= doList.size()  - 1; i++) {
-                try {
-                    dos = dos.concat("{" + doList.get(i) + "}");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-            goal.setStepsToGoal(dos);
+
+            goal.setStepsToGoal(listToString(dos,doList));
 
             String donts = "";
-            for (int i = 0; i <= dontList.size() - 1; i++) {
-                try {
-                    donts = donts.concat("{" + dontList.get(i) + "}");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-            goal.setGoalSacrifices(donts);
+            goal.setGoalSacrifices(listToString(donts,dontList));
 
             String limits = "";
-            for (int i = 0; i <= limitList.size() - 1; i++) {
-                try {
-                    limits = limits.concat("{" + limitList.get(i) + "}");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-            goal.setGoalLimitations(limits);
+            goal.setGoalLimitations(listToString(limits,limitList));
             goal.setGoalTerm(termGoal);
-            goal.setGoalSetAt(time);
+
 
             goal.setGoalReview("");
             goal.setGoalUpdatedAt(time);
@@ -361,43 +397,71 @@ public class NewGoalEntry extends AppCompatActivity implements View.OnClickListe
             goal.setGoalExperienceRating(0);
             goal.setGoalAchieved(false);
 
-            saveData(goal);
+            if (isUpdating) {
+                updateGoal(goal);
+            } else {
+                goal.setGoalSetAt(time);
+                saveData(goal);
+            }
         }
     }
 
-    private void toastObject(GoalsModel goal) {
-        Toast.makeText(this, "Content : " + goal.getGoalContent() + " id : " + goal.getGoalId() + " is goal private : " + goal.isGoalPrivate() + "reward : " + goal.getReward() + " sacrifice " + goal.getGoalSacrifices() + " limits : " + goal.getGoalLimitations() + " steps : " + goal.getStepsToGoal() + " term : " + goal.getGoalTerm() + "time : " + goal.getGoalSetAt(), Toast.LENGTH_SHORT).show();
-    }
 
     private void saveData(GoalsModel goal) {
-        Intent data = new Intent();
-
-        data.putExtra(GOAL_CONTENT, goal.getGoalContent());
-        data.putExtra(GOAL_PRIVATE, goal.isGoalPrivate());
-        data.putExtra(ABOUT_GOAL,goal.getAboutGoal());
-
-        data.putExtra(GOAL_ID, goal.getGoalId());
-        data.putExtra(GOAL_REWARD, goal.getReward());
-        data.putExtra(GOAL_STEPS, goal.getStepsToGoal());
-
-        data.putExtra(GOAL_SACRIFICE, goal.getGoalSacrifices());
-        data.putExtra(GOAL_LIMITATIONS, goal.getGoalLimitations());
-        data.putExtra(GOAL_TERM, goal.getGoalTerm());
-
-        data.putExtra(TIMESTAMP, goal.getGoalSetAt());
-        data.putExtra(TIMESTAMP,goal.getGoalUpdatedAt());
-        data.putExtra(GOAL_REVIEW, goal.getGoalReview());
-
-        data.putExtra(GOAL_NOTES, goal.getGoalNotes());
-        data.putExtra(GOAL_XP, goal.getGoalExperienceRating());
-        data.putExtra(GOAL_ACHIEVED, goal.isGoalAchieved());
-
-        setResult(RESULT_OK, data);
+        goalsViewModel.insert(goal);
+        setResult(RESULT_OK);
         finish();
     }
+
+
 
     @Override
     public String getId(String s, String cat) {
         return s + IdGenerator.block + cat;
+    }
+
+    public static String listToString(String s,LinkedList<String> list) {
+
+        for (int i = 0; i <= list.size() - 1; i++) {
+            try {
+                s = s.concat("{" + list.get(i) + "}");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return s;
+    }
+
+    private void updateGoal(GoalsModel goal) {
+        goalsViewModel.update(goal);
+        Toast.makeText(this, "Goal Updated", Toast.LENGTH_SHORT).show();
+        finish();
+    }
+
+    private void updateRvs(String reward,String limit,String step,String sacrifice,String term,Chip[] chipList) {
+        String r = reward,l = limit,s = step,sac = sacrifice;
+        try {
+            rewardList.addAll(listFromString(r));
+            rewardAdapter.notifyDataSetChanged();
+            limitList.addAll(listFromString(l));
+            limitAdapter.notifyDataSetChanged();
+            doList.addAll(listFromString(s));
+            doAdapter.notifyDataSetChanged();
+            dontList.addAll(listFromString(sac));
+            dontAdapter.notifyDataSetChanged();
+            switch (term) {
+                case SHORT_TERM:
+                    setSelectedChip(chipList,0);
+                    break;
+                case MID_TERM:
+                    setSelectedChip(chipList,1);
+                    break;
+                case LONG_TERM:
+                    setSelectedChip(chipList,2);
+                    break;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

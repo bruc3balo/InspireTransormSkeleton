@@ -85,6 +85,7 @@ import static com.example.whitneybb.model.GoalsModel.GOAL_NOTES;
 import static com.example.whitneybb.model.GoalsModel.GOAL_PRIVATE;
 import static com.example.whitneybb.model.GoalsModel.GOAL_REVIEW;
 import static com.example.whitneybb.model.GoalsModel.GOAL_REWARD;
+import static com.example.whitneybb.model.GoalsModel.GOAL_SACRIFICE;
 import static com.example.whitneybb.model.GoalsModel.GOAL_STEPS;
 import static com.example.whitneybb.model.GoalsModel.GOAL_TERM;
 import static com.example.whitneybb.model.GoalsModel.GOAL_XP;
@@ -138,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-           switch (currentPage) {
+                switch (currentPage) {
                     case 0:
                         Intent intentN = new Intent(MainActivity.this, NewNotesEntry.class);
                         startActivityForResult(intentN, ADD_NOTES_REQUEST);
@@ -203,7 +204,6 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
-
 
 
     @Override
@@ -314,7 +314,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(this, "Notes Creation Failed", Toast.LENGTH_SHORT).show();
                 }
                 break;
-                
+
             case ADD_ALERT_REQUEST:
                 if (resultCode == RESULT_OK) {
                     if (data != null) {
@@ -345,11 +345,10 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(this, "Alerts Creation Failed", Toast.LENGTH_SHORT).show();
                 }
                 break;
-                
+
             case ADD_GOALS_REQUEST:
                 if (resultCode == RESULT_OK) {
-                    if (data != null) {
-                        GoalsModel goal = new GoalsModel();
+                        /*GoalsModel goal = new GoalsModel();
 
                         goal.setGoalId(Objects.requireNonNull(Objects.requireNonNull(data.getExtras()).get(GOAL_ID)).toString());
                         goal.setGoalTerm(Objects.requireNonNull(data.getExtras().get(GOAL_TERM)).toString());
@@ -369,21 +368,17 @@ public class MainActivity extends AppCompatActivity {
 
                         goal.setGoalReview(Objects.requireNonNull(data.getExtras().get(GOAL_REVIEW)).toString());
                         goal.setAboutGoal(Objects.requireNonNull(data.getExtras().get(ABOUT_GOAL)).toString());
+                        goal.setGoalSacrifices(Objects.requireNonNull(data.getExtras().get(GOAL_SACRIFICE)).toString());
 
 
                         GoalsViewModel goalsViewModel = new ViewModelProvider(MainActivity.this).get(GoalsViewModel.class);
-                        goalsViewModel.insert(goal);
-                        Toast.makeText(this, "Goal Created", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(this, "Nothing returned", Toast.LENGTH_SHORT).show();
-                    }
+                        goalsViewModel.insert(goal);*/
+                    Toast.makeText(this, "Goal Created", Toast.LENGTH_SHORT).show();
                 } else if (resultCode == RESULT_CANCELED) {
-                    Toast.makeText(this, "Goals creation cancelled", Toast.LENGTH_SHORT).show();
-                } else {
                     Toast.makeText(this, "Goals Creation Failed", Toast.LENGTH_SHORT).show();
                 }
                 break;
-                
+
             case ADD_OBJECTIVE_REQUEST:
                 if (resultCode == RESULT_OK) {
                     if (data != null) {
@@ -427,7 +422,8 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(this, "Objective Creation Failed", Toast.LENGTH_SHORT).show();
                 }
                 break;
-            default:break;
+            default:
+                break;
 
         }
     }

@@ -13,6 +13,7 @@
         android:orientation="vertical">
 
         <androidx.appcompat.widget.Toolbar
+            android:id="@+id/newObjToolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/black"
@@ -190,6 +191,7 @@
                     android:id="@+id/objRewardRv"/>
 
                 <TextView
+                    android:id="@+id/expiryPickerTv"
                     android:text="Set a date and time for objective to achieve this objective"
                     android:padding="3dp"
                     android:layout_width="match_parent"
@@ -226,7 +228,26 @@
                     android:layout_margin="15dp"/>
 
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textStyle="bold"
+                    android:text="Notes"
+                    android:layout_margin="10dp"/>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_margin="10dp"
+                    android:hint="Notes"/>
+
+
+
                 <Button
+                    android:id="@+id/submitObj"
                     android:onClick="validateForm"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
