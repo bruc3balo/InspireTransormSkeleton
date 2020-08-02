@@ -44,7 +44,7 @@ public class Diary_NotesEditorActivity extends AppCompatActivity {
     private String nId = "", eId = "", oId = "";
 
     private HorizontalScrollView buttonsTray;
-    private ImageButton saveB, zoomOut, zoomIn, sizeUp, sizeDown, trayColor, textColorChange, buttonChange, fontChange, spellCheck, editorB;
+    private ImageButton saveB, zoomOut, zoomIn, sizeUp, sizeDown, trayColor, textColorChange, buttonChange, fontChange, spellCheck, editorB,delete;
     private int textSize = 15, textColorCount = 0, backGroundColorCount = 0, zoomInt = 40, buttonColor = 0, editorBg = 0;
     String time = truncate(Calendar.getInstance().getTime().toString(), 16);
     private boolean backPressed;
@@ -75,6 +75,8 @@ public class Diary_NotesEditorActivity extends AppCompatActivity {
 
         spellCheck = findViewById(R.id.spellCheck);
         editorB = findViewById(R.id.changeEditorBg);
+        delete = findViewById(R.id.delete_from_editor);
+
 
 
         //tray
@@ -93,6 +95,7 @@ public class Diary_NotesEditorActivity extends AppCompatActivity {
                             titleText.setText(diaryPageModels.get(i).getEntryTitle());
                             int finalI = i;
                             saveB.setOnClickListener(v -> saveDiary(diaryPageModels.get(finalI), diaryPagesViewModel));
+                            delete.setOnClickListener(v -> {diaryPagesViewModel.delete(diaryPageModels.get(finalI));finish();});
                         }
                     }
                 });
@@ -112,6 +115,7 @@ public class Diary_NotesEditorActivity extends AppCompatActivity {
                             titleText.setText(notesModels.get(i).getNoteTitle());
                             int finalI = i;
                             saveB.setOnClickListener(v -> saveNote(notesModels.get(finalI), notesViewModel));
+                            delete.setOnClickListener(v -> {notesViewModel.update(notesModels.get(finalI));finish();});
 
                         }
                     }
@@ -131,6 +135,7 @@ public class Diary_NotesEditorActivity extends AppCompatActivity {
                             titleText.setText(objectiveModels.get(i).getObjectiveTitle());
                             int finalI = i;
                             saveB.setOnClickListener(v -> saveObjectiveNote(objectiveModels.get(finalI), objectivesViewModel));
+                            delete.setOnClickListener(v -> {objectiveModels.get(finalI).setObj_notes("");objectivesViewModel.update(objectiveModels.get(finalI));finish();});
                         }
                     }
                 });
@@ -266,7 +271,9 @@ public class Diary_NotesEditorActivity extends AppCompatActivity {
         textColorChange.setBackgroundColor(Color.parseColor(NotesModel.getColorList()[buttonColor]));
         buttonChange.setBackgroundColor(Color.parseColor(NotesModel.getColorList()[buttonColor]));
         fontChange.setBackgroundColor(Color.parseColor(NotesModel.getColorList()[buttonColor]));
+
         editorB.setBackgroundColor(Color.parseColor(NotesModel.getColorList()[buttonColor]));
+        delete.setBackgroundColor(Color.parseColor(NotesModel.getColorList()[buttonColor]));
 
     }
 

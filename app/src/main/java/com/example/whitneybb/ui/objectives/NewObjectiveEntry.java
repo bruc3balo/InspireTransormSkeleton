@@ -1,6 +1,7 @@
 package com.example.whitneybb.ui.objectives;
 
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -74,7 +75,7 @@ public class NewObjectiveEntry extends AppCompatActivity implements View.OnClick
     private LinkedList<String> sacrificeList = new LinkedList<>(), stepsList = new LinkedList<>(), rewardList = new LinkedList<>(), limitList = new LinkedList<>();
     private ImageButton sacrificeB, stepsB, rewardB, limitB;
     private String time = "", date = "";
-    private TextView pickDateObj, pickTimeObj, notesBodyObj,objNoteTv;
+    private TextView pickDateObj, pickTimeObj, notesBodyObj, objNoteTv;
     private boolean isUpdating;
     private ObjectivesViewModel objectivesViewModel;
     private ObjectiveModel editorObj;
@@ -174,7 +175,7 @@ public class NewObjectiveEntry extends AppCompatActivity implements View.OnClick
                         pickDateObj.setText(editorObj.getObjectiveExpiry());
                         updateRvs(editorObj.getObjectiveReward(), editorObj.getObjectiveLimits(), editorObj.getObjectiveSteps(), editorObj.getSacrificeObjectiveCost());
                         setNoteDisplay(editorObj);
-                        Toast.makeText(this, ""+editorObj.getUpdatedAt(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "" + editorObj.getUpdatedAt(), Toast.LENGTH_SHORT).show();
                     }
                 }
             });
@@ -202,6 +203,22 @@ public class NewObjectiveEntry extends AppCompatActivity implements View.OnClick
     }
 
 
+    private void confirmDelete() {
+        Dialog d = new Dialog(this);
+        d.setContentView(R.layout.confirm_delete_dialog);
+        TextView tv = d.findViewById(R.id.confirmationTv);
+        Button yes = d.findViewById(R.id.yesDelete), no = d.findViewById(R.id.noDelete);
+        d.show();
+        tv.setText("Are you sure you want to delete this Objective?");
+        yes.setOnClickListener(v -> {
+            objectivesViewModel.delete(editorObj);
+            d.cancel();
+            finish();
+        });
+        no.setOnClickListener(v -> d.cancel());
+    }
+
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -226,7 +243,6 @@ public class NewObjectiveEntry extends AppCompatActivity implements View.OnClick
     protected void onStop() {
         super.onStop();
     }
-
 
     @Override
     protected void onDestroy() {
@@ -272,12 +288,20 @@ public class NewObjectiveEntry extends AppCompatActivity implements View.OnClick
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        if (isUpdating) {
+            getMenuInflater().inflate(R.menu.update_menu, menu);
+        }
         return super.onCreateOptionsMenu(menu);
     }
 
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (isUpdating) {
+            if (item.getItemId() == R.id.delete_obj_menu) {
+                confirmDelete();
+            }
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -372,13 +396,13 @@ public class NewObjectiveEntry extends AppCompatActivity implements View.OnClick
             rewardField.setError("List reward");
             rewardField.requestFocus();
         } else if (!isUpdating) {
-             if (time.equals("")) {
+            if (time.equals("")) {
                 Toast.makeText(this, "Pick a time", Toast.LENGTH_SHORT).show();
             } else if (date.equals("")) {
                 Toast.makeText(this, "Pick a date", Toast.LENGTH_SHORT).show();
             } else {
-                 formValid = true;
-             }
+                formValid = true;
+            }
         } else {
             formValid = true;
         }
@@ -431,7 +455,6 @@ public class NewObjectiveEntry extends AppCompatActivity implements View.OnClick
         }
     }
 
-
     private void saveObjective(ObjectiveModel obj) {
         objectivesViewModel.insert(obj);
         setResult(RESULT_OK);
@@ -440,10 +463,9 @@ public class NewObjectiveEntry extends AppCompatActivity implements View.OnClick
 
     private void updateObjective(ObjectiveModel obj) {
         objectivesViewModel.update(obj);
-        Toast.makeText(this, "Objective Updated     "+obj.getObjectiveTitle(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Objective Updated     " + obj.getObjectiveTitle(), Toast.LENGTH_SHORT).show();
         finish();
     }
-
 
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
@@ -456,7 +478,6 @@ public class NewObjectiveEntry extends AppCompatActivity implements View.OnClick
         date = "Day : " + dayOfMonth + " Month : " + month + " Year" + year;
         pickDateObj.setText(date);
     }
-
 
     @Override
     public String getId(String s, String cat) {

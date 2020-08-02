@@ -128,7 +128,7 @@ public class DiaryFragment extends Fragment {
 
     @Override
     public void onResume() {
-        SliderAdapter.currentClass = 1;
+        MainActivity.currentPage = 3;
         super.onResume();
     }
 

@@ -116,7 +116,7 @@ public class ObjectivesFragment extends Fragment {
 
     @Override
     public void onResume() {
-        SliderAdapter.currentClass = 0;
+        MainActivity.currentPage = 2;
         super.onResume();
     }
 

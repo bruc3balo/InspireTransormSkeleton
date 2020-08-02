@@ -1,6 +1,7 @@
 package com.example.whitneybb.ui.goals;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -22,7 +24,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Ignore;
 
 import com.example.whitneybb.R;
 import com.example.whitneybb.adapter.StandardRecyclerListAdapter;
@@ -30,34 +31,17 @@ import com.example.whitneybb.model.GoalsModel;
 import com.example.whitneybb.model.LogModel;
 import com.example.whitneybb.utils.randomDuties.IdGenerator;
 import com.google.android.material.chip.Chip;
-import com.google.android.material.chip.ChipGroup;
 
 import java.util.Calendar;
 import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
-import static com.example.whitneybb.MainActivity.ADD_GOALS_REQUEST;
 import static com.example.whitneybb.adapter.AllMightyPullAdapter.listFromString;
 import static com.example.whitneybb.login.LoginActivity.truncate;
-import static com.example.whitneybb.model.GoalsModel.ABOUT_GOAL;
-import static com.example.whitneybb.model.GoalsModel.GOAL_ACHIEVED;
-import static com.example.whitneybb.model.GoalsModel.GOAL_CONTENT;
 import static com.example.whitneybb.model.GoalsModel.GOAL_ID;
-import static com.example.whitneybb.model.GoalsModel.GOAL_LIMITATIONS;
-import static com.example.whitneybb.model.GoalsModel.GOAL_NOTES;
-import static com.example.whitneybb.model.GoalsModel.GOAL_PRIVATE;
-import static com.example.whitneybb.model.GoalsModel.GOAL_REVIEW;
-import static com.example.whitneybb.model.GoalsModel.GOAL_REWARD;
-import static com.example.whitneybb.model.GoalsModel.GOAL_SACRIFICE;
-import static com.example.whitneybb.model.GoalsModel.GOAL_STEPS;
-import static com.example.whitneybb.model.GoalsModel.GOAL_TERM;
-import static com.example.whitneybb.model.GoalsModel.GOAL_XP;
 import static com.example.whitneybb.model.GoalsModel.LONG_TERM;
 import static com.example.whitneybb.model.GoalsModel.MID_TERM;
 import static com.example.whitneybb.model.GoalsModel.SHORT_TERM;
-import static com.example.whitneybb.model.ObjectiveModel.TIMESTAMP;
 
 
 public class NewGoalEntry extends AppCompatActivity implements View.OnClickListener, IdGenerator {
@@ -231,7 +215,7 @@ public class NewGoalEntry extends AppCompatActivity implements View.OnClickListe
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if (isUpdating) {
-
+            getMenuInflater().inflate(R.menu.update_menu,menu);
         } else {
             return super.onCreateOptionsMenu(menu);
         }
@@ -244,11 +228,23 @@ public class NewGoalEntry extends AppCompatActivity implements View.OnClickListe
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (isUpdating) {
             //todo delete
-        } else {
-            return super.onOptionsItemSelected(item);
+            if (item.getItemId() == R.id.delete_obj_menu) {
+                confirmDelete();
+            }
         }
         return super.onOptionsItemSelected(item);
 
+    }
+
+    private void confirmDelete() {
+        Dialog d = new Dialog(this);
+        d.setContentView(R.layout.confirm_delete_dialog);
+        TextView tv = d.findViewById(R.id.confirmationTv);
+        Button yes = d.findViewById(R.id.yesDelete),no = d.findViewById(R.id.noDelete);
+        d.show();
+        tv.setText("Are you sure you want to delete this goal ?");
+        yes.setOnClickListener(v -> {goalsViewModel.delete(editedGoal);d.cancel(); finish();});
+        no.setOnClickListener(v -> d.cancel());
     }
 
     @Override

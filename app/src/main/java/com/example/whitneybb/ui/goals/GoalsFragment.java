@@ -113,7 +113,7 @@ public class GoalsFragment extends Fragment {
 
     @Override
     public void onResume() {
-        SliderAdapter.currentClass = 3;
+        MainActivity.currentPage = 1;
         super.onResume();
     }
 

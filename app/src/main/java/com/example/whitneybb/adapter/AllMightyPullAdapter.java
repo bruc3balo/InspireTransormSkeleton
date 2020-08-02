@@ -41,9 +41,8 @@ import static com.example.whitneybb.model.GoalsModel.SHORT_TERM;
 
 public class AllMightyPullAdapter extends ListAdapter<Object, AllMightyPullAdapter.ViewHolder> {
 
-    private LayoutInflater inflater;
+
     private Context context;
-    private List list;
     private ItemClickListener mClickListener;
     private OnItemClickListener onItemClickListener;
 
@@ -100,10 +99,10 @@ public class AllMightyPullAdapter extends ListAdapter<Object, AllMightyPullAdapt
                 newerDiary = (DiaryModel) newItem;
                 return olderDiary.getDiaryId().equals(newerDiary.getDiaryId()) && olderDiary.getDiaryTitle().equals(newerDiary.getDiaryTitle());
             } else if (MainActivity.currentPage == 6) {
-               DiaryPageModel olderPage, newerPage;
-               olderPage = (DiaryPageModel) oldItem;
-               newerPage = (DiaryPageModel) newItem;
-               return olderPage.getEntryId().equals(newerPage.getEntryId()) && olderPage.getEntryBody().equals(newerPage.getEntryBody());
+                DiaryPageModel olderPage, newerPage;
+                olderPage = (DiaryPageModel) oldItem;
+                newerPage = (DiaryPageModel) newItem;
+                return olderPage.getEntryId().equals(newerPage.getEntryId()) && olderPage.getEntryBody().equals(newerPage.getEntryBody());
             } else {
                 return false; //todo compare all data for each object for result
             }
@@ -134,7 +133,7 @@ public class AllMightyPullAdapter extends ListAdapter<Object, AllMightyPullAdapt
             System.out.println("Diary");
             View v = LayoutInflater.from(context).inflate(R.layout.vp_diary_layout, parent, false);
             return new ViewHolder(v);
-        } else if (viewType == 6 ) {
+        } else if (viewType == 6) {
             System.out.println("Diary Page");
             View v = LayoutInflater.from(context).inflate(R.layout.vp_diary_page_layout, parent, false);
             return new ViewHolder(v);
@@ -150,43 +149,61 @@ public class AllMightyPullAdapter extends ListAdapter<Object, AllMightyPullAdapt
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         switch (MainActivity.currentPage) {
             case 0:
-                NotesModel notesModel = (NotesModel) getItem(position);
-
+                try {
+                    NotesModel notesModel = (NotesModel) getItem(position);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 break;
             case 1:
-                GoalsModel goalsModel = (GoalsModel) getItem(position);
-                setGoalTerm(goalsModel,holder);
-                holder.goalTitle.setText(goalsModel.getGoalContent());
+                try {
+                    GoalsModel goalsModel = (GoalsModel) getItem(position);
+                    setGoalTerm(goalsModel, holder);
+                    holder.goalTitle.setText(goalsModel.getGoalContent());
 
-                holder.goalStepsRecyclerView.setLayoutManager(new LinearLayoutManager(context,RecyclerView.VERTICAL,false));
-                StepAdapter adapter = new StepAdapter(context,listFromString(goalsModel.getStepsToGoal()));
-                adapter.notifyDataSetChanged();
-                holder.goalStepsRecyclerView.setAdapter(adapter);
+                    holder.goalStepsRecyclerView.setLayoutManager(new LinearLayoutManager(context, RecyclerView.VERTICAL, false));
+                    StepAdapter adapter = new StepAdapter(context, listFromString(goalsModel.getStepsToGoal()));
+                    adapter.notifyDataSetChanged();
+                    holder.goalStepsRecyclerView.setAdapter(adapter);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
                 break;
             case 2:
-                ObjectiveModel objectiveModel = (ObjectiveModel) getItem(position);
-                holder.obj_title_tv.setText(objectiveModel.getObjectiveTitle());
-                holder.obj_description_tv.setText(objectiveModel.getAboutObjective());
+                try {
+                    ObjectiveModel objectiveModel = (ObjectiveModel) getItem(position);
+                    holder.obj_title_tv.setText(objectiveModel.getObjectiveTitle());
+                    holder.obj_description_tv.setText(objectiveModel.getAboutObjective());
 
-                holder.objectiveStepsRv.setLayoutManager(new LinearLayoutManager(context,RecyclerView.VERTICAL,false));
-                StepAdapter adapterObj = new StepAdapter(context,listFromString(objectiveModel.objectiveSteps));
-                adapterObj.notifyDataSetChanged();
-                holder.objectiveStepsRv.setAdapter(adapterObj);
+                    holder.objectiveStepsRv.setLayoutManager(new LinearLayoutManager(context, RecyclerView.VERTICAL, false));
+                    StepAdapter adapterObj = new StepAdapter(context, listFromString(objectiveModel.objectiveSteps));
+                    adapterObj.notifyDataSetChanged();
+                    holder.objectiveStepsRv.setAdapter(adapterObj);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
                 break;
             case 3:
-                DiaryModel diaryModel = (DiaryModel) getItem(position);
-               // holder.diaryCover.setImageURI(Uri.fromFile(new File(diaryModel.getDiaryCoverUrl())));
-                Glide.with(context).load(diaryModel.getDiaryCoverUrl()).into(holder.diaryCover);
-                holder.diaryTitle.setText(diaryModel.getDiaryTitle());
-
+                try {
+                    DiaryModel diaryModel = (DiaryModel) getItem(position);
+                    // holder.diaryCover.setImageURI(Uri.fromFile(new File(diaryModel.getDiaryCoverUrl())));
+                    Glide.with(context).load(diaryModel.getDiaryCoverUrl()).into(holder.diaryCover);
+                    holder.diaryTitle.setText(diaryModel.getDiaryTitle());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
                 break;
             case 6:
-                DiaryPageModel page = (DiaryPageModel) getItem(position);
-                holder.pageTitle.setText(page.getEntryTitle());
-                holder.pageContent.setText(page.getEntryBody());
+                try {
+                    DiaryPageModel page = (DiaryPageModel) getItem(position);
+                    holder.pageTitle.setText(page.getEntryTitle());
+                    holder.pageContent.setText(page.getEntryBody());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
                 break;
             default:
@@ -194,7 +211,7 @@ public class AllMightyPullAdapter extends ListAdapter<Object, AllMightyPullAdapt
         }
     }
 
-    private void setGoalTerm(GoalsModel goal,ViewHolder holder) {
+    private void setGoalTerm(GoalsModel goal, ViewHolder holder) {
         if (goal.getGoalTerm().equals(SHORT_TERM)) {
             holder.goalTermBackgroundCard.setCardBackgroundColor(context.getColor(android.R.color.holo_red_light));
         } else if (goal.getGoalTerm().equals(MID_TERM)) {
@@ -301,13 +318,17 @@ public class AllMightyPullAdapter extends ListAdapter<Object, AllMightyPullAdapt
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView diaryTitle; ImageView diaryCover;
+        TextView diaryTitle;
+        ImageView diaryCover;
 
-        TextView goalTitle; RecyclerView goalStepsRecyclerView; CardView goalTermBackgroundCard;
+        TextView goalTitle;
+        RecyclerView goalStepsRecyclerView;
+        CardView goalTermBackgroundCard;
 
-        TextView obj_title_tv,obj_description_tv; RecyclerView objectiveStepsRv;
+        TextView obj_title_tv, obj_description_tv;
+        RecyclerView objectiveStepsRv;
 
-        TextView pageTitle,pageContent;
+        TextView pageTitle, pageContent;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
