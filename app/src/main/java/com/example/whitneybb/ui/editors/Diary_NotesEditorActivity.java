@@ -18,8 +18,10 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.whitneybb.R;
 import com.example.whitneybb.model.DiaryPageModel;
 import com.example.whitneybb.model.NotesModel;
+import com.example.whitneybb.model.ObjectiveModel;
 import com.example.whitneybb.ui.diary.pages.DiaryPagesViewModel;
 import com.example.whitneybb.ui.notes.NotesViewModel;
+import com.example.whitneybb.ui.objectives.ObjectivesViewModel;
 import com.example.whitneybb.utils.randomDuties.LinedEditText;
 
 import java.util.Calendar;
@@ -30,24 +32,29 @@ import static com.example.whitneybb.login.LoginActivity.truncate;
 import static com.example.whitneybb.model.DiaryModel.DIARY_ID;
 import static com.example.whitneybb.model.DiaryPageModel.ENTRY_ID;
 import static com.example.whitneybb.model.NotesModel.NOTE_ID;
+import static com.example.whitneybb.model.ObjectiveModel.OBJECTIVE_ID;
 
 
 public class Diary_NotesEditorActivity extends AppCompatActivity {
 
     public static final String EDITOR_SPECIFIC = "";
+    public static final String D = "DIARY", N = "NOTES", O = "OBJECTIVE";
     private LinedEditText editorField;
     private EditText titleText;
-    private String nId = "", eId = "";
-    private boolean diarySelected;
+    private String nId = "", eId = "", oId = "";
+
     private HorizontalScrollView buttonsTray;
-    private ImageButton saveB,zoomOut,zoomIn,sizeUp,sizeDown,trayColor,textColorChange,buttonChange,fontChange,spellCheck,editorB;
-    private int textSize = 15,textColorCount = 0,backGroundColorCount = 0,zoomInt = 40,buttonColor = 0,editorBg= 0;
+    private ImageButton saveB, zoomOut, zoomIn, sizeUp, sizeDown, trayColor, textColorChange, buttonChange, fontChange, spellCheck, editorB;
+    private int textSize = 15, textColorCount = 0, backGroundColorCount = 0, zoomInt = 40, buttonColor = 0, editorBg = 0;
+    String time = truncate(Calendar.getInstance().getTime().toString(), 16);
+    private boolean backPressed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
-        diarySelected = false;
+
+        backPressed = false;
 
         titleText = findViewById(R.id.titleText);
         editorField = findViewById(R.id.editorTextField);
@@ -72,12 +79,11 @@ public class Diary_NotesEditorActivity extends AppCompatActivity {
 
         //tray
         buttonsTray = findViewById(R.id.buttonsTray);
-
         Intent data = getIntent();
 
         switch (Objects.requireNonNull(Objects.requireNonNull(data.getExtras()).get(EDITOR_SPECIFIC)).toString()) {
-            case "DIARY":
-                diarySelected = true;
+            case D:
+
                 eId = data.getStringExtra(ENTRY_ID);
                 DiaryPagesViewModel diaryPagesViewModel = new ViewModelProvider(this).get(DiaryPagesViewModel.class);
                 diaryPagesViewModel.getAllDiaryPages().observe(this, diaryPageModels -> {
@@ -86,17 +92,16 @@ public class Diary_NotesEditorActivity extends AppCompatActivity {
                             editorField.setText(diaryPageModels.get(i).getEntryBody());
                             titleText.setText(diaryPageModels.get(i).getEntryTitle());
                             int finalI = i;
-                            saveB.setOnClickListener(v -> saveDiary(diaryPageModels.get(finalI),diaryPagesViewModel));
+                            saveB.setOnClickListener(v -> saveDiary(diaryPageModels.get(finalI), diaryPagesViewModel));
                         }
                     }
                 });
 
 
-
                 break;
 
-            case "NOTES":
-                diarySelected = false;
+            case N:
+
                 nId = data.getStringExtra(NOTE_ID);
                 Toast.makeText(this, nId, Toast.LENGTH_SHORT).show();
                 NotesViewModel notesViewModel = new ViewModelProvider(this).get(NotesViewModel.class);
@@ -106,7 +111,7 @@ public class Diary_NotesEditorActivity extends AppCompatActivity {
                             editorField.setText(notesModels.get(i).getNoteContent());
                             titleText.setText(notesModels.get(i).getNoteTitle());
                             int finalI = i;
-                            saveB.setOnClickListener(v -> saveNote(notesModels.get(finalI),notesViewModel));
+                            saveB.setOnClickListener(v -> saveNote(notesModels.get(finalI), notesViewModel));
 
                         }
                     }
@@ -114,47 +119,84 @@ public class Diary_NotesEditorActivity extends AppCompatActivity {
                 });
 
                 break;
+
+            case O:
+                oId = data.getStringExtra(OBJECTIVE_ID);
+                Toast.makeText(this, oId, Toast.LENGTH_SHORT).show();
+                ObjectivesViewModel objectivesViewModel = new ViewModelProvider(this).get(ObjectivesViewModel.class);
+                objectivesViewModel.getAllObjectives().observe(this, objectiveModels -> {
+                    for (int i = 0; i <= objectiveModels.size() - 1; i++) {
+                        if (objectiveModels.get(i).getObjectiveId().equals(oId)) {
+                            editorField.setText(objectiveModels.get(i).getObj_notes());
+                            titleText.setText(objectiveModels.get(i).getObjectiveTitle());
+                            int finalI = i;
+                            saveB.setOnClickListener(v -> saveObjectiveNote(objectiveModels.get(finalI), objectivesViewModel));
+                        }
+                    }
+                });
+                break;
+            default:
+
+                break;
+        }
+
+        switch (EDITOR_SPECIFIC) {
+            case D:
+
+                break;
+
+            case N:
+                break;
+
+            case O:
+                break;
             default:
                 break;
         }
 
-        if (diarySelected) {
-
-        } else {
-
-        }
-
-
         getWindow().setStatusBarColor(Color.BLACK);
+
+
 
     }
 
 
-    //todo 1.SAVE  8.FONT
+    //todo 8.FONT
 
     @Override
     public void onBackPressed() {
-        if (diarySelected) {
-
+        if (!backPressed) {
+            Toast.makeText(this, "Changes not saved. \n Are you sure you want to exit?", Toast.LENGTH_SHORT).show();
         } else {
-
+            setResult(RESULT_CANCELED);
         }
         super.onBackPressed();
     }
 
-    public void saveNote(NotesModel note,NotesViewModel vm) {
+    public void saveNote(NotesModel note, NotesViewModel vm) {
         note.setNoteContent(Objects.requireNonNull(editorField.getText()).toString());
         note.setNoteTitle(titleText.getText().toString());
-        note.setUpdatedAt(truncate(Calendar.getInstance().getTime().toString(),16));
+        note.setUpdatedAt(time);
         vm.update(note);
+        setResult(RESULT_OK);
         finish();
     }
 
-    private void saveDiary(DiaryPageModel page,DiaryPagesViewModel vm){
+    private void saveDiary(DiaryPageModel page, DiaryPagesViewModel vm) {
         page.setEntryTitle(titleText.getText().toString());
         page.setEntryBody(Objects.requireNonNull(editorField.getText()).toString());
-        page.setUpdatedAt(truncate(Calendar.getInstance().getTime().toString(),16));
+        page.setUpdatedAt(time);
         vm.update(page);
+        setResult(RESULT_OK);
+        finish();
+    }
+
+    private void saveObjectiveNote(ObjectiveModel obj, ObjectivesViewModel vm) {
+        obj.setObjectiveTitle(titleText.getText().toString());
+        obj.setObj_notes(Objects.requireNonNull(editorField.getText()).toString());
+        obj.setUpdatedAt(time);
+        vm.update(obj);
+        setResult(RESULT_OK);
         finish();
     }
 

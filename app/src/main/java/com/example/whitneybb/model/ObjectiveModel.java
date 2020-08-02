@@ -22,7 +22,8 @@ public class ObjectiveModel {
     public String objectiveExpiry;
     public static final String OBJECTIVE_EXPIRY = "objectiveExpiry";
     public String setAt;
-
+    public String obj_notes;
+    public static final String OBJ_NOTES = "obj_notes";
     public String updatedAt;
     public static final String TIMESTAMP = "timestamp";
     public int objectiveScore; // calculated by criteria
@@ -54,12 +55,13 @@ public class ObjectiveModel {
     }
 
 
-    public ObjectiveModel(@NotNull String objectiveId, String aboutObjective, String objectiveTitle, String objectiveExpiry, String setAt, String updatedAt, int objectiveScore, String objectiveLimits, String objectiveSteps, String sacrificeObjectiveCost, String objectiveReward, String objectiveRemarks, boolean objectiveAchieved, boolean extensionOfObjective, String objectiveExtensionId, String objectiveExtensionContent, boolean quantifiable, int setObjectiveScore) {
+    public ObjectiveModel(@NotNull String objectiveId, String aboutObjective, String objectiveTitle, String objectiveExpiry, String setAt, String obj_notes, String updatedAt, int objectiveScore, String objectiveLimits, String objectiveSteps, String sacrificeObjectiveCost, String objectiveReward, String objectiveRemarks, boolean objectiveAchieved, boolean extensionOfObjective, String objectiveExtensionId, String objectiveExtensionContent, boolean quantifiable, int setObjectiveScore) {
         this.objectiveId = objectiveId;
         this.aboutObjective = aboutObjective;
         this.objectiveTitle = objectiveTitle;
         this.objectiveExpiry = objectiveExpiry;
         this.setAt = setAt;
+        this.obj_notes = obj_notes;
         this.updatedAt = updatedAt;
         this.objectiveScore = objectiveScore;
         this.objectiveLimits = objectiveLimits;
@@ -238,5 +240,11 @@ public class ObjectiveModel {
         this.setObjectiveScore = setObjectiveScore;
     }
 
+    public String getObj_notes() {
+        return obj_notes;
+    }
 
+    public void setObj_notes(String obj_notes) {
+        this.obj_notes = obj_notes;
+    }
 }

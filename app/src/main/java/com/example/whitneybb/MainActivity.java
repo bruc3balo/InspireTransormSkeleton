@@ -381,8 +381,7 @@ public class MainActivity extends AppCompatActivity {
 
             case ADD_OBJECTIVE_REQUEST:
                 if (resultCode == RESULT_OK) {
-                    if (data != null) {
-                        ObjectiveModel objective = new ObjectiveModel();
+                        /*ObjectiveModel objective = new ObjectiveModel();
 
                         objective.setObjectiveId(Objects.requireNonNull(Objects.requireNonNull(data.getExtras()).get(OBJECTIVE_ID)).toString());
                         objective.setObjectiveExpiry(Objects.requireNonNull(data.getExtras().get(OBJECTIVE_EXPIRY)).toString());
@@ -411,14 +410,9 @@ public class MainActivity extends AppCompatActivity {
                         objective.setObjectiveScore(Integer.parseInt(Objects.requireNonNull(data.getExtras().get(OBJECTIVE_SCORE)).toString()));
 
                         ObjectivesViewModel objectivesViewModel = new ViewModelProvider(MainActivity.this).get(ObjectivesViewModel.class);
-                        objectivesViewModel.insert(objective);
-                        Toast.makeText(this, "Objective created", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(this, "Nothing returned", Toast.LENGTH_SHORT).show();
-                    }
+                        objectivesViewModel.insert(objective);*/
+                    Toast.makeText(this, "Objective created", Toast.LENGTH_SHORT).show();
                 } else if (resultCode == RESULT_CANCELED) {
-                    Toast.makeText(this, "Objective creation cancelled", Toast.LENGTH_SHORT).show();
-                } else {
                     Toast.makeText(this, "Objective Creation Failed", Toast.LENGTH_SHORT).show();
                 }
                 break;
@@ -426,6 +420,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
 
         }
+
     }
 
     private void updateUi() {

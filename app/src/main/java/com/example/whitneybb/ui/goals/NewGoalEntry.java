@@ -365,7 +365,6 @@ public class NewGoalEntry extends AppCompatActivity implements View.OnClickListe
         } else if (termGoal.equals("")) {
             Toast.makeText(this, "Pick goal term", Toast.LENGTH_SHORT).show();
         } else {
-
             goal.setGoalContent(goalTitle.getText().toString());
             goal.setGoalPrivate(goalPrivacy);
             String time = truncate(Calendar.getInstance().getTime().toString(), 16);
@@ -374,11 +373,9 @@ public class NewGoalEntry extends AppCompatActivity implements View.OnClickListe
             goal.setGoalId(getId(idTitle, LogModel.GOAL_LOG));
 
             String rewards = "";
-
             goal.setReward(listToString(rewards,rewardList));
 
             String dos = "";
-
             goal.setStepsToGoal(listToString(dos,doList));
 
             String donts = "";
@@ -386,23 +383,22 @@ public class NewGoalEntry extends AppCompatActivity implements View.OnClickListe
 
             String limits = "";
             goal.setGoalLimitations(listToString(limits,limitList));
+
             goal.setGoalTerm(termGoal);
-
-
-            goal.setGoalReview("");
             goal.setGoalUpdatedAt(time);
             goal.setAboutGoal(aboutGoal.getText().toString());
-
-            goal.setGoalNotes("");
-            goal.setGoalExperienceRating(0);
-            goal.setGoalAchieved(false);
 
             if (isUpdating) {
                 updateGoal(goal);
             } else {
+                goal.setGoalNotes("");
+                goal.setGoalReview("");
+                goal.setGoalExperienceRating(0);
+                goal.setGoalAchieved(false);
                 goal.setGoalSetAt(time);
                 saveData(goal);
             }
+
         }
     }
 

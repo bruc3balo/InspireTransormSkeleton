@@ -1,5 +1,6 @@
 package com.example.whitneybb.ui.objectives;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,6 +32,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import static com.example.whitneybb.MainActivity.smartFab;
+import static com.example.whitneybb.model.ObjectiveModel.OBJECTIVE_ID;
 
 public class ObjectivesFragment extends Fragment {
 
@@ -87,6 +89,7 @@ public class ObjectivesFragment extends Fragment {
 
         allMightyPullAdapter.setOnItemClickListener(object -> {
             ObjectiveModel obj = (ObjectiveModel) object;
+            startActivity(new Intent(requireContext(),NewObjectiveEntry.class).putExtra(OBJECTIVE_ID,obj.getObjectiveId()));
         });
 
         return root;
